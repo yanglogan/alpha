@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+						http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
+            			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd 
+           				http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
+                        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+                        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+       
+    <!-- make sure that every time you get a component is a prototyped one! -->
+    <bean class="cn.incontent.cda.server.core.RequestScopedPostProcessor" />
+	<bean id='_CDA_CONFIGURATIONS_CONTEXT' class='cn.incontent.cda.server.core.CDAConfigurations'>
+		<property name="mode"><value>DEBUG</value></property>
+	</bean>
+    
+    <context:annotation-config />
+
+    <context:component-scan base-package="cn.incontent.cda.server.internalcomponents" />
+    
+    <import resource="layer-*-*.xml"/>
+
+</beans>

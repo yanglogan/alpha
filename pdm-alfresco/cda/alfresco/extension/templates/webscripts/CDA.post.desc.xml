@@ -1,0 +1,6 @@
+<webscript>
+  <shortname>CDA</shortname>
+  <description>CDA</description>
+  <url>/CDA/{componentId}/{methodId}</url>
+  <authentication>user</authentication>
+</webscript>

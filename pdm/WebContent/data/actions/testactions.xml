@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+	<action id='download' icon='static/images/documentlibrary/customize-16.png' nlsid='MSG_DOWNLOADDDDDDDDD' multisupport='true'>
+		<params>
+			<param name='objectId' datafield='sys:node-uuid' />
+			<param name='name' datafield='cm:name' />
+		</params>
+		<preconditions>
+			<precondition ref='permit'>
+				<permit>ReadContent</permit>
+			</precondition>
+		</preconditions>
+	</action>
+	<action id='delete' icon='static/images/documentlibrary/customize-16.png' nlsid='MSG_DELETE' multisupport='true'>
+		<params>
+			<param name='objectId' datafield='sys:node-uuid' />
+			<param name='name' datafield='cm:name' />
+		</params>
+		<preconditions>
+			<precondition ref='permit'>
+				<permit>ReadContent</permit>
+			</precondition>
+		</preconditions>
+	</action>
+	<action id='subscribe' icon='static/images/documentlibrary/customize-16.png' nlsid='MSG_SUBSCRIBE' multisupport='true'>
+		<params>
+			<param name='objectId' datafield='sys:node-uuid' />
+			<param name='name' datafield='cm:name' />
+		</params>
+		<preconditions>
+			<precondition ref='permit'>
+				<permit>ReadContent</permit>
+			</precondition>
+		</preconditions>
+	</action>
+	<action id='moveto' icon='static/images/documentlibrary/customize-16.png' nlsid='MSG_MOVE_TO'>
+		<params>
+			<param name='objectId' datafield='sys:node-uuid' />
+			<param name='name' datafield='cm:name' />
+		</params>
+		<preconditions>
+			<precondition ref='permit'>
+				<permit>ReadContent</permit>
+			</precondition>
+		</preconditions>
+	</action>
+	<action id='copyto' icon='static/images/documentlibrary/customize-16.png' nlsid='MSG_COPY_TO'>
+		<params>
+			<param name='objectId' datafield='sys:node-uuid' />
+			<param name='name' datafield='cm:name' />
+		</params>
+		<preconditions>
+			<precondition ref='permit'>
+				<permit>ReadContent</permit>
+			</precondition>
+		</preconditions>
+	</action>
+</actions>

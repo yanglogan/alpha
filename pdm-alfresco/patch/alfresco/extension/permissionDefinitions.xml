@@ -1,0 +1,253 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE permissions >
+
+<!-- The parent permission checks were removed 20/1/2006 -->
+
+
+<permissions>
+
+    <!-- Namespaces used in type references -->
+
+    <namespaces>
+        <namespace uri="http://www.alfresco.org/model/system/1.0"
+            prefix="sys" />
+        <namespace uri="http://www.alfresco.org/model/content/1.0"
+            prefix="cm" />
+        <namespace uri="http://www.alfresco.org/model/wcmmodel/1.0"
+            prefix="wcm" />
+        <namespace uri="http://www.alfresco.org/model/wcmappmodel/1.0"
+            prefix="wca" />
+    </namespaces>
+    
+    <permissionSet type="cm:lockable" expose="selected">
+    
+      <permissionGroup name="CheckOut" requiresType="false" expose="false">
+          <includePermissionGroup permissionGroup="Lock" type="cm:lockable" />
+      </permissionGroup>
+      
+      <permissionGroup name="CheckIn" requiresType="true" expose="false">
+          <includePermissionGroup permissionGroup="Unlock" type="cm:lockable" />
+      </permissionGroup>
+      
+      <permissionGroup name="CancelCheckOut" requiresType="true" expose="false">
+          <includePermissionGroup permissionGroup="Unlock" type="cm:lockable" />
+      </permissionGroup>
+       
+      <permissionGroup name="Lock" requiresType="false" expose="false"/>
+      <permissionGroup name="Unlock" requiresType="true" expose="false"/>
+       
+      <permission name="_Lock" requiresType="false" expose="false">
+        <grantedToGroup permissionGroup="Lock" />
+        <requiredPermission on="node" type="sys:base"  name="WriteProperties"/>
+      </permission>
+      
+      <permission name="_Unlock" requiresType="true" expose="false">
+        <grantedToGroup permissionGroup="Unlock" />
+      </permission>      
+      
+   </permissionSet>
+
+	<permissionSet type="sys:base" expose="all">
+
+		<!-- EDM PERMISSIONS -BASIC PERMISSIONS -->
+		<permissionGroup name="None" expose="true" allowFullControl="false" />
+		
+		<permissionGroup name="Browse" expose="true" allowFullControl="false">
+            <includePermissionGroup type="sys:base" permissionGroup="ReadProperties" />
+            <includePermissionGroup type="sys:base" permissionGroup="ReadAssociations" />
+            <includePermissionGroup type="sys:base" permissionGroup="ReadChildren" />
+            <includePermissionGroup type="sys:base" permissionGroup="ReadPermissions" />
+        </permissionGroup>
+        
+        <permissionGroup name="Read" expose="true" allowFullControl="false">
+            <includePermissionGroup type="sys:base" permissionGroup="Browse" />
+            <includePermissionGroup type="sys:base" permissionGroup="ReadContent" />
+        </permissionGroup>
+        
+        <permissionGroup name="Relate" expose="true" allowFullControl="false">
+            <includePermissionGroup type="sys:base" permissionGroup="Read" />
+            <includePermissionGroup type="sys:base" permissionGroup="CreateAssociations" />
+            <includePermissionGroup type="sys:base" permissionGroup="DeleteAssociations" />
+        </permissionGroup>
+        
+        <permissionGroup name="Version" expose="true" allowFullControl="false">
+            <includePermissionGroup type="sys:base" permissionGroup="Relate" />
+            
+            <includePermissionGroup type="sys:base" permissionGroup="WriteProperties" />
+            <includePermissionGroup type="sys:base" permissionGroup="WriteContent" />
+            <includePermissionGroup type="cm:lockable" permissionGroup="CheckOut" />
+            <includePermissionGroup type="cm:lockable" permissionGroup="CheckIn" />
+            <includePermissionGroup type="cm:lockable" permissionGroup="CancelCheckOut" />
+            <includePermissionGroup type="cm:lockable" permissionGroup="Lock" />
+            <includePermissionGroup type="cm:lockable" permissionGroup="Unlock" />
+        </permissionGroup>
+
+        <permissionGroup name="Write" expose="true" allowFullControl="false">
+            <includePermissionGroup type="sys:base" permissionGroup="Version" />
+            
+            <includePermissionGroup type="sys:base" permissionGroup="CreateChildren" />
+            <includePermissionGroup type="sys:base" permissionGroup="AddChildren" />
+            <includePermissionGroup type="sys:base" permissionGroup="LinkChildren" />
+        </permissionGroup>
+
+        <permissionGroup name="Delete" expose="true" allowFullControl="false">
+        	<includePermissionGroup type="sys:base" permissionGroup="Write"/>
+        
+			<includePermissionGroup type="sys:base" permissionGroup="DeleteNode"/>
+			<includePermissionGroup type="sys:base" permissionGroup="DeleteChildren"/>
+ 		</permissionGroup>
+		<!-- BASIC PERMISSIONS END -->
+		
+		<!-- EDM PERMISSIONS -EXTENDED PERMISSIONS -->
+		<permissionGroup name="EXECUTE_PROC" expose="true" allowFullControl="false">
+            <includePermissionGroup type="sys:base" permissionGroup="Execute" />
+            <includePermissionGroup type="sys:base" permissionGroup="ExecuteContent" />
+        </permissionGroup>
+        
+        <permissionGroup name="CHANGE_LOCATION" expose="true" allowFullControl="false">
+            <includePermissionGroup type="sys:base" permissionGroup="LinkChildren" />
+        </permissionGroup>
+        
+        <permissionGroup name="CHANGE_PERMIT" expose="true" allowFullControl="false">
+            <includePermissionGroup type="sys:base" permissionGroup="ChangePermissions" />
+        </permissionGroup>
+        
+        <permissionGroup name="CHANGE_OWNER" expose="true" allowFullControl="false">
+            <includePermissionGroup type="cm:ownable" permissionGroup="TakeOwnership" />
+            <includePermissionGroup type="cm:ownable" permissionGroup="SetOwner" />
+        </permissionGroup>
+        
+        <permissionGroup name="DELETE_OBJECT" expose="true" allowFullControl="false">
+            <includePermissionGroup type="sys:base" permissionGroup="DeleteNode" />
+            <includePermissionGroup type="sys:base" permissionGroup="DeleteChildren" />
+        </permissionGroup>
+        
+        <permissionGroup name="CHANGE_FOLDER_LINKS" expose="true" allowFullControl="false">
+            <includePermissionGroup type="sys:base" permissionGroup="AddChildren" />
+            <includePermissionGroup type="sys:base" permissionGroup="DeleteChildren" />
+        </permissionGroup>
+		<!-- EXTENDED PERMISSIONS END -->
+
+        <permissionGroup name="FullControl" expose="true" allowFullControl="true" />
+
+        <permissionGroup name="AddChildren" expose="true"
+            allowFullControl="false">
+            <includePermissionGroup type="sys:base"
+                permissionGroup="CreateChildren" />
+            <includePermissionGroup type="sys:base"
+                permissionGroup="LinkChildren" />
+        </permissionGroup>
+
+        <permissionGroup name="Execute" allowFullControl="false"
+            expose="false">
+            <includePermissionGroup type="sys:base"
+                permissionGroup="ExecuteContent" />
+        </permissionGroup>
+
+        <!-- Groups for low level permissions -->
+
+        <permissionGroup name="ReadProperties" expose="true"
+            allowFullControl="false" />
+        <permissionGroup name="ReadChildren" expose="true"
+            allowFullControl="false" />
+        <permissionGroup name="WriteProperties" expose="true"
+            allowFullControl="false" />
+        <permissionGroup name="ReadContent" expose="false"
+            allowFullControl="false" />
+        <permissionGroup name="WriteContent" expose="false"
+            allowFullControl="false" />
+        <permissionGroup name="ExecuteContent" expose="false"
+            allowFullControl="false" />
+        <permissionGroup name="DeleteNode" expose="true"
+            allowFullControl="false" />
+        <permissionGroup name="DeleteChildren" expose="true"
+            allowFullControl="false" />
+        <permissionGroup name="CreateChildren" expose="true"
+            allowFullControl="false" />
+        <permissionGroup name="LinkChildren" expose="true"
+            allowFullControl="false" />
+        <permissionGroup name="DeleteAssociations" expose="true"
+            allowFullControl="false" />
+        <permissionGroup name="ReadAssociations" expose="true"
+            allowFullControl="false" />
+        <permissionGroup name="CreateAssociations" expose="true"
+            allowFullControl="false" />
+        <permissionGroup name="ReadPermissions" expose="true"
+            allowFullControl="false" />
+        <permissionGroup name="ChangePermissions" expose="true"
+            allowFullControl="false" />
+        <permissionGroup name="Flatten" expose="true"
+            allowFullControl="false" />
+
+		<!-- BASIC PERMISSIONS -->
+        <permission name="_ReadProperties" expose="false">
+            <grantedToGroup permissionGroup="ReadProperties" />
+            <!-- Commented out parent permission check ... <requiredPermission on="parent"
+                name="_ReadChildren" implies="false"/> -->
+        </permission>
+
+        <permission name="_ReadChildren" expose="false">
+            <grantedToGroup permissionGroup="ReadChildren" />
+        </permission>
+
+        <permission name="_WriteProperties" expose="false">
+            <grantedToGroup permissionGroup="WriteProperties" />
+        </permission>
+
+        <permission name="_ReadContent" expose="false">
+            <grantedToGroup permissionGroup="ReadContent" />
+            <!-- Commented out parent permission check ... <requiredPermission on="parent"
+                name="_ReadChildren" implies="false"/> -->
+        </permission>
+
+        <permission name="_WriteContent" expose="false">
+            <grantedToGroup permissionGroup="WriteContent" />
+        </permission>
+
+        <permission name="_ExecuteContent" expose="false">
+            <grantedToGroup permissionGroup="ExecuteContent" />
+        </permission>
+
+        <permission name="_DeleteNode" expose="false">
+            <grantedToGroup permissionGroup="DeleteNode" />
+        </permission>
+
+        <permission name="_DeleteChildren" expose="false">
+            <grantedToGroup permissionGroup="DeleteChildren" />
+        </permission>
+
+        <permission name="_CreateChildren" expose="false">
+            <grantedToGroup permissionGroup="CreateChildren" />
+        </permission>
+
+        <permission name="_LinkChildren" expose="false">
+            <grantedToGroup permissionGroup="LinkChildren" />
+        </permission>
+
+        <permission name="_DeleteAssociations" expose="false">
+            <grantedToGroup permissionGroup="DeleteAssociations" />
+        </permission>
+
+        <permission name="_ReadAssociations" expose="false">
+            <grantedToGroup permissionGroup="ReadAssociations" />
+        </permission>
+
+        <permission name="_CreateAssociations" expose="false">
+            <grantedToGroup permissionGroup="CreateAssociations" />
+        </permission>
+
+        <permission name="_ReadPermissions" expose="false">
+            <grantedToGroup permissionGroup="ReadPermissions" />
+        </permission>
+
+        <permission name="_ChangePermissions" expose="false">
+            <grantedToGroup permissionGroup="ChangePermissions" />
+        </permission>
+
+        <permission name="_Flatten" expose="false">
+            <grantedToGroup permissionGroup="Flatten" />
+        </permission>
+
+    </permissionSet>
+    
+</permissions>

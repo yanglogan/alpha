@@ -1,0 +1,155 @@
+[
+	{
+		"action": "remove",
+		"content": [
+			{
+				"anchors": [
+					{
+						"x": "w/2",
+						"y": "0"
+					}, {
+						"x": "w/2",
+						"y": "h"
+					}, {
+						"x": "0",
+						"y": "h/2"
+					}, {
+						"x": "w",
+						"y": "h/2"
+					}
+				],
+				"attribute": {
+					"collapsable": false,
+					"collapsed": false,
+					"container": false,
+					"linkable": true,
+					"markerOffset": 5,
+					"rotatable": true,
+					"visible": true
+				},
+				"category": "basic",
+				"children": [],
+				"dataAttributes": [
+					{
+						"category": "default",
+						"id": "144aff9bc7bb18",
+						"name": "序号",
+						"type": "number",
+						"value": ""
+					}, {
+						"category": "default",
+						"id": "144aff9bc7b8dc",
+						"name": "名称",
+						"type": "string",
+						"value": ""
+					}, {
+						"category": "default",
+						"id": "144aff9bc7b543",
+						"name": "所有者",
+						"type": "string",
+						"value": ""
+					}, {
+						"category": "default",
+						"id": "144aff9bc7b0be",
+						"name": "连接",
+						"type": "link",
+						"value": ""
+					}, {
+						"category": "default",
+						"id": "144aff9bc7babb",
+						"name": "便笺",
+						"type": "string",
+						"value": ""
+					}
+				],
+				"fillStyle": {
+					"color": "255,255,255",
+					"type": "solid"
+				},
+				"fontStyle": {
+					"bold": false,
+					"color": "50,50,50",
+					"fontFamily": "Arial",
+					"italic": false,
+					"orientation": "vertical",
+					"size": 13,
+					"textAlign": "center",
+					"underline": false,
+					"vAlign": "middle"
+				},
+				"group": "",
+				"id": "144aff9bc793b5",
+				"lineStyle": {
+					"lineColor": "50,50,50",
+					"lineStyle": "solid",
+					"lineWidth": 2
+				},
+				"link": "",
+				"locked": false,
+				"name": "hexagon",
+				"parent": "",
+				"path": [
+					{
+						"actions": [
+							{
+								"action": "move",
+								"x": "Math.min(w,h)*0.21",
+								"y": "0"
+							}, {
+								"action": "line",
+								"x": "w-Math.min(w,h)*0.21",
+								"y": "0"
+							}, {
+								"action": "line",
+								"x": "w",
+								"y": "h * 0.5"
+							}, {
+								"action": "line",
+								"x": "w-Math.min(w,h)*0.21",
+								"y": "h"
+							}, {
+								"action": "line",
+								"x": "Math.min(w,h)*0.21",
+								"y": "h"
+							}, {
+								"action": "line",
+								"x": "0",
+								"y": "h * 0.5"
+							}, {
+								"action": "line",
+								"x": "Math.min(w,h)*0.21",
+								"y": "0"
+							}, {
+								"action": "close"
+							}
+						]
+					}
+				],
+				"props": {
+					"angle": 0,
+					"h": 70,
+					"w": 84,
+					"x": 394,
+					"y": 250,
+					"zindex": 1
+				},
+				"resizeDir": ["tl", "tr", "br", "bl"],
+				"shapeStyle": {
+					"alpha": 1
+				},
+				"textBlock": [
+					{
+						"position": {
+							"h": "h",
+							"w": "w-20",
+							"x": 10,
+							"y": 0
+						},
+						"text": ""
+					}
+				],
+				"title": "六边形"
+			}
+		]
+	}
+]

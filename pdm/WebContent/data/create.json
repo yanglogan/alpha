@@ -1,0 +1,143 @@
+[
+	{
+		"action": "create",
+		"content": [
+			{
+				"id": "144b06e883b551",
+				"name": "round",
+				"title": "圆形",
+				"text": "",
+				"category": "basic",
+				"group": "",
+				"groupName": null,
+				"locked": false,
+				"link": "",
+				"children": [],
+				"parent": "",
+				"resizeDir": ["tl", "tr", "br", "bl"],
+				"attribute": {
+					"container": false,
+					"visible": true,
+					"rotatable": true,
+					"linkable": true,
+					"editable": true,
+					"markerOffset": 5
+				},
+				"dataAttributes": [
+					{
+						"name": "序号",
+						"type": "number",
+						"value": "",
+						"category": "default",
+						"id": "144b06e883b13d"
+					}, {
+						"name": "名称",
+						"type": "string",
+						"value": "",
+						"category": "default",
+						"id": "144b06e883bc04"
+					}, {
+						"name": "所有者",
+						"type": "string",
+						"value": "",
+						"category": "default",
+						"id": "144b06e883b666"
+					}, {
+						"name": "连接",
+						"type": "link",
+						"value": "",
+						"category": "default",
+						"id": "144b06e883b663"
+					}, {
+						"name": "便笺",
+						"type": "string",
+						"value": "",
+						"category": "default",
+						"id": "144b06e883bbb9"
+					}
+				],
+				"props": {
+					"x": 167,
+					"y": 421,
+					"w": 70,
+					"h": 70,
+					"zindex": 2,
+					"angle": 0
+				},
+				"shapeStyle": {
+					"alpha": 1
+				},
+				"lineStyle": {
+					"lineWidth": 2,
+					"lineColor": "50,50,50",
+					"lineStyle": "solid"
+				},
+				"fillStyle": {
+					"type": "solid",
+					"color": "255,255,255"
+				},
+				"fontStyle": {
+					"fontFamily": "Arial",
+					"size": 13,
+					"color": "50,50,50",
+					"bold": false,
+					"italic": false,
+					"underline": false,
+					"textAlign": "center",
+					"vAlign": "middle",
+					"orientation": "vertical"
+				},
+				"path": [
+					{
+						"actions": [
+							{
+								"action": "move",
+								"x": "0",
+								"y": "h/2"
+							}, {
+								"action": "curve",
+								"x1": "0",
+								"y1": "-h/6",
+								"x2": "w",
+								"y2": "-h/6",
+								"x": "w",
+								"y": "h/2"
+							}, {
+								"action": "curve",
+								"x1": "w",
+								"y1": "h+h/6",
+								"x2": "0",
+								"y2": "h+h/6",
+								"x": "0",
+								"y": "h/2"
+							}, {
+								"action": "close"
+							}
+						]
+					}
+				],
+				"textBlock": {
+					"x": "10",
+					"y": "0",
+					"w": "w-20",
+					"h": "h"
+				},
+				"anchors": [
+					{
+						"x": "w/2",
+						"y": "0"
+					}, {
+						"x": "w/2",
+						"y": "h"
+					}, {
+						"x": "0",
+						"y": "h/2"
+					}, {
+						"x": "w",
+						"y": "h/2"
+					}
+				]
+			}
+		]
+	}
+]
