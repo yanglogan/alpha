@@ -1,6 +1,17 @@
 var FileExplorer = FileExplorer || {};
 FileExplorer.currentUserName = '';
 FileExplorer.thumbnailRootPath = '/';
+FileExplorer.i18nFunc = function(nlsid) {
+	return nlsid;
+}
+
+Object.size = function(obj) {
+    var size = 0, key;
+    for (key in obj) {
+        if (obj.hasOwnProperty(key)) size++;
+    }
+    return size;
+};
 
 //=============pre define==============================
 FileExplorer.dateStrValid = function(str) {
@@ -55,7 +66,10 @@ Ext.define('FileExplorer.ObjectList', {
 	extend : 'Ext.panel.Panel',
 	xtype : 'feobjectlist',
 	___UCODE : 'feobjectlist',
-	actionProvider : null,
+	actionProvider : {
+		getValidActions : function() {return [];}
+	},
+	actionExecutor : null,
 	defaultActions : {
 		onObjectClick : function(rec) {
 			alert('you have clicked an object named ' + rec.get('cm:name'));
@@ -75,6 +89,26 @@ Ext.define('FileExplorer.ObjectList', {
 	initComponent : function() {
 		var me = this;
 		this.layout = 'fit';
+		
+		if (this.store) {
+			var actionProvider = this.actionProvider;
+			this.store.on('refresh', function() {
+				this.each(function(rec) {
+					var actionlist = actionProvider.getValidActions(rec);
+					
+					var multiactionlist = [];
+					Ext.each(actionlist, function(action) {
+						if (action.multisupport) {
+							multiactionlist.push(action);
+						}
+					});
+					
+					rec.ACTIONLIST = actionlist;
+					rec.MULTI_ACTIONLIST = multiactionlist;
+					
+				});
+			});
+		}
 		
 		this.bbar = this.paging = Ext.create('Ext.toolbar.Paging', {
 			cls : 'fe-toolbar fe-toolbar-bottom',
@@ -123,8 +157,7 @@ Ext.define('FileExplorer.ObjectList', {
 		
 		var panel = Ext.create(this._VIEWTYPES[viewName], {
 			store : this.store,
-			oList : this,
-			actionProvider : this.actionProvider
+			oList : this
 		});
 		
 		var me = this;
@@ -291,7 +324,7 @@ Ext.define('FileExplorer.DetailColumn', {
 Ext.define('FileExplorer.ThumbnailColumn', {
 	extend : 'FileExplorer.Column',
 	xtype : 'fethumbnailcolumn',
-	minWidth : 110,
+	minWidth : 120,
 	template : new Ext.XTemplate('<div style="width:110px;height:110px;">', 
 		'<img class="fe-icon64 fe-clickable" action="objectclick" rowidx="{ROWIDX}" src="{data:this.getThumbUrl}" onerror="{data:this.getErrorScript}" />',
 		'{data:this.getVersionLabel}', '</div>', {
@@ -367,86 +400,98 @@ Ext.define('FileExplorer.DetailView', {
 		var grid = this.ownerCt;
 		var rowActionSelector = '.fe-row-actions';
 		
-		var actionProvider = grid.ownerCt.actionProvider;
+		var actionExecutor = grid.ownerCt.actionExecutor;
+		if (!actionExecutor) {
+			actionExecutor = {
+				execute : Ext.emptyFn
+			};
+		}
 		view.on('refresh', function() {
 			
 			//TODO add record actions 1st!
-			if (actionProvider) {
+			$(this.el.dom).find(rowActionSelector).each(function() {
+				var ele = $(this);
+				var rec = grid.store.getAt(parseInt(ele.attr('IDX')));
+				var actionlist = rec.ACTIONLIST;
 				
-				$(this.el.dom).find(rowActionSelector).each(function() {
-					var ele = $(this);
-					var rec = grid.store.getAt(parseInt(ele.attr('IDX')));
-					var actionlist = actionProvider.getValidActions(rec);
-					
-					if (actionlist.length < 4) {
-						Ext.each(actionlist, function(action, idx) {
-							if(idx >= 4) return;
-							
-							var actionlink = $('<div class="fe-row-action-link fe-action-icon" style="background-image:url(' + 
-								action.icon  + ')' + '" title="' + action.nlsid + '">' + action.nlsid + '</div>');
-							actionlink.click(function() {
-								console.log(rec);
-								alert(action.id + ':' + rec.get('cm:name'));
-							});
-							ele.append(actionlink);
-						});
-					} else {
-						Ext.each(actionlist, function(action, idx) {
-							if(idx >= 3) return;
-							
-							var actionlink = $('<div class="fe-row-action-link fe-action-icon" style="background-image:url(' + 
-								action.icon  + ')' + '" title="' + action.nlsid + '">' + action.nlsid + '</div>');
-							actionlink.click(function() {
-								console.log(rec);
-								alert(action.id + ':' + rec.get('cm:name'));
-							});
-							ele.append(actionlink);
-						});
+				if (actionlist.length < 4) {
+					Ext.each(actionlist, function(action, idx) {
+						if(idx >= 4) return false;
 						
-						var menuitems = [];
-						Ext.each(actionlist.splice(3), function(action) {
-							menuitems.push({
-								text : action.nlsid,
-								icon : action.icon,
-								handler : function() {
-									alert(action.id + ':' + rec.get('cm:name'));
-								}
-							});
+						var actionlink = $('<div class="fe-row-action-link fe-action-icon" style="overflow:hidden;background-image:url(' + 
+							action.icon  + ')' + '" title="' + FileExplorer.i18nFunc(FileExplorer.i18nFunc(action.nlsid)) + '">' + FileExplorer.i18nFunc(action.nlsid) + '</div>');
+						actionlink.click(function() {
+							var sels = rec;
+							if (action.multisupport) {
+								sels = [rec];
+							}
+							actionExecutor.execute(action, sels);
 						});
-						var morelink = $('<div class="fe-row-action-link fe-row-action-link-more fe-action-icon fe-icon-more">更多...</div>');
-						ele.append(morelink);
-						morelink.click(function() {
-							var el = new Ext.Element(this);
-							var ele = $(this);
-							var xy = el.getXY();
-							xy[1] = xy[1] + el.getHeight() - 1;
-							Ext.create('Ext.menu.Menu', {
-								id : Ext.id() + 'fe-row-action-menu',
-								shadow : false,
-								width : el.getWidth(),
-								style : 'border-radius:0px;box-shadow:0px 0px 0px;',
-								listeners : {
-									show : function() {
-										ele.addClass('fe-row-action-link-over');
-										ele.parent(rowActionSelector).attr('forceshow', '1');
-									},
-									hide : function() {
-										ele.removeClass('fe-row-action-link-over');
-										ele.parent(rowActionSelector).removeAttr('forceshow');
-									},
-									destroy : function() {
-										ele.removeClass('fe-row-action-link-over');
-										ele.parent(rowActionSelector).removeAttr('forceshow');
-									}
-								},
-								items : menuitems
-							}).showAt(xy);
-							
+						ele.append(actionlink);
+					});
+				} else {
+					Ext.each(actionlist, function(action, idx) {
+						if(idx >= 3) return false;
+						
+						var actionlink = $('<div class="fe-row-action-link fe-action-icon" style="overflow:hidden;background-image:url(' + 
+							action.icon  + ')' + '" title="' + FileExplorer.i18nFunc(action.nlsid) + '">' + FileExplorer.i18nFunc(action.nlsid) + '</div>');
+						actionlink.click(function() {
+							var sels = rec;
+							if (action.multisupport) {
+								sels = [rec];
+							}
+							actionExecutor.execute(action, sels);
 						});
-					}
+						ele.append(actionlink);
+					});
 					
-				});
-			}
+					var menuitems = [];
+					Ext.each(actionlist.splice(3), function(action) {
+						menuitems.push({
+							text : FileExplorer.i18nFunc(action.nlsid),
+							icon : action.icon,
+							handler : function() {
+								var sels = rec;
+								if (action.multisupport) {
+									sels = [rec];
+								}
+								actionExecutor.execute(action, sels);
+							}
+						});
+					});
+					var morelink = $('<div class="fe-row-action-link fe-row-action-link-more fe-action-icon fe-icon-more">更多...</div>');
+					ele.append(morelink);
+					morelink.click(function() {
+						var el = new Ext.Element(this);
+						var ele = $(this);
+						var xy = el.getXY();
+						xy[1] = xy[1] + el.getHeight() - 1;
+						Ext.create('Ext.menu.Menu', {
+							id : Ext.id() + 'fe-row-action-menu',
+							shadow : false,
+							width : el.getWidth(),
+							style : 'border-radius: 0px;box-shadow: 0px 0px 0px;',
+							listeners : {
+								show : function() {
+									ele.addClass('fe-row-action-link-over');
+									ele.parent(rowActionSelector).attr('forceshow', '1');
+								},
+								hide : function() {
+									ele.removeClass('fe-row-action-link-over');
+									ele.parent(rowActionSelector).removeAttr('forceshow');
+								},
+								destroy : function() {
+									ele.removeClass('fe-row-action-link-over');
+									ele.parent(rowActionSelector).removeAttr('forceshow');
+								}
+							},
+							items : menuitems
+						}).showAt(xy);
+						
+					});
+				}
+				
+			});
 			
 			$('.fe-clickable').click(function() {
 				var ele = $(this);
@@ -486,14 +531,20 @@ Ext.define('FileExplorer.DetailView', {
 });
 
 //================ACTION PROVIDER=====================
+Ext.define('FileExplorer.BaseObject', {
+	constructor : function (cfg) {
+        Ext.apply(this, cfg);
+        
+        if (this.init) {
+        	this.init();
+        }
+    }
+});
+
 Ext.define('FileExplorer.ActionProvider', {
+	extend : 'FileExplorer.BaseObject',
 	dataUrls : [],
-	getActionIds : function(rec) {
-		if (rec.raw.ISFOLDER) {
-			return ['download', 'delete', 'subscribe', 'moveto', 'copyto'];
-		}
-		return ['subscribe', 'download', 'delete'];
-	},
+	getActionIds : function(rec) {},
 	preconditions : {},//key-ref value:function(rec, configElement[a jquery object])
 	//public methods
 	getValidActions : function(rec) {
@@ -535,6 +586,10 @@ Ext.define('FileExplorer.ActionProvider', {
 			var a = {};
 			a.icon = action.attr('icon');
 			a.nlsid = action.attr('nlsid');
+			var b = action.attr('multisupport');
+			if (b) {
+				a.multisupport = 'true' == b.toLowerCase();
+			}
 			
 			a.params = [];
 			action.find('params').find('param[name][datafield]').each(function() {
@@ -554,18 +609,17 @@ Ext.define('FileExplorer.ActionProvider', {
 				});
 			});
 			
+			a.execution = action.find('execution');
 			a.id = action.attr('id');
 			me._ACTIONS[a.id] = a;
 		});
 	},
-	constructor : function (cfg) {
-        Ext.apply(this, cfg);
-        
+	init : function () {
         var me = this;
         Ext.each(this.dataUrls, function(url) {
         	$.ajax({
 		    	type : 'GET',
-		        url : url,
+		        url : url + '?' + new Date().getTime(),
 		        async : false,
 		        success : function(data) {
 		        	me.mapActions($(data));
@@ -573,6 +627,11 @@ Ext.define('FileExplorer.ActionProvider', {
 		    });
         });
     }
+});
+
+Ext.define('FileExplorer.ActionExecutor', {
+	extend : 'FileExplorer.BaseObject',
+	execute : function(action, selection) {}
 });
 
 //================TOOLBARS============================
@@ -783,6 +842,7 @@ Ext.define('FileExplorer.ActionToolbar', {
 		}, {
 			text : i18n.select.selected,
 			disabled : true,
+			menu : [],
 			listeners : {
 				afterRender : function() {
 					if (!me.getObjectList()) {
@@ -791,29 +851,64 @@ Ext.define('FileExplorer.ActionToolbar', {
 					var btn = this;
 					me.getObjectList().on('selectionchange', function(recs) {
 						btn.setDisabled(recs.length == 0);
-					});
+						if (btn.menu) {
+							btn.menu.destroy();
+							delete btn.menu;
+						}
+						if (recs.length == 0) return;
+						
+						new Ext.util.DelayedTask(function() {
+							window.count = 0;
+							function intersect(arr1, arr2) {
+								var a = [];
+								Ext.each(arr2, function(o) {
+									for (var i = 0; i < arr1.length; i++) {
+										window.count++;
+										if (arr1[i].id == o.id) {
+											a.push(o);
+											return;
+										}
+									}
+								});
+								return a;
+							}
+							
+							var arr = recs[0].MULTI_ACTIONLIST;
+							for (var i = 1; i < recs.length; i++) {
+								arr = intersect(arr, recs[i].MULTI_ACTIONLIST);
+							}
+							
+							//TODO build multi actions
+							var menus = [];
+							Ext.each(arr, function(action) {
+								menus.push({
+									text : FileExplorer.i18nFunc(action.nlsid),
+									icon : action.icon,
+									handler : function() {
+										me.getObjectList().actionExecutor.execute(action, recs);
+									}
+								});
+							});
+							
+							if (menus.length >= 1) {
+								menus.push('-');
+							}
+							menus.push({
+								text : i18n.select.selectnone,
+								iconCls : 'fe-icon fe-icon-select-none',
+								handler : function() {
+									me.getObjectList().getSelectionModel().deselectAll();
+								}
+							});
+							btn.menu = Ext.create('Ext.menu.Menu', {
+								items : menus
+							});
+							
+						}).delay(200);
 					
+					});
 				}
-			},
-			menu : [{
-				text : i18n.action.download,
-				iconCls : 'fe-icon fe-icon-action-download'
-			}, {
-				text : i18n.action.copyto,
-				iconCls : 'fe-icon fe-icon-action-copyto'
-			}, {
-				text : i18n.action.moveto,
-				iconCls : 'fe-icon fe-icon-action-moveto'
-			}, {
-				text : i18n.action.dlt,
-				iconCls : 'fe-icon fe-icon-action-delete'
-			}, '-', {
-				text : i18n.select.selectnone,
-				iconCls : 'fe-icon fe-icon-select-none',
-				handler : function() {
-					me.getObjectList().getSelectionModel().deselectAll();
-				}
-			}]
+			}
 		}, '->', {
 			tipsy : i18n.action.sort,
 			itemId : 'sortbtn',

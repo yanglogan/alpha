@@ -1,6 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<actions>
-	<action id='download' icon='static/images/documentlibrary/customize-16.png' nlsid='MSG_DOWNLOADDDDDDDDD' multisupport='true'>
+<actions comment='该行为定义文件在documentlibrary视图中被使用'>
+	<action id='downloadzip' icon='static/images/documentlibrary/actions/document-download-16.png' nlsid='MSG_DOWNLOAD_ZIP' multisupport='true'>
+		<params>
+			<param name='objectId' datafield='sys:node-uuid' />
+			<param name='name' datafield='cm:name' />
+		</params>
+		<preconditions>
+			<precondition ref='permit'>
+				<permit>ReadContent</permit>
+			</precondition>
+		</preconditions>
+		<execution>
+			<type>function</type>
+			<name>downloadzip</name>
+		</execution>
+	</action>
+	<action id='download' icon='static/images/documentlibrary/actions/document-download-16.png' nlsid='MSG_DOWNLOAD'>
+		<params>
+			<param name='objectId' datafield='sys:node-uuid' />
+			<param name='name' datafield='cm:name' />
+		</params>
+		<preconditions>
+			<precondition ref='permit'>
+				<permit>ReadContent</permit>
+			</precondition>
+		</preconditions>
+		<execution>
+			<type>function</type>
+			<name>downloadzip</name>
+		</execution>
+	</action>
+	<action id='viewdetail' icon='static/images/documentlibrary/actions/folder-view-details-16.png' nlsid='MSG_VIEW_DETAIL'>
+		<params>
+			<param name='objectId' datafield='sys:node-uuid' />
+			<param name='name' datafield='cm:name' />
+		</params>
+		<preconditions>
+			<precondition ref='permit'>
+				<permit>ReadProperties</permit>
+			</precondition>
+		</preconditions>
+	</action>
+	<action id='editproperties' icon='static/images/documentlibrary/actions/document-edit-metadata-16.png' nlsid='MSG_EDIT_PROPERTIES'>
+		<params>
+			<param name='objectId' datafield='sys:node-uuid' />
+			<param name='name' datafield='cm:name' />
+		</params>
+		<preconditions>
+			<precondition ref='permit'>
+				<permit>WriteProperties</permit>
+			</precondition>
+		</preconditions>
+	</action>
+	<action id='deletefdr' icon='static/images/documentlibrary/actions/folder-delete-16.png' nlsid='MSG_DELETE_FDR' multisupport='true'>
+		<params>
+			<param name='objectId' datafield='sys:node-uuid' />
+			<param name='name' datafield='cm:name' />
+		</params>
+		<preconditions>
+			<precondition ref='permit'>
+				<permit>Delete</permit>
+			</precondition>
+		</preconditions>
+	</action>
+	<action id='deletedoc' icon='static/images/documentlibrary/actions/document-delete-16.png' nlsid='MSG_DELETE_DOC' multisupport='true'>
+		<params>
+			<param name='objectId' datafield='sys:node-uuid' />
+			<param name='name' datafield='cm:name' />
+		</params>
+		<preconditions>
+			<precondition ref='permit'>
+				<permit>Delete</permit>
+			</precondition>
+		</preconditions>
+	</action>
+	<action id='fdrmoveto' icon='static/images/documentlibrary/actions/folder-move-to-16.png' nlsid='MSG_MOVE_TO' multisupport='true'>
 		<params>
 			<param name='objectId' datafield='sys:node-uuid' />
 			<param name='name' datafield='cm:name' />
@@ -11,7 +85,7 @@
 			</precondition>
 		</preconditions>
 	</action>
-	<action id='delete' icon='static/images/documentlibrary/customize-16.png' nlsid='MSG_DELETE' multisupport='true'>
+	<action id='fdrcopyto' icon='static/images/documentlibrary/actions/folder-copy-to-16.png' nlsid='MSG_COPY_TO' multisupport='true'>
 		<params>
 			<param name='objectId' datafield='sys:node-uuid' />
 			<param name='name' datafield='cm:name' />
@@ -22,7 +96,7 @@
 			</precondition>
 		</preconditions>
 	</action>
-	<action id='subscribe' icon='static/images/documentlibrary/customize-16.png' nlsid='MSG_SUBSCRIBE' multisupport='true'>
+	<action id='docmoveto' icon='static/images/documentlibrary/actions/document-move-to-16.png' nlsid='MSG_MOVE_TO' multisupport='true'>
 		<params>
 			<param name='objectId' datafield='sys:node-uuid' />
 			<param name='name' datafield='cm:name' />
@@ -33,7 +107,7 @@
 			</precondition>
 		</preconditions>
 	</action>
-	<action id='moveto' icon='static/images/documentlibrary/customize-16.png' nlsid='MSG_MOVE_TO'>
+	<action id='doccopyto' icon='static/images/documentlibrary/actions/document-copy-to-16.png' nlsid='MSG_COPY_TO' multisupport='true'>
 		<params>
 			<param name='objectId' datafield='sys:node-uuid' />
 			<param name='name' datafield='cm:name' />
@@ -44,7 +118,7 @@
 			</precondition>
 		</preconditions>
 	</action>
-	<action id='copyto' icon='static/images/documentlibrary/customize-16.png' nlsid='MSG_COPY_TO'>
+	<action id='viewinexplorer' icon='static/images/documentlibrary/actions/view-in-explorer-16.png' nlsid='MSG_VIEW_IN_EXPLORER'>
 		<params>
 			<param name='objectId' datafield='sys:node-uuid' />
 			<param name='name' datafield='cm:name' />
@@ -52,6 +126,28 @@
 		<preconditions>
 			<precondition ref='permit'>
 				<permit>ReadContent</permit>
+			</precondition>
+		</preconditions>
+	</action>
+	<action id='uploadnewversion' icon='static/images/documentlibrary/actions/document-upload-new-version-16.png' nlsid='MSG_UPLOAD_NEW_VERSION'>
+		<params>
+			<param name='objectId' datafield='sys:node-uuid' />
+			<param name='name' datafield='cm:name' />
+		</params>
+		<preconditions>
+			<precondition ref='permit'>
+				<permit>ReadContent</permit>
+			</precondition>
+		</preconditions>
+	</action>
+	<action id='editoffline' icon='static/images/documentlibrary/actions/document-edit-offline-16.png' nlsid='MSG_EDIT_OFFLINE'>
+		<params>
+			<param name='objectId' datafield='sys:node-uuid' />
+			<param name='name' datafield='cm:name' />
+		</params>
+		<preconditions>
+			<precondition ref='permit'>
+				<permit>Write</permit>
 			</precondition>
 		</preconditions>
 	</action>

@@ -5,6 +5,7 @@ function() {
 	
 	FileExplorer.currentUserName = userLoginId;
 	FileExplorer.thumbnailRootPath = 'static/images/thumbnail/';
+	FileExplorer.i18nFunc = msg;
 	
 	var tree = Ext.create('FileExplorer.TreePanel', {
 		tbar : ['->', {
@@ -123,6 +124,12 @@ function() {
 	
 	var actionProvider = Ext.create('FileExplorer.ActionProvider', {
 		dataUrls : ['data/actions/testactions.xml'],
+		getActionIds : function(rec) {
+			if (rec.raw.ISFOLDER) {
+				return ['downloadzip', 'viewdetail', 'editproperties', 'fdrmoveto', 'fdrcopyto', 'deletefdr'];
+			}
+			return ['download', 'downloadzip', 'viewinexplorer', 'editproperties', 'uploadnewversion', 'editoffline', 'docmoveto', 'doccopyto', 'deletedoc'];
+		},
 		preconditions : {
 			permit : function(rec, config) {
 				return true;
@@ -130,9 +137,17 @@ function() {
 		}
 	});
 	
+	var actionExecutor = Ext.create('FileExplorer.ActionExecutor', {
+		execute : function(action, selection) {
+			alert(action.id);
+			console.log(selection);
+		}
+	});
+	
 	var objectList = Ext.create('FileExplorer.ObjectList', {
 		region : 'center',
 		actionProvider : actionProvider,
+		actionExecutor : actionExecutor,
 		listeners : {
 			selectionchange : function(recs) {
 				//console.log(recs);
@@ -176,7 +191,17 @@ function() {
 		dockedItems : [{
 			xtype : 'feactiontoolbar',
 			cls : 'fe-toolbar fe-toolbar-top',
-			dock : 'top'
+			dock : 'top',
+			hideFolders : function() {
+				store.filter({
+					filterFn : function(item) {
+						return !item.raw.ISFOLDER;
+					}
+				});
+			},
+			showFolders : function() {
+				store.clearFilter();
+			}
 		}, bcbar]
 	});
 	
