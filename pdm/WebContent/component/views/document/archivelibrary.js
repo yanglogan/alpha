@@ -8,6 +8,24 @@ function() {
 	FileExplorer.i18nFunc = msg;
 	
 	var tree = Ext.create('FileExplorer.TreePanel', {
+		tbar : ['->', {
+			iconCls : 'x-tbar-loading',
+			tipsy : Utils.msg('MSG_REFRESH'),
+			handler : function() {
+				var node = this.ownerCt.ownerCt.getSelectionModel().getSelection()[0];
+			
+				if (!node) {
+					return;
+				}
+				
+				this.ownerCt.ownerCt.store.reload({
+					node : node,
+					callback : function() {
+						node.expand();
+					}
+				});
+			}
+		}],
 		bodyBorder : false,
 		collapsible : true,
 		preventHeader : true,
@@ -35,7 +53,7 @@ function() {
 			autoLoad : true,
 			proxy : {
 				type : 'ajax',
-				url : Utils.getCDAUrl('DocumentLibrary', 'getFolders')
+				url : Utils.getCDAUrl('ArchiveLibrary', 'getFolders')
 			},
 			listeners: {
 				beforeload : function (store, operation, eOpts) {
@@ -96,7 +114,7 @@ function() {
 				root : 'results',
 				totalProperty : 'total'
 			},
-			url : Utils.getCDAUrl('DocumentLibrary', 'getContents')
+			url : Utils.getCDAUrl('ArchiveLibrary', 'getContents')
 		},
 		sorters : [{
 			property : 'cm:name',
@@ -104,19 +122,25 @@ function() {
 		}]
 	});
 	
-	var actionProvider = Ext.create('component.document.fileexplorer.ActionProvider', {
+	var actionProvider = Ext.create('FileExplorer.ActionProvider', {
 		dataUrls : ['data/actions/testactions.xml'],
 		getActionIds : function(rec) {
 			if (rec.raw.ISFOLDER) {
-				return ['viewdetail', 'editproperties', 'fdrmoveto', 'fdrcopyto', 'deletefdr'];
+				return ['downloadzip', 'viewdetail', 'editproperties', 'fdrmoveto', 'fdrcopyto', 'deletefdr'];
 			}
-			return ['download', 'viewinexplorer', 'editproperties', 'uploadnewversion', 'editoffline', 'docmoveto', 'doccopyto', 'deletedoc'];
+			return ['download', 'downloadzip', 'viewinexplorer', 'editproperties', 'uploadnewversion', 'editoffline', 'docmoveto', 'doccopyto', 'deletedoc'];
+		},
+		preconditions : {
+			permit : function(rec, config) {
+				return true;
+			}
 		}
 	});
 	
-	var actionExecutor = Ext.create('component.document.fileexplorer.ActionExecutor', {
-		downloadZip : function(action, recs) {
-			alert('download zip,' + recs);
+	var actionExecutor = Ext.create('FileExplorer.ActionExecutor', {
+		execute : function(action, selection) {
+			alert(action.id);
+			console.log(selection);
 		}
 	});
 	
@@ -177,6 +201,77 @@ function() {
 			},
 			showFolders : function() {
 				store.clearFilter();
+			},
+			preProcessItems : function(items){
+			    
+			    items.pop();
+			    var select = items.shift();
+			    while(items.length > 3) {
+			        items.shift();
+			    }
+			    
+			    items.unshift({
+                    text : '归档',
+                    iconCls : 'fe-icon fe-icon-action-upload',
+                    handler : function() {
+                        //TODO
+                }});
+                items.unshift({
+                    text : '创建案卷',
+                    iconCls : 'fe-icon fe-icon-foldernew',
+                    handler : function() {
+                        //TODO
+                }});
+			    items.unshift({
+                    text : '创建分类',
+                    iconCls : 'fe-icon fe-icon-foldernew',
+                    handler : function() {
+                        //TODO
+                }});
+                items.unshift({
+                    text : '创建全宗',
+                    iconCls : 'fe-icon fe-icon-foldernew',
+                    handler : function() {
+                        var win = Ext.create('Ext.window.Window', {
+                            width : 400,
+                            height : 600,
+                            modal : true,
+                            layout : 'form',
+                            title : '创建全宗',
+                            items : [{
+                                xtype : 'textfield',
+                                fieldLabel : '标题:',
+                                name : 'cm:title',
+                                allowBlank : false
+                            }, {
+                                xtype : 'textfield',
+                                fieldLabel : '名称:',
+                                name : 'cm:name',
+                                allowBlank : false
+                            }],
+                            buttons : [{
+                                text : '确定',
+                                id : 'confirmbutton',
+                                handler : function() {
+                                    Utils.request_FORM(this.ownerCt.form, Utils.getCDAUrl('ArchiveLibrary', 'createFonds'), {
+                                        
+                                    }, function(){
+                                        alert('success');
+                                    }, function(){
+                                        alert('failure');
+                                    });
+                                }
+                            }, {
+                                text : '取消',
+                                handler : function() {
+                                    win.close();
+                                }
+                            }]
+                        });
+                        win.show();
+                }});
+                items.unshift(select);
+                
 			}
 		}, bcbar]
 	});

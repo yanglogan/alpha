@@ -27,7 +27,7 @@
     </namespaces>
 
     <types>
-        
+
         <type name="edm:cfgType">
             <title>Configuration Type</title>
             <parent>cm:cmobject</parent>
@@ -38,7 +38,7 @@
                 <aspect>edm:templated</aspect>
             </mandatory-aspects>
         </type>
-        
+
         <type name="edm:docType">
             <title>Document Type</title>
             <parent>cm:content</parent>
@@ -121,19 +121,19 @@
                 <aspect>edm:componentIdentifier</aspect>
             </mandatory-aspects>
         </type>
-        
+
         <type name="edm:reportType">
             <title>Report Type</title>
             <parent>edm:docType</parent>
             <archive>false</archive>
         </type>
-        
+
         <type name="edm:report">
             <title>Report</title>
             <parent>edm:document</parent>
             <archive>false</archive>
         </type>
-        
+
         <type name="edm:fdrType">
             <title>Folder Type</title>
             <parent>cm:folder</parent>
@@ -251,12 +251,12 @@
                     </index>
                 </property>
             </properties>
-            
+
              <mandatory-aspects>
                 <aspect>edm:projectContext</aspect>
             </mandatory-aspects>
         </type>
-        
+
         <type name="edm:wbs">
             <title>Work breakdown structure</title>
             <parent>edm:folder</parent>
@@ -335,12 +335,12 @@
                     <type>d:text</type>
                 </property>
             </properties>
-            
+
              <mandatory-aspects>
                 <aspect>edm:projectContext</aspect>
             </mandatory-aspects>
         </type>
-        
+
         <type name="edm:basePackage">
             <title>Base Package</title>
             <parent>edm:folder</parent>
@@ -352,7 +352,7 @@
                 <aspect>edm:projectContext</aspect>
             </mandatory-aspects>
         </type>
-        
+
         <type name="edm:supplierPackage">
             <title>supplierPackage</title>
             <parent>edm:basePackage</parent>
@@ -592,7 +592,7 @@
                 <aspect>edm:projectContext</aspect>
             </mandatory-aspects>
         </type>
-        
+
         <type name="edm:process">
             <title>Process</title>
             <parent>cm:content</parent>
@@ -631,7 +631,7 @@
                 <aspect>edm:projectContext</aspect>
             </mandatory-aspects>
         </type>
-        
+
         <type name="edm:picklist">
             <title>Picklist</title>
             <parent>cm:cmobject</parent>
@@ -757,7 +757,7 @@
                 <aspect>edm:internalRef</aspect>
             </mandatory-aspects>
         </type>
-        
+
         <type name="edm:attrPopConf">
             <title>Attribute Population Configuration</title>
             <parent>cm:cmobject</parent>
@@ -808,7 +808,14 @@
                 <aspect>edm:internalRef</aspect>
             </mandatory-aspects>
         </type>
-        
+
+        <type name="edm:category">
+            <title>Category</title>
+            <parent>cm:category</parent>
+            <archive>false</archive>
+
+        </type>
+
         <type name="edm:organization">
             <title>Organization</title>
             <parent>cm:authorityContainer</parent>
@@ -951,7 +958,7 @@
             <title>Management Container</title>
             <parent>edm:folder</parent>
             <archive>false</archive>
-            
+
             <mandatory-aspects>
                 <aspect>rms:filePlanComponent</aspect>
             </mandatory-aspects>
@@ -960,7 +967,7 @@
         <type name="rms:fondsLibrary">
             <title>Fonds</title>
             <parent>rms:managementContainer</parent>
-            
+
             <mandatory-aspects>
                 <aspect>rms:managementRoot</aspect>
             </mandatory-aspects>
@@ -975,78 +982,78 @@
             <title>Record Folder</title>
             <parent>edm:folder</parent>
             <archive>false</archive>
-            
+
             <mandatory-aspects>
                 <aspect>rms:filePlanComponent</aspect>
             </mandatory-aspects>
         </type>
-        
+
         <type name="rms:nonElectronicDocument">
             <title>Non-Electronic Document</title>
             <parent>cm:content</parent>
             <archive>false</archive>
             <properties>
-	            <property name="rms:physicalSize">
-	                <title>Document Physical Size</title>
-	                <type>d:int</type>
-	                <mandatory>false</mandatory>
-	                <index enabled="true">
-			            <atomic>true</atomic>
-			            <stored>false</stored>
-			            <tokenised>false</tokenised>
-			       </index>
-	            </property>
-	            <property name="rms:numberOfCopies">
-	                <title>Number Of Copies</title>
-	                <type>d:int</type>
-	                <mandatory>false</mandatory>
-	                <default>1</default>
-	                <index enabled="true">
-			            <atomic>true</atomic>
-			            <stored>false</stored>
-			            <tokenised>false</tokenised>
-			        </index>
-	            </property>
-	            <property name="rms:storageLocation">
-	                <title>Storage Location</title>
-	                <type>d:text</type>
-	                <mandatory>false</mandatory>
-	                <index enabled="true">
-			            <atomic>true</atomic>
-			            <stored>false</stored>
-			            <tokenised>false</tokenised>
-			        </index>
-	            </property>
-	            <property name="rms:shelf">
-	                <title>Shelf</title>
-	                <type>d:text</type>
-	                <mandatory>false</mandatory>
-	                <index enabled="true">
-			            <atomic>true</atomic>
-			            <stored>false</stored>
-			            <tokenised>false</tokenised>
-			        </index>
-	            </property>
-	            <property name="rms:box">
-	                <title>Box</title>
-	                <type>d:text</type>
-	                <mandatory>false</mandatory>
-	                <index enabled="true">
-			            <atomic>true</atomic>
-			            <stored>false</stored>
-			            <tokenised>false</tokenised>
-			        </index>
-	            </property>
-	            <property name="rms:file">
-	                <title>File</title>
-	                <type>d:text</type>
-	                <mandatory>false</mandatory>
-	                <index enabled="true">
-			            <atomic>true</atomic>
-			            <stored>false</stored>
-			            <tokenised>false</tokenised>
-			        </index>
-	            </property>
+                <property name="rms:physicalSize">
+                    <title>Document Physical Size</title>
+                    <type>d:int</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>false</tokenised>
+                   </index>
+                </property>
+                <property name="rms:numberOfCopies">
+                    <title>Number Of Copies</title>
+                    <type>d:int</type>
+                    <mandatory>false</mandatory>
+                    <default>1</default>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>false</tokenised>
+                    </index>
+                </property>
+                <property name="rms:storageLocation">
+                    <title>Storage Location</title>
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>false</tokenised>
+                    </index>
+                </property>
+                <property name="rms:shelf">
+                    <title>Shelf</title>
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>false</tokenised>
+                    </index>
+                </property>
+                <property name="rms:box">
+                    <title>Box</title>
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>false</tokenised>
+                    </index>
+                </property>
+                <property name="rms:file">
+                    <title>File</title>
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>false</tokenised>
+                    </index>
+                </property>
             </properties>
             <mandatory-aspects>
                 <aspect>rms:filePlanComponent</aspect>
@@ -1056,7 +1063,7 @@
         <type name="rms:oaLibrary">
             <title>Office Administration Document Library</title>
             <parent>rms:managementContainer</parent>
-            
+
             <mandatory-aspects>
                 <aspect>rms:managementRoot</aspect>
             </mandatory-aspects>
@@ -1071,7 +1078,7 @@
             <title>Office Administration Folder</title>
             <parent>edm:folder</parent>
             <archive>false</archive>
-            
+
             <mandatory-aspects>
                 <aspect>rms:filePlanComponent</aspect>
             </mandatory-aspects>
@@ -1080,7 +1087,7 @@
         <type name="rms:RegulationLibrary">
             <title>Regulation Document Library</title>
             <parent>rms:managementContainer</parent>
-            
+
             <mandatory-aspects>
                 <aspect>rms:managementRoot</aspect>
             </mandatory-aspects>
@@ -1095,13 +1102,13 @@
             <title>Regulation Folder</title>
             <parent>edm:folder</parent>
             <archive>false</archive>
-            
+
             <mandatory-aspects>
                 <aspect>rms:filePlanComponent</aspect>
             </mandatory-aspects>
         </type>
     </types>
-    
+
     <aspects>
         <aspect name="edm:internalRef">
             <title>Internal Reference</title>
@@ -1135,7 +1142,7 @@
                 </property>
             </properties>
         </aspect>
-        
+
         <aspect name="edm:lifecycle">
             <title>Lifecycle</title>
             <properties>
@@ -1223,7 +1230,7 @@
                 </property>
             </properties>
         </aspect>
-        
+
         <aspect name="edm:numberingContext">
             <title>Numbering Context</title>
             <archive>false</archive>
@@ -1234,7 +1241,7 @@
                 </property>
             </properties>
         </aspect>
-        
+
         <aspect name="edm:attrPopContext">
             <title>Attribute Population Context</title>
             <properties>
@@ -1253,7 +1260,7 @@
                 </property>
             </properties>
         </aspect>
-        
+
         <aspect name="edm:variableAttrs">
             <title>Variable Attributes</title>
             <properties>
@@ -1272,7 +1279,7 @@
                     <type>d:text</type>
                     <multiple>true</multiple>
                 </property>
-                
+
                 <property name="edm:attrListValues">
                     <title>Attribute List Values</title>
                     <type>d:text</type>
@@ -1289,7 +1296,7 @@
                 </property>
             </properties>
         </aspect>
-        
+
         <aspect name="edm:specTypes">
             <title>Specify Types</title>
             <properties>
@@ -1322,7 +1329,7 @@
                 </property>
             </properties>
         </aspect>
-        
+
         <aspect name="edm:defaultInstance">
             <title>Default Instance</title>
             <archive>false</archive>
@@ -1333,7 +1340,7 @@
                 </property>
             </properties>
         </aspect>
-        
+
         <aspect name="edm:governingControl">
             <title>Governing Control</title>
             <archive>false</archive>
@@ -1366,7 +1373,7 @@
                 </property>
             </properties>
         </aspect>
-        
+
         <!--  Helper aspect that can be used to keep a count -->
         <aspect name="edm:countable">
             <title>Countable aspect</title>
@@ -1543,7 +1550,7 @@
                     </index>
                 </property>
             </properties>
-            
+
             <mandatory-aspects>
                 <aspect>edm:projectContext</aspect>
             </mandatory-aspects>
@@ -1553,18 +1560,18 @@
         <aspect name="edm:paged">
             <title>Paged</title>
             <associations>
-	            <!-- This association links the source content node to the content page -->
-	            <child-association name="edm:page">
-	                <source>
-	                    <mandatory>false</mandatory>
-	                    <many>true</many>
-	                </source>
-	                <target>
-	                    <class>cm:content</class>
-	                    <mandatory>false</mandatory>
-	                    <many>true</many>
-	                </target>
-	            </child-association>
+                <!-- This association links the source content node to the content page -->
+                <child-association name="edm:page">
+                    <source>
+                        <mandatory>false</mandatory>
+                        <many>true</many>
+                    </source>
+                    <target>
+                        <class>cm:content</class>
+                        <mandatory>false</mandatory>
+                        <many>true</many>
+                    </target>
+                </child-association>
             </associations>
         </aspect>
 
@@ -1583,41 +1590,41 @@
         <aspect name="rms:declaredRecord">
             <title>Declared Record</title>
             <properties>
-	            <property name="rms:declaredAt">
-	                <title>Date Declared</title>
-	                <type>d:date</type>
-	            </property>
-	            <property name="rms:declaredBy">
-	                <title>Declared By</title>
-	                <type>d:text</type>
-	                <index enabled="true">
-			            <atomic>true</atomic>
-			            <stored>false</stored>
-			            <tokenised>false</tokenised>
-			        </index>
-	            </property>
+                <property name="rms:declaredAt">
+                    <title>Date Declared</title>
+                    <type>d:date</type>
+                </property>
+                <property name="rms:declaredBy">
+                    <title>Declared By</title>
+                    <type>d:text</type>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>false</tokenised>
+                    </index>
+                </property>
             </properties>
         </aspect>
 
         <aspect name="rms:managementRoot">
             <title>Management Root</title>
         </aspect>
-        
+
         <aspect name="rms:record">
             <title>Record</title>
             <!-- Explicitly turn off archiving for all nodes with this aspect -->
             <archive>false</archive>
-            
+
             <properties>
-	            <property name="rms:dateFiled">
-	                <title>Date Filed</title>
+                <property name="rms:dateFiled">
+                    <title>Date Filed</title>
                     <type>d:date</type>
-	            </property>
-	            <property name="rms:origionalName">
-	                <title>Original Name</title>
-	                <type>d:text</type>
-	                <protected>true</protected>
-	            </property>
+                </property>
+                <property name="rms:origionalName">
+                    <title>Original Name</title>
+                    <type>d:text</type>
+                    <protected>true</protected>
+                </property>
                 <property name="rms:publicationDate">
                     <title>Publication Date</title>
                     <type>d:text</type>
@@ -1628,59 +1635,59 @@
                         <tokenised>true</tokenised>
                     </index>
                 </property>
-	            <property name="rms:originator">
-	                <title>Originator</title>
-	                <type>d:text</type>
-	                <index enabled="true">
-			            <atomic>true</atomic>
-			            <stored>false</stored>
-			            <tokenised>false</tokenised>
-			        </index>
-	            </property>
-	            <property name="rms:originatingOrganization">
-	                <title>Originating Organization</title>
-	                <type>d:text</type>
-	                <index enabled="true">
-			            <atomic>true</atomic>
-			            <stored>false</stored>
-			            <tokenised>false</tokenised>
-			        </index>
-	            </property>
-	            <property name="rms:mediaType">
-	                <title>Media Type</title>
-	                <type>d:text</type>
-	                <mandatory>false</mandatory>
-	                <index enabled="true">
-			            <atomic>true</atomic>
-			            <stored>false</stored>
-			            <tokenised>false</tokenised>
-			        </index>
-	            </property>
-	            <property name="rms:format">
-	                <title>Format</title>
-	                <type>d:text</type>
-	                <mandatory>false</mandatory>
-	                <index enabled="true">
-			            <atomic>true</atomic>
-			            <stored>false</stored>
-			            <tokenised>false</tokenised>
-			        </index>
-	            </property>
-	            <property name="rms:dateReceived">
-	                <title>Date Received</title>
-	                <type>d:date</type>
-	                <mandatory>false</mandatory>
-	            </property>
-	            <property name="rms:addressee">
-	                <title>Addressee</title>
-	                <type>d:text</type>
-	                <mandatory>false</mandatory>
-	                <index enabled="true">
-			            <atomic>true</atomic>
-			            <stored>false</stored>
-			            <tokenised>false</tokenised>
-			        </index>
-	            </property>
+                <property name="rms:originator">
+                    <title>Originator</title>
+                    <type>d:text</type>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>false</tokenised>
+                    </index>
+                </property>
+                <property name="rms:originatingOrganization">
+                    <title>Originating Organization</title>
+                    <type>d:text</type>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>false</tokenised>
+                    </index>
+                </property>
+                <property name="rms:mediaType">
+                    <title>Media Type</title>
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>false</tokenised>
+                    </index>
+                </property>
+                <property name="rms:format">
+                    <title>Format</title>
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>false</tokenised>
+                    </index>
+                </property>
+                <property name="rms:dateReceived">
+                    <title>Date Received</title>
+                    <type>d:date</type>
+                    <mandatory>false</mandatory>
+                </property>
+                <property name="rms:addressee">
+                    <title>Addressee</title>
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>false</tokenised>
+                    </index>
+                </property>
                 <property name="rms:pages">
                     <title>Pages</title>
                     <type>d:int</type>
@@ -1700,23 +1707,23 @@
                     </index>
                 </property>
             </properties>
-            
+
             <mandatory-aspects>
                 <aspect>rms:filePlanComponent</aspect>
             </mandatory-aspects>
         </aspect>
-        
+
         <aspect name="rms:recordOriginatingDetails">
             <title>The originating details of a record</title>
             <properties>
-	            <property name="rms:recordOriginatingUserId">
-	                <type>d:text</type>
-	      			<protected>true</protected>
-	            </property>
-	            <property name="rms:recordOriginatingOrganization">
-	               	<type>d:text</type>
-	      			<protected>true</protected>
-	            </property>
+                <property name="rms:recordOriginatingUserId">
+                    <type>d:text</type>
+                      <protected>true</protected>
+                </property>
+                <property name="rms:recordOriginatingOrganization">
+                       <type>d:text</type>
+                      <protected>true</protected>
+                </property>
             </properties>
         </aspect>
     </aspects>

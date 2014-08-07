@@ -66,10 +66,13 @@ Ext.define('FileExplorer.ObjectList', {
 	extend : 'Ext.panel.Panel',
 	xtype : 'feobjectlist',
 	___UCODE : 'feobjectlist',
-	actionProvider : {
+	i18n : {
+		more : 'More...'
+	},
+	actionProvider : {//note this object should be instance of FileExplorer.ActionProvider
 		getValidActions : function() {return [];}
 	},
-	actionExecutor : null,
+	actionExecutor : null,//note this object should be instance of FileExplorer.ActionExecutor
 	defaultActions : {
 		onObjectClick : function(rec) {
 			alert('you have clicked an object named ' + rec.get('cm:name'));
@@ -256,7 +259,7 @@ Ext.define('FileExplorer.DetailColumn', {
 		'<div class="fe-display-row">{data:this.getCreationInfo}&nbsp;{data:this.getModificationInfo}&nbsp;&nbsp;&nbsp;{data:this.getSize}</div>',
 		'<div class="fe-display-row<tpl if="this.hasNoDesc(data)"> fe-display-disabled-row</tpl>">{data:this.getDesc}</div>' +
 		'</div>', {
-		complied : true,
+		compiled : true,
 		getLockInfo : function(data) {
 			var i18n = FileExplorer.DetailColumn.prototype.i18n;
 			return '(' + i18n.at + FileExplorer.parseDateStr(data['cm:modified'], 'Y-m-d H:i:s') + ')';
@@ -328,7 +331,7 @@ Ext.define('FileExplorer.ThumbnailColumn', {
 	template : new Ext.XTemplate('<div style="width:110px;height:110px;">', 
 		'<img class="fe-icon64 fe-clickable" action="objectclick" rowidx="{ROWIDX}" src="{data:this.getThumbUrl}" onerror="{data:this.getErrorScript}" />',
 		'{data:this.getVersionLabel}', '</div>', {
-		complied : true,
+		compiled : true,
 		getErrorScript : function() {
 			return 'this.src=\'' + FileExplorer.thumbnailRootPath + '_default.png\'';
 		},
@@ -459,7 +462,7 @@ Ext.define('FileExplorer.DetailView', {
 							}
 						});
 					});
-					var morelink = $('<div class="fe-row-action-link fe-row-action-link-more fe-action-icon fe-icon-more">更多...</div>');
+					var morelink = $('<div class="fe-row-action-link fe-row-action-link-more fe-action-icon fe-icon-more">' + FileExplorer.ObjectList.prototype.i18n.more + '</div>');
 					ele.append(morelink);
 					morelink.click(function() {
 						var el = new Ext.Element(this);
@@ -470,7 +473,7 @@ Ext.define('FileExplorer.DetailView', {
 							id : Ext.id() + 'fe-row-action-menu',
 							shadow : false,
 							width : el.getWidth(),
-							style : 'border-radius: 0px;box-shadow: 0px 0px 0px;',
+							style : 'border-radius:0px;box-shadow:0px 0px 0px;border:1px #CCCCCC solid;',
 							listeners : {
 								show : function() {
 									ele.addClass('fe-row-action-link-over');
@@ -546,6 +549,9 @@ Ext.define('FileExplorer.ActionProvider', {
 	dataUrls : [],
 	getActionIds : function(rec) {},
 	preconditions : {},//key-ref value:function(rec, configElement[a jquery object])
+	registerPrecondition : function(ref, precondition) {
+		this.preconditions[ref] = precondition;
+	},
 	//public methods
 	getValidActions : function(rec) {
 		var me = this;
@@ -673,7 +679,8 @@ Ext.define('FileExplorer.ActionToolbar', {
 		option : {
 			option : 'Options',
 			showfolders : 'Show Folders',
-			hidefolders : 'Hide Folders'
+			hidefolders : 'Hide Folders',
+			folderhiddeninfo : 'Folders are hidden.'
 		},
 		view : {
 			simple : 'Simple View',
@@ -693,9 +700,7 @@ Ext.define('FileExplorer.ActionToolbar', {
 	getObjectList : function() {
 		return this.ownerCt;
 	},
-	sortableAttrs : {
-		'cm:lockOwner' : 'Locker'
-	},
+	sortableAttrs : {},
 	//private
 	sortAttr : 'cm:name',
 	sortDirection : 'ASC',
@@ -909,6 +914,12 @@ Ext.define('FileExplorer.ActionToolbar', {
 					});
 				}
 			}
+		}, {
+			itemId : 'tip',
+			xtype : 'label',
+			cls : 'fe-toolbar-tip-label',
+			hidden : true,
+			html : i18n.option.folderhiddeninfo
 		}, '->', {
 			tipsy : i18n.action.sort,
 			itemId : 'sortbtn',
@@ -935,9 +946,12 @@ Ext.define('FileExplorer.ActionToolbar', {
 					this.setText(this.v ? i18n.option.showfolders : i18n.option.hidefolders);
 					
 					if (this.v) {
+						me.getObjectList().getSelectionModel().deselectAll();
 						me.hideFolders();
+						me.getComponent('tip').show();
 					} else {
 						me.showFolders();
+						me.getComponent('tip').hide();
 					}
 				}
 			}, '-', {
@@ -1088,6 +1102,38 @@ Ext.define('FileExplorer.TreeView', {
             priority: 0
         }
     ],
+	afterRender : function() {
+		var me = this;
+		
+		this.ownerCt.on('afteritemexpand', function(node, index, item, eOpts) {
+			
+			new Ext.util.DelayedTask(function() {
+				$(me.el.dom).find('.x-grid-row').unbind().hover(function() {
+					$(this).find('.fe-hide-show').show();
+				}, function() {
+					$(this).find('.fe-hide-show').hide();
+				}).find('.fe-hide-show').unbind().click(function(e) {
+					e.stopPropagation();
+					
+					var node = me.ownerCt.store.getNodeById($(this).attr('nodeId'));
+					if (!node) {
+						return;
+					}
+					me.ownerCt.store.reload({
+						node : node,
+						callback : function() {
+							node.expand();
+						}
+					});
+				});
+			}).delay(200);
+			
+		});
+		
+		this.fireEvent('afteritemexpand');
+		
+		this.callParent();
+	},
     renderCell: function(column, record, recordIndex, rowIndex, columnIndex, out) {
         var me = this,
             selModel = me.selModel,
@@ -1170,6 +1216,9 @@ Ext.define('FileExplorer.TreeView', {
 Ext.define('FileExplorer.TreeColumn', {
     extend : 'Ext.tree.Column',
     xtype : 'fetreecolumn',
+    i18n : {
+    	reload : 'Reload'
+    },
     cellTpl: [
         '<tpl for="lines">',
             '<img src="{parent.blankUrl}" class="{parent.childCls} {parent.elbowCls}-img ',
@@ -1188,7 +1237,8 @@ Ext.define('FileExplorer.TreeColumn', {
             '<a href="{href}" target="{hrefTarget}" class="{textCls} {childCls}">{value}</a>',
         '<tpl else>',
             '<span class="{textCls} {childCls}" style="font-weight:{bold};">{value}</span>',
-        '</tpl>'
+        '</tpl>',
+        '&nbsp;<span title="{reloadTip}" nodeId="{nodeId}" class="fe-hide-show fe-icon fe-icon-reload">&nbsp;&nbsp;&nbsp;&nbsp;</span>'
     ],
     treeRenderer: function(value, metaData, record, rowIdx, colIdx, store, view) {
         var me = this,
@@ -1210,9 +1260,10 @@ Ext.define('FileExplorer.TreeColumn', {
                     parentData.isLast ? 0 : 1;
             parent = parent.parentNode;
         }
-
         return me.getTpl('cellTpl').apply({
+        	reloadTip : FileExplorer.TreeColumn.prototype.i18n.reload,
         	bold : (record.parentNode == null) ? 'bold' : null,
+        	nodeId : record.internalId,
             record: record,
             baseIconCls: me.iconCls,
             iconCls: data.iconCls,
@@ -1253,7 +1304,7 @@ Ext.define('FileExplorer.TreePanel', {
             width    : Ext.isIE6 ? '100%' : 10000, // IE6 needs width:100%
             dataIndex: this.displayField         
         }];
-		
+        
 		this.callParent();
 	}
 });

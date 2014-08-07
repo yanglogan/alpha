@@ -62,7 +62,6 @@ Ext.define('Ext.window.YesNoWindow', {
 			}
 		}];
 		
-		
 		if (this.preButtons) {
 			for (var i = this.preButtons.length - 1; i >= 0; i--) {
 				buttons.unshift(this.preButtons[i]);

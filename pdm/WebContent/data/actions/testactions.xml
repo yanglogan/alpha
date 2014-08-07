@@ -1,33 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <actions comment='该行为定义文件在documentlibrary视图中被使用'>
 	<action id='downloadzip' icon='static/images/documentlibrary/actions/document-download-16.png' nlsid='MSG_DOWNLOAD_ZIP' multisupport='true'>
-		<params>
-			<param name='objectId' datafield='sys:node-uuid' />
-			<param name='name' datafield='cm:name' />
-		</params>
 		<preconditions>
 			<precondition ref='permit'>
-				<permit>ReadContent</permit>
+				<permit>Read</permit>
 			</precondition>
 		</preconditions>
 		<execution>
 			<type>function</type>
-			<name>downloadzip</name>
+			<specification>downloadZip</specification>
 		</execution>
 	</action>
 	<action id='download' icon='static/images/documentlibrary/actions/document-download-16.png' nlsid='MSG_DOWNLOAD'>
-		<params>
-			<param name='objectId' datafield='sys:node-uuid' />
-			<param name='name' datafield='cm:name' />
-		</params>
 		<preconditions>
 			<precondition ref='permit'>
-				<permit>ReadContent</permit>
+				<permit>Read</permit>
 			</precondition>
 		</preconditions>
 		<execution>
 			<type>function</type>
-			<name>downloadzip</name>
+			<specification>download</specification>
 		</execution>
 	</action>
 	<action id='viewdetail' icon='static/images/documentlibrary/actions/folder-view-details-16.png' nlsid='MSG_VIEW_DETAIL'>
@@ -37,31 +29,35 @@
 		</params>
 		<preconditions>
 			<precondition ref='permit'>
-				<permit>ReadProperties</permit>
+				<permit>Read</permit>
 			</precondition>
 		</preconditions>
+		<execution>
+			<type>view</type>
+			<specification>document.viewdetail</specification>
+		</execution>
 	</action>
 	<action id='editproperties' icon='static/images/documentlibrary/actions/document-edit-metadata-16.png' nlsid='MSG_EDIT_PROPERTIES'>
-		<params>
-			<param name='objectId' datafield='sys:node-uuid' />
-			<param name='name' datafield='cm:name' />
-		</params>
 		<preconditions>
 			<precondition ref='permit'>
-				<permit>WriteProperties</permit>
+				<permit>Write</permit>
 			</precondition>
 		</preconditions>
+		<execution>
+			<type>function</type>
+			<specification>editProperties</specification>
+		</execution>
 	</action>
 	<action id='deletefdr' icon='static/images/documentlibrary/actions/folder-delete-16.png' nlsid='MSG_DELETE_FDR' multisupport='true'>
-		<params>
-			<param name='objectId' datafield='sys:node-uuid' />
-			<param name='name' datafield='cm:name' />
-		</params>
 		<preconditions>
 			<precondition ref='permit'>
 				<permit>Delete</permit>
 			</precondition>
 		</preconditions>
+		<execution>
+			<type>function</type>
+			<specification>deleteFdrs</specification>
+		</execution>
 	</action>
 	<action id='deletedoc' icon='static/images/documentlibrary/actions/document-delete-16.png' nlsid='MSG_DELETE_DOC' multisupport='true'>
 		<params>
@@ -73,61 +69,45 @@
 				<permit>Delete</permit>
 			</precondition>
 		</preconditions>
+		<execution>
+			<type>function</type>
+			<specification>deleteDocs</specification>
+		</execution>
 	</action>
 	<action id='fdrmoveto' icon='static/images/documentlibrary/actions/folder-move-to-16.png' nlsid='MSG_MOVE_TO' multisupport='true'>
-		<params>
-			<param name='objectId' datafield='sys:node-uuid' />
-			<param name='name' datafield='cm:name' />
-		</params>
-		<preconditions>
-			<precondition ref='permit'>
-				<permit>ReadContent</permit>
-			</precondition>
-		</preconditions>
+		<execution>
+			<type>function</type>
+			<specification>moveFdrs</specification>
+		</execution>
 	</action>
 	<action id='fdrcopyto' icon='static/images/documentlibrary/actions/folder-copy-to-16.png' nlsid='MSG_COPY_TO' multisupport='true'>
-		<params>
-			<param name='objectId' datafield='sys:node-uuid' />
-			<param name='name' datafield='cm:name' />
-		</params>
-		<preconditions>
-			<precondition ref='permit'>
-				<permit>ReadContent</permit>
-			</precondition>
-		</preconditions>
+		<execution>
+			<type>function</type>
+			<specification>copyFdrs</specification>
+		</execution>
 	</action>
 	<action id='docmoveto' icon='static/images/documentlibrary/actions/document-move-to-16.png' nlsid='MSG_MOVE_TO' multisupport='true'>
-		<params>
-			<param name='objectId' datafield='sys:node-uuid' />
-			<param name='name' datafield='cm:name' />
-		</params>
-		<preconditions>
-			<precondition ref='permit'>
-				<permit>ReadContent</permit>
-			</precondition>
-		</preconditions>
+		<execution>
+			<type>function</type>
+			<specification>moveDocs</specification>
+		</execution>
 	</action>
 	<action id='doccopyto' icon='static/images/documentlibrary/actions/document-copy-to-16.png' nlsid='MSG_COPY_TO' multisupport='true'>
-		<params>
-			<param name='objectId' datafield='sys:node-uuid' />
-			<param name='name' datafield='cm:name' />
-		</params>
-		<preconditions>
-			<precondition ref='permit'>
-				<permit>ReadContent</permit>
-			</precondition>
-		</preconditions>
+		<execution>
+			<type>function</type>
+			<specification>copyDocs</specification>
+		</execution>
 	</action>
 	<action id='viewinexplorer' icon='static/images/documentlibrary/actions/view-in-explorer-16.png' nlsid='MSG_VIEW_IN_EXPLORER'>
-		<params>
-			<param name='objectId' datafield='sys:node-uuid' />
-			<param name='name' datafield='cm:name' />
-		</params>
 		<preconditions>
 			<precondition ref='permit'>
-				<permit>ReadContent</permit>
+				<permit>Read</permit>
 			</precondition>
 		</preconditions>
+		<execution>
+			<type>function</type>
+			<specification>viewInExplorer</specification>
+		</execution>
 	</action>
 	<action id='uploadnewversion' icon='static/images/documentlibrary/actions/document-upload-new-version-16.png' nlsid='MSG_UPLOAD_NEW_VERSION'>
 		<params>
@@ -136,19 +116,23 @@
 		</params>
 		<preconditions>
 			<precondition ref='permit'>
-				<permit>ReadContent</permit>
+				<permit>Version</permit>
 			</precondition>
 		</preconditions>
+		<execution>
+			<type>view</type>
+			<specification>document.new_version</specification>
+		</execution>
 	</action>
 	<action id='editoffline' icon='static/images/documentlibrary/actions/document-edit-offline-16.png' nlsid='MSG_EDIT_OFFLINE'>
-		<params>
-			<param name='objectId' datafield='sys:node-uuid' />
-			<param name='name' datafield='cm:name' />
-		</params>
 		<preconditions>
 			<precondition ref='permit'>
 				<permit>Write</permit>
 			</precondition>
 		</preconditions>
+		<execution>
+			<type>function</type>
+			<specification>editOffline</specification>
+		</execution>
 	</action>
 </actions>

@@ -1,320 +1,354 @@
 [
-	{
-		"nlsid": 'MSG_TM_TASKS',
-		"icon": 'static/images/common/task.png',
-		"menuData": [[
-				{
-					"blocks": [
-						{
-							"nlsid": 'MSG_TM_VIEW',
-							"items": [
-								{
-									"nlsid": 'MSG_TM_MY_TASKS',
-									"view": 'workflow.my_tasks'
-								}
-							]
-						}, {
-							"nlsid": 'MSG_TM_ACTIONS',
-							"items": [
-								{
-									"nlsid": 'MSG_TM_DASHBOARD',
-									"view": 'dashboard'
-								}
-							]
-						}
-					]
-				}
-			]
-		]
-	}, {
-		"nlsid": 'MSG_DM_DOCUMENTS',
-		"icon": 'static/images/common/copy.png',
-		"menuData": [[
-				{
-					"blocks": [
-						{
-							"nlsid": 'MSG_DM_SEARCH',
-							"items": [
-								{
-									"nlsid": 'MSG_DM_CONTROLLED_FILES',
-									"view": 'document.search_files?classification=controlled'
-								}, {
-									"nlsid": 'MSG_DM_TEMPORARY_FILES',
-									"view": 'document.search_files?classification=temporary'
-								}
-							]
-						}, {
-							"nlsid": 'MSG_DM_ACTIONS',
-							"items": [
-								{
-									"nlsid": 'MSG_DM_FOLDER',
-									"view": 'document.doclist'
-								}, {
-									"nlsid": 'MSG_DOCUMENT_LIBRARY',
-									"view": 'document.documentlibrary'
-								}, {
-									"nlsid": 'MSG_DM_BULK_PROCESSING',
-									"view": 'document.process'
-								}
-							]
-						}
-					]
-				}
-			], [
-				{
-					"blocks": [
-						{
-							"nlsid": 'MSG_DM_STANDARD_SEARCHES',
-							"items": [
-								{
-									"nlsid": 'MSG_DM_MY_SUBSCRIPTION',
-									"view": 'my_subscription'
-								}, {
-									"nlsid": 'MSG_DM_HOME_FOLDER',
-									"view": 'home_folder'
-								}
-							]
-						}
-					]
-				}
-			]
-		]
-	}, {
-		"nlsid": 'MSG_MM_MAIL',
-		"icon": 'static/images/common/mail.png',
-		"menuData": [[
-				{
-					"blocks": [
-						{
-							"nlsid": 'MSG_MM_SEARCH',
-							"items": [
-								{
-									"nlsid": 'MSG_MM_INBOX',
-									"view": 'mail.mm_box?method=inbox'
-								}, {
-									"nlsid": 'MSG_MM_SENT',
-									"view": 'mail.mm_box?method=sent'
-								}, {
-									"nlsid": 'MSG_MM_DRAFTS',
-									"view": 'mail.mm_box?method=drafts'
-								}
-							]
-						}, {
-							"nlsid": 'MSG_MM_CREATE_NEW',
-							"items": [
-								{
-									"nlsid": 'MSG_MM_BLANK_MAIL',
-									"view": 'mail.new_blank_mail'
-								}
-							]
-						}, {
-							"nlsid": 'MSG_MM_ACTIONS',
-							"items": [
-								{
-									"nlsid": 'MSG_MM_REGISTER_INCOMING_MAIL',
-									"view": 'mail.register_incoming_mail'
-								}, {
-									"nlsid": 'MSG_MM_MAIL_APPROVALS',
-									"view": 'mail.mail_approvals'
-								}
-							]
-						}
-					]
-				}
-			], [
-				{
-					"blocks": [
-						{
-							"nlsid": 'MSG_MM_STANDARD_SEARCHES',
-							"items": [
-								{
-									"nlsid": 'MSG_MM_MY_MAIL_RECEIVED_TODAY',
-									"view": 'my_mail_received_today'
-								}, {
-									"nlsid": 'MSG_MM_MY_MAIL_SENT_TODAY',
-									"view": 'my_mail_sent_today'
-								}, {
-									"nlsid": 'MSG_MM_MY_OUTSTANDING_OVERDUE_MAIL',
-									"view": 'my_outstanding_overdue_mail'
-								}, {
-									"nlsid": 'MSG_MM_ORG_MAIL_RECEIVED_IN_LAST_30_DAYS',
-									"view": 'org_mail_received_in_last_30_days'
-								}, {
-									"nlsid": 'MSG_MM_ORG_MAIL_NOT_CLOSED_OUT',
-									"view": 'org_mail_not_closed_out'
-								}, {
-									"nlsid": 'MSG_MM_ORG_OUTSTANDING_OVERDUE_MAIL',
-									"view": 'org_outstanding_overdue_mail'
-								}, {
-									"nlsid": 'MSG_MM_RFIS_RECEIVED_REPORT',
-									"view": 'rfis_received_report'
-								}
-							]
-						}
-					]
-				}
-			]
-		]
-	}, {
-		"nlsid": 'MSG_WF_WORKFLOWS',
-		"icon": 'static/images/common/workflow.png',
-		"menuData": [[
-				{
-					"blocks": [
-						{
-							"nlsid": 'MSG_WF_SEARCH',
-							"items": [
-								{
-									"nlsid": 'MSG_WF_WORKFLOWS',
-									"view": 'workflow.search_workflows'
-								}, {
-									"nlsid": 'MSG_WF_TEMPLATES',
-									"view": 'workflow.search_workflow_templates'
-								}
-							]
-						}, {
-							"nlsid": 'MSG_WF_CREATE_NEW',
-							"items": [
-								{
-									"nlsid": 'MSG_WF_TEMPLATE',
-									"view": 'workflow.new_workflow_template'
-								}
-							]
-						}
-					]
-				}
-			]
-		]
-	}, {
-		"nlsid": 'MSG_SD_SUPPLIER_DOCUMENTS',
-		"icon": 'static/images/common/supplier_document.png',
-		"menuData": [[
-				{
-					"blocks": [
-						{
-							"nlsid": 'MSG_SD_SEARCH',
-							"items": [
-								{
-									"nlsid": 'MSG_SD_SUPPLIER_DOCUMENTS',
-									"view": 'inspection.search_supplier_document'
-								}, {
-									"nlsid": 'MSG_SD_PACKAGES',
-									"view": 'inspection.search_supplier_package'
-								}
-							]
-						}, {
-							"nlsid": 'MSG_SD_CREATE_NEW',
-							"items": [
-								{
-									"nlsid": 'MSG_SD_PACKAGE',
-									"view": 'inspection.supplier_package'
-								}
-							]
-						}
-					]
-				}
-			]
-		]
-	}, {
-		"nlsid": 'MSG_SD_PROJECT',
-		"icon": 'static/images/common/supplier_document.png',
-		"menuData": [[
-				{
-					"blocks": [
-						{
-							"nlsid": 'MSG_SD_PROJECT',
-							"items": [
-								{
-									"nlsid": 'MSG_SD_PROJECT_PLANNING',
-									"view": 'configuration.project_planning'
-								}
-							]
-						}
-					]
-				}
-			]
-		]
-	}, {
-		"nlsid": 'MSG_CM_SETUP',
-		"icon": 'static/images/common/gear.png',
-		"menuData": [[
-				{
-					"blocks": [
-						{
-							"nlsid": 'MSG_CM_CONFIGURATION',
-							"items": [
-								{
-									"nlsid": 'MSG_CM_PREFERENCES',
-									"view": 'preferences'
-								}, {
-									"nlsid": 'MSG_CM_ASSIGN_USER_ROLES',
-									"view": 'assign_user_roles'
-								}, {
-									"nlsid": 'MSG_CM_CONFIGURE_USER_ROLE_SETTINGS',
-									"view": 'configuration.configure_user_role_settings'
-								}
-							]
-						}
-					]
-				}, {
-					"blocks": [
-						{
-							"nlsid": 'MSG_CM_USER',
-							"items": [
-								{
-									"nlsid": 'MSG_CM_ACCOUNT_DETAILS',
-									"view": 'account_details'
-								}
-							]
-						}, {
-							"nlsid": 'MSG_CM_MY_ORGANIZATION',
-							"items": [
-								{
-									"nlsid": 'MSG_CM_CREATE_ORGANIZATION',
-									"view": 'configuration.new_organization'
-								}, {
-									"nlsid": 'MSG_CM_ORGANIZATION_DETAILS',
-									"view": 'configuration.organization_details'
-								}, {
-									"nlsid": 'MSG_CM_CREATE_USER',
-									"view": 'new_user'
-								}
-							]
-						}
-					]
-				}
-			], [
-				{
-					"blocks": [
-						{
-							"nlsid": 'MSG_CM_PROJECT',
-							"items": [
-								{
-									"nlsid": 'MSG_CM_PROJECT_SETTINGS',
-									"view": 'configuration.project_settings'
-								}, {
-									"nlsid": 'MSG_CM_LIST_MY_PROJECTS',
-									"view": 'list_my_projects'
-								}, {
-									"nlsid": 'MSG_CM_CREATE_PROJECT',
-									"view": 'new_project'
-								}, {
-									"nlsid": 'MSG_CM_CONFIGURE_ACCESS_CONTROL',
-									"view": 'configure_access_control'
-								}
-							]
-						}, {
-							"nlsid": 'MSG_CM_ABOUT',
-							"items": [
-								{
-									"nlsid": 'MSG_CM_ABOUT',
-									"view": 'about'
-								}
-							]
-						}
-					]
-				}
-			]
-		]
-	}
+    {
+        "nlsid": 'MSG_TM_TASKS',
+        "icon": 'static/images/common/task.png',
+        "menuData": [[
+                {
+                    "blocks": [
+                        {
+                            "nlsid": 'MSG_TM_VIEW',
+                            "items": [
+                                {
+                                    "nlsid": 'MSG_TM_MY_TASKS',
+                                    "view": 'workflow.my_tasks'
+                                }
+                            ]
+                        }, {
+                            "nlsid": 'MSG_TM_ACTIONS',
+                            "items": [
+                                {
+                                    "nlsid": 'MSG_TM_DASHBOARD',
+                                    "view": 'dashboard'
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        ]
+    }, {
+        "nlsid": 'MSG_DM_DOCUMENT',
+        "icon": 'static/images/common/copy.png',
+        "menuData": [[
+                {
+                    "blocks": [
+                        {
+                            "nlsid": 'MSG_DM_MANAGEMENT',
+                            "items": [
+                                {
+                                    "nlsid": 'MSG_DM_DOCUMENT_LIBRARY',
+                                    "view": 'document.documentlibrary'
+                                }, {
+                                    "nlsid": 'MSG_DM_MY_SUBSCRIPTION',
+                                    "view": 'document.mysubscription'
+                                }, {
+                                    "nlsid": 'MSG_DM_HOME_FOLDER',
+                                    "view": 'document.doclist'
+                                }
+                            ]
+                        }, {
+                            "nlsid": 'MSG_DM_VIEW',
+                            "items": [
+                                {
+                                    "nlsid": 'MSG_DM_CATEGORY',
+                                    "view": 'document.categoryview'
+                                }, {
+                                    "nlsid": 'MSG_DM_SYSTEM_AUDITING',
+                                    "view": 'document.systemauditing'
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ], [
+                {
+                    "blocks": [
+                        {
+                            "nlsid": 'MSG_DM_CONFIGURATION',
+                            "items": [
+                                {
+                                    "nlsid": 'MSG_DM_TEMPLATE',
+                                    "view": 'document.configtemplate'
+                                }, {
+                                    "nlsid": 'MSG_DM_CATEGORY',
+                                    "view": 'document.configcategory'
+                                }
+                            ]
+                        }, {
+                            "nlsid": 'MSG_DM_SEARCH',
+                            "items": [
+                                {
+                                    "nlsid": 'MSG_DM_CONTROLLED_FILES',
+                                    "view": 'document.search_files?classification=controlled'
+                                }, {
+                                    "nlsid": 'MSG_DM_TEMPORARY_FILES',
+                                    "view": 'document.search_files?classification=temporary'
+                                }
+                            ]
+                        }, {
+                            "nlsid": 'MSG_DM_STANDARD_SEARCHES',
+                            "items": [
+                            ]
+                        }
+                    ]
+                }
+            ]
+        ]
+    }, {
+        "nlsid": 'MSG_AR_ARCHIVAL',
+        "icon": 'static/images/common/copy.png',
+        "menuData": [[
+                {
+                    "blocks": [
+                        {
+                            "nlsid": 'MSG_AR_MANAGEMENT',
+                            "items": [
+                                {
+                                    "nlsid": 'MSG_AR_REPOSITORY',
+                                    "view": 'archival.repository'
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        ]
+    }, {
+        "nlsid": 'MSG_MM_MAIL',
+        "icon": 'static/images/common/mail.png',
+        "menuData": [[
+                {
+                    "blocks": [
+                        {
+                            "nlsid": 'MSG_MM_SEARCH',
+                            "items": [
+                                {
+                                    "nlsid": 'MSG_MM_INBOX',
+                                    "view": 'mail.mm_box?method=inbox'
+                                }, {
+                                    "nlsid": 'MSG_MM_SENT',
+                                    "view": 'mail.mm_box?method=sent'
+                                }, {
+                                    "nlsid": 'MSG_MM_DRAFTS',
+                                    "view": 'mail.mm_box?method=drafts'
+                                }
+                            ]
+                        }, {
+                            "nlsid": 'MSG_MM_CREATE_NEW',
+                            "items": [
+                                {
+                                    "nlsid": 'MSG_MM_BLANK_MAIL',
+                                    "view": 'mail.new_blank_mail'
+                                }
+                            ]
+                        }, {
+                            "nlsid": 'MSG_MM_ACTIONS',
+                            "items": [
+                                {
+                                    "nlsid": 'MSG_MM_REGISTER_INCOMING_MAIL',
+                                    "view": 'mail.register_incoming_mail'
+                                }, {
+                                    "nlsid": 'MSG_MM_MAIL_APPROVALS',
+                                    "view": 'mail.mail_approvals'
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ], [
+                {
+                    "blocks": [
+                        {
+                            "nlsid": 'MSG_MM_STANDARD_SEARCHES',
+                            "items": [
+                                {
+                                    "nlsid": 'MSG_MM_MY_MAIL_RECEIVED_TODAY',
+                                    "view": 'my_mail_received_today'
+                                }, {
+                                    "nlsid": 'MSG_MM_MY_MAIL_SENT_TODAY',
+                                    "view": 'my_mail_sent_today'
+                                }, {
+                                    "nlsid": 'MSG_MM_MY_OUTSTANDING_OVERDUE_MAIL',
+                                    "view": 'my_outstanding_overdue_mail'
+                                }, {
+                                    "nlsid": 'MSG_MM_ORG_MAIL_RECEIVED_IN_LAST_30_DAYS',
+                                    "view": 'org_mail_received_in_last_30_days'
+                                }, {
+                                    "nlsid": 'MSG_MM_ORG_MAIL_NOT_CLOSED_OUT',
+                                    "view": 'org_mail_not_closed_out'
+                                }, {
+                                    "nlsid": 'MSG_MM_ORG_OUTSTANDING_OVERDUE_MAIL',
+                                    "view": 'org_outstanding_overdue_mail'
+                                }, {
+                                    "nlsid": 'MSG_MM_RFIS_RECEIVED_REPORT',
+                                    "view": 'rfis_received_report'
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        ]
+    }, {
+        "nlsid": 'MSG_WF_WORKFLOWS',
+        "icon": 'static/images/common/workflow.png',
+        "menuData": [[
+                {
+                    "blocks": [
+                        {
+                            "nlsid": 'MSG_WF_SEARCH',
+                            "items": [
+                                {
+                                    "nlsid": 'MSG_WF_WORKFLOWS',
+                                    "view": 'workflow.search_workflows'
+                                }, {
+                                    "nlsid": 'MSG_WF_TEMPLATES',
+                                    "view": 'workflow.search_workflow_templates'
+                                }
+                            ]
+                        }, {
+                            "nlsid": 'MSG_WF_CREATE_NEW',
+                            "items": [
+                                {
+                                    "nlsid": 'MSG_WF_TEMPLATE',
+                                    "view": 'workflow.new_workflow_template'
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        ]
+    }, {
+        "nlsid": 'MSG_SD_SUPPLIER_DOCUMENTS',
+        "icon": 'static/images/common/supplier_document.png',
+        "menuData": [[
+                {
+                    "blocks": [
+                        {
+                            "nlsid": 'MSG_SD_SEARCH',
+                            "items": [
+                                {
+                                    "nlsid": 'MSG_SD_SUPPLIER_DOCUMENTS',
+                                    "view": 'inspection.search_supplier_document'
+                                }, {
+                                    "nlsid": 'MSG_SD_PACKAGES',
+                                    "view": 'inspection.search_supplier_package'
+                                }
+                            ]
+                        }, {
+                            "nlsid": 'MSG_SD_CREATE_NEW',
+                            "items": [
+                                {
+                                    "nlsid": 'MSG_SD_PACKAGE',
+                                    "view": 'inspection.supplier_package'
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        ]
+    }, {
+        "nlsid": 'MSG_SD_PROJECT',
+        "icon": 'static/images/common/supplier_document.png',
+        "menuData": [[
+                {
+                    "blocks": [
+                        {
+                            "nlsid": 'MSG_SD_PROJECT',
+                            "items": [
+                                {
+                                    "nlsid": 'MSG_SD_PROJECT_PLANNING',
+                                    "view": 'configuration.project_planning'
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        ]
+    }, {
+        "nlsid": 'MSG_CM_SETUP',
+        "icon": 'static/images/common/gear.png',
+        "menuData": [[
+                {
+                    "blocks": [
+                        {
+                            "nlsid": 'MSG_CM_CONFIGURATION',
+                            "items": [
+                                {
+                                    "nlsid": 'MSG_CM_PREFERENCES',
+                                    "view": 'preferences'
+                                }, {
+                                    "nlsid": 'MSG_CM_ASSIGN_USER_ROLES',
+                                    "view": 'assign_user_roles'
+                                }, {
+                                    "nlsid": 'MSG_CM_CONFIGURE_USER_ROLE_SETTINGS',
+                                    "view": 'configuration.configure_user_role_settings'
+                                }
+                            ]
+                        }
+                    ]
+                }, {
+                    "blocks": [
+                        {
+                            "nlsid": 'MSG_CM_USER',
+                            "items": [
+                                {
+                                    "nlsid": 'MSG_CM_ACCOUNT_DETAILS',
+                                    "view": 'account_details'
+                                }
+                            ]
+                        }, {
+                            "nlsid": 'MSG_CM_MY_ORGANIZATION',
+                            "items": [
+                                {
+                                    "nlsid": 'MSG_CM_CREATE_ORGANIZATION',
+                                    "view": 'configuration.new_organization'
+                                }, {
+                                    "nlsid": 'MSG_CM_ORGANIZATION_DETAILS',
+                                    "view": 'configuration.organization_details'
+                                }, {
+                                    "nlsid": 'MSG_CM_CREATE_USER',
+                                    "view": 'new_user'
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ], [
+                {
+                    "blocks": [
+                        {
+                            "nlsid": 'MSG_CM_PROJECT',
+                            "items": [
+                                {
+                                    "nlsid": 'MSG_CM_PROJECT_SETTINGS',
+                                    "view": 'configuration.project_settings'
+                                }, {
+                                    "nlsid": 'MSG_CM_LIST_MY_PROJECTS',
+                                    "view": 'list_my_projects'
+                                }, {
+                                    "nlsid": 'MSG_CM_CREATE_PROJECT',
+                                    "view": 'new_project'
+                                }, {
+                                    "nlsid": 'MSG_CM_CONFIGURE_ACCESS_CONTROL',
+                                    "view": 'configure_access_control'
+                                }
+                            ]
+                        }, {
+                            "nlsid": 'MSG_CM_ABOUT',
+                            "items": [
+                                {
+                                    "nlsid": 'MSG_CM_ABOUT',
+                                    "view": 'about'
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        ]
+    }
 ]

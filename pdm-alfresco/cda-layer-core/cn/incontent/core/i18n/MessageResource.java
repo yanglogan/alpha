@@ -20,7 +20,7 @@ public class MessageResource {
 	private Set<String> KEYS = new HashSet<String>();
 	
 	public MessageResource(String id, ResourceBundle rb, Locale locale, Map<String, ResourceBundle> bundleMap) {
-		loadBundles(id, rb, locale, bundleMap);
+		loadBundles(id, rb, locale, bundleMap, new HashSet<String>());
 		loadKeys();
 	}
 	
@@ -29,41 +29,78 @@ public class MessageResource {
 		loadKeys();
 	}
 	
-	private void loadBundles(String id, ResourceBundle rb, Locale locale, Map<String, ResourceBundle> bundleMap) {
+	private void loadBundles(String id, ResourceBundle rb, Locale locale, Map<String, ResourceBundle> bundleMap, Set<String> bundleIdHistory) {
 		if (id == null) {
 			return;
 		}
 		
-		Set<String> bundleIdHistory = new HashSet<String>();
-		while (true) {
-			if (rb == null) {
-				return;
-			}
-			
-			BUNDLES.add(rb);
-			if (bundleIdHistory.contains(id)) {
-				break;
-			}
-			
-			bundleIdHistory.add(id);
-			if (rb.containsKey(NLS_INCLUDES)) {
-				for (String s : rb.getString(NLS_INCLUDES).split(",")) {
-					if (s == null || s.length() == 0) {
-						continue;
-					}
-					
-					id = s;
-					
-					if (bundleIdHistory.contains(s)) {
-						continue;
-					}
-					rb = getBundle(bundleMap, s, locale);
+		if (bundleIdHistory.contains(id)) {
+			return;
+		}
+		
+		bundleIdHistory.add(id);
+		BUNDLES.add(rb);
+		if (rb.containsKey(NLS_INCLUDES)) {
+			for (String s : rb.getString(NLS_INCLUDES).split(",")) {
+				if (s == null || s.length() == 0) {
+					continue;
 				}
-			} else {
-				break;
+				
+				if (bundleIdHistory.contains(s)) {
+					continue;
+				}
+				rb = getBundle(bundleMap, s, locale);
+				
+				for (BundleWrap bw : findMatchBundles(bundleMap, locale, s)) {
+					loadBundles(bw.id, bw.rb, locale, bundleMap, bundleIdHistory);
+				}
 			}
 		}
 		
+	}
+	
+	private static List<BundleWrap> findMatchBundles(Map<String, ResourceBundle> bundleMap, Locale locale, String id) {
+		String regex = parseAsRegex(id);
+		
+		List<BundleWrap> list = new ArrayList<BundleWrap>();
+		if (regex == null) {
+			ResourceBundle rb = bundleMap.get(id);
+			if (rb != null) {
+				list.add(new BundleWrap(id, rb));
+			}
+		} else {
+			for (String key : bundleMap.keySet()) {
+				Locale l = ResourceLoader.getLocaleFromString(key);
+				if (locale == null) {
+					if (locale != l) {
+						continue;
+					}
+				} else {
+					if (!locale.equals(l)) {
+						continue;
+					}
+				}
+				
+				if (key.matches(regex)) {
+					ResourceBundle rb = bundleMap.get(key);
+					if (rb != null) {
+						list.add(new BundleWrap(key, rb));
+					}
+				}
+				
+			}
+		}
+		
+		return list;
+		
+	}
+	
+	private static String parseAsRegex(String s) {
+		if (s.indexOf('*') == -1) {
+			return null;
+		}
+		
+		return s.replaceAll("\\*\\*", "[\\\\d\\\\w.]+").replaceAll("\\*", "[\\\\d\\\\w]+");
 	}
 	
 	private ResourceBundle getBundle(Map<String, ResourceBundle> bundleMap, String key, Locale locale) {
@@ -137,4 +174,14 @@ public class MessageResource {
 		return "xx" + key + "xx";
 	}
 	
+}
+
+class BundleWrap {
+	public String id;
+	public ResourceBundle rb;
+	
+	public BundleWrap(String id, ResourceBundle rb) {
+		this.id = id;
+		this.rb = rb;
+	}
 }

@@ -211,7 +211,7 @@ public class ResourceLoader {
 
 	}
 	
-	private static Locale getLocaleFromString(String str) {
+	static Locale getLocaleFromString(String str) {
 		
 		int idx = str.lastIndexOf('_');
 		

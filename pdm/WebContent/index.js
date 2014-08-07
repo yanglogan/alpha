@@ -145,21 +145,99 @@ Ext.onReady(function() {
 						tipsyGravity : 'e',
 						cls : 'hoverable-label',
 						html : '<img style="width:22px;height:22px;" src="static/images/user.png" />',
+						enableClickShowMenu : false,
+						showMenu : function() {
+							var me = this;
+							me.menu.style = 'box-shadow:0px 0px 0px;left:auto!important;top:38px!important;right:9px!important;' + me.menu.style;
+							me.menu.show();
+						},
+						listeners : {
+							afterRender : function() {
+								var me = this;
+								
+								var task = new Ext.util.DelayedTask(function() {
+									me.hideMenu();
+								});
+								
+								$(this.el.dom).hover(function() {
+									task.cancel();
+									me.showMenu();
+								}, function() {
+									task.delay(10);
+								});
+								
+								me.menu.on('show', function() {
+									$(me.menu.el.dom).hover(function() {
+										task.cancel();
+									}, function() {
+										task.delay(10);
+									});
+								});
+							}
+						},
 						menu : {
 							shadow : false,
 							plain : true,
+							listeners : {
+								show : function() {
+									this.getComponent(0).refreshQuotaInfo();
+								}
+							},
 							items : [{
+								height : 100,
+								width : 180,
+								style : 'right:10px!important;',
+								bodyPadding : 10,
 								xtype : 'panel',
-								border : false,
-								bodyPadding : 5,
-								items : [{
-									xtype : 'label',
-									html : loginUserName
-								}]
+								html : '<div class="userinfo"><div>' + loginUserName + '</div><div>' + 
+									Utils.msg('MSG_QUOTA_USED')
+								 + '&nbsp;&nbsp;<span usage=1></span></div><div>' + 
+								 	Utils.msg('MSG_QUOTA_TOTAL')
+								 + '&nbsp;&nbsp;<span quota=1></span>' + 
+								 	'<span class="quota-reload">&nbsp;&nbsp;&nbsp;&nbsp;</span>'
+								 + '</div><div class="quota-progressbar-bg"><div class="quota-progress"></div></div></div>',
+								setInfo : function(json) {
+									var usage = json.usage;
+									var quota = json.quota;
+									
+									this.el.query('span[usage]')[0].innerHTML = Ext.util.Format.fileSize(usage);
+									this.el.query('span[quota]')[0].innerHTML = quota == -1 ? Utils.msg('MSG_QUOTA_NO_LIMIT') : Ext.util.Format.fileSize(quota);
+									
+									Ext.fly(this.el.query('div.quota-progress')[0]).setStyle('width', (quota == -1 ? 0 : (usage / quota * 100)) + '%');
+								},
+								refreshQuotaInfo : function() {
+									var me = this;
+									Utils.request_AJAX(Utils.getCDAUrl('UserCenter', 'getUserCapacityInfo'), null, function(resp) {
+										me.setInfo(Ext.decode(resp.responseText));
+									}, true);
+								},
+								listeners : {
+									afterRender : function() {
+										var me = this;
+										$(this.el.dom).find('.quota-reload').attr('original-title', Utils.msg('MSG_REFRESH')).click(function() {
+											me.refreshQuotaInfo();
+										}).tipsy({
+											html : true,
+											gravity : $.fn.tipsy.autoWE
+										});
+										
+										this.refreshQuotaInfo();
+									}
+								}
+							}, '-', {
+								text : Utils.msg('MSG_USER_INFO'),
+								handler : function() {
+									IVS.changeView('user_info');
+								}
+							}, {
+								text : Utils.msg('MSG_RECYCLE_BIN'),
+								handler : function() {
+									IVS.changeView('recycle_bin');
+								}
 							}, '-', {
 								text : Utils.msg('MSG_LOGOUT'),
-								iconCls : 'octicon octicon-log-out',
 								handler : function() {
+									
 									Ext.Msg.confirm(Utils.msg('MSG_LOGOUT'), Utils.msg('MSG_CONFIRM_LOGOUT'), function(btn) {
 				
 										if (btn == 'yes') {

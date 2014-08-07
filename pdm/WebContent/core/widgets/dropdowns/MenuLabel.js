@@ -19,7 +19,6 @@ Ext.define('core.dropdowns.MenuLabel', {
 		
 		if (this.menu) {
 			this.menu.on('show', function() {
-				
 				this.minWidth = me.getWidth();
 				me.addCls('menulabel-hover');
 			});
@@ -34,6 +33,14 @@ Ext.define('core.dropdowns.MenuLabel', {
 		
 		this.callParent();
 	},
+	enableClickShowMenu : true,
+	showMenu : function() {
+		var me = this;
+		me.menu.showAt(me.getPosition()[0], me.getPosition()[1] + me.getHeight() - 1);
+	},
+	hideMenu : function() {
+		this.menu.hide();
+	},
 	afterRender : function() {
 		
 		var me = this;
@@ -46,13 +53,15 @@ Ext.define('core.dropdowns.MenuLabel', {
 		this.el.setStyle('padding-left', '8px');
 		this.el.setStyle('padding-right', '8px');
 		
-		this.el.on('click', function() {
-			if (me.isDisabled()) return;
-			
-			if (me.menu) {
-				me.menu.showAt(me.getPosition()[0], me.getPosition()[1] + me.getHeight() - 1);
-			}
-		});
+		if (this.enableClickShowMenu) {
+			this.el.on('click', function() {
+				if (me.isDisabled()) return;
+				
+				if (me.menu) {
+					me.showMenu();
+				}
+			});
+		}
 		
 		this.callParent();
 	},

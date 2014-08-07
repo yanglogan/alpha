@@ -1,11 +1,10 @@
 /* file explorer css */
 .fe-tree-cell {
 	height: 30px;
-	border-bottom: 1px #F0F0F0 solid;
 }
 .fe-tree-cell-root {
 	background-color: #F3F3F3;
-	border-top: 2px white solid;
+	border-top: 1px white solid;
 	border-bottom: 1px #CCCCCC solid;
 }
 .fe-tree-row-selected {
@@ -32,6 +31,13 @@
 }
 .fe-display-disabled-row {
 	color: #AAAAAA;
+}
+.fe-toolbar-tip-label {
+	padding-left: 4px;
+	padding-right : 4px;
+	background-color: #FFFFE0;
+	border: 1px #FFCA7A solid;
+	border-radius: 2px;
 }
 .fe-display-lock-row {
 	margin-top: -1px;
@@ -98,6 +104,9 @@
 	width: 64px;
 	height: 64px;
 	background-repeat: no-repeat;
+}
+.fe-icon-foldernew {
+	background-image: url(images/folder-new-16.png);
 }
 .fe-icon-folderup {
 	background-image: url(images/folder-up-16.png);
@@ -177,6 +186,16 @@
 }
 .fe-icon-more {
 	background-image: url(images/plus-sign-16.png);
+}
+.fe-icon-reload {
+	background-image: url(images/reload.png);
+	border : 1px transparent solid;
+}
+.fe-icon-reload:hover {
+	background-color : white;
+	border : 1px #999999 solid;
+	border-radius : 999px;
+	cursor : pointer;
 }
 .fe-action-icon {
 	background-repeat: no-repeat;

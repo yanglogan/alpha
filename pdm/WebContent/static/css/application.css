@@ -268,11 +268,11 @@
 }
 
 .x-grid-row-over .x-grid-td {
-	background-color : #FAFAFA;
+	background-color : #effcdc;
 }
 
 .x-grid-row-selected .x-grid-td {
-	background-color : #BCE7F8;
+	background-color : #e5f5d0;
 }
 
 .x-menu-item-active.x-menu-item-text {
@@ -613,4 +613,40 @@ table.x-column td.x-form-item-body {
 
 .x-tab-bar-strip {
 	background-color : #d3d3d3;
+}
+
+.quota-reload {
+	width : 16px;
+	height : 16px;
+	background-image : url(../images/reload.png);
+	background-repeat : no-repeat;
+	margin-left : 4px;
+	border : 1px transparent solid;
+}
+
+.quota-reload:hover {
+	border : 1px #999999 solid;
+	border-radius : 999px;
+	cursor : pointer;
+}
+
+.quota-progressbar-bg {
+	width : 160px;
+	height : 10px;
+	margin-top : 10px;
+	border : 1px #D7D9E0 solid;
+	background-color : #EDEFF4;
+	border-radius : 1px;
+}
+
+.quota-progress {
+	height : 100%;
+	background-color : #3F9A00;
+}
+
+.userinfo {
+	font-weight : normal;
+	font-size : 12px;
+	line-height : 20px;
+	color : #666666;
 }
