@@ -106,6 +106,17 @@
                                 {
                                     "nlsid": 'MSG_AR_REPOSITORY',
                                     "view": 'archival.repository'
+                                },{
+                                    "nlsid": 'MSG_AR_UNFILED_RECORDS',
+                                    "view": 'archival.unfiledrecords'
+                                }
+                            ]
+                        }, {
+                            "nlsid": 'MSG_AR_SEARCH',
+                            "items": [
+                                {
+                                    "nlsid": 'MSG_AR_ARCHIVAL',
+                                    "view": 'archival.search'
                                 }
                             ]
                         }

@@ -7,7 +7,22 @@ function() {
 	FileExplorer.thumbnailRootPath = 'static/images/thumbnail/';
 	FileExplorer.i18nFunc = msg;
 	
+	
 	var tree = Ext.create('FileExplorer.TreePanel', {
+	    tbar : ['选择全宗: ',{
+	        xtype : 'combo',
+	        width : 120,
+	        listeners :  {
+	            afterRender : function() {
+	                var me = this;
+	                me.on('valuechange', function(rec) {
+	                    alert('valuechange');
+	                    tree.store.removeAll();
+	                    tree.store.proxy.extraParams.parentId = rec['text'];
+	                });
+	            }
+	        }
+	    }],
 		bodyBorder : false,
 		collapsible : true,
 		preventHeader : true,
@@ -32,10 +47,10 @@ function() {
 		},
 		store : {
 			model : 'OBJECT',
-			autoLoad : true,
+			autoLoad : false,
 			proxy : {
 				type : 'ajax',
-				url : Utils.getCDAUrl('DocumentLibrary', 'getFolders')
+				url : Utils.getCDAUrl('ArchivalRepository', 'getUnfiledRecordFolder')
 			},
 			listeners: {
 				beforeload : function (store, operation, eOpts) {
@@ -48,7 +63,7 @@ function() {
 				this.getSelectionModel().select(this.getRootNode());
 			},
 			selectionchange : function(tree, records) {
-				store.proxy.extraParams.parentId = records[0].get('sys:node-uuid');
+				store.proxy.extraParams.parentId = records[0] ? records[0].get('sys:node-uuid') : '';
 				store.reload({
 					params : {
 						start : 0,
@@ -96,7 +111,7 @@ function() {
 				root : 'results',
 				totalProperty : 'total'
 			},
-			url : Utils.getCDAUrl('DocumentLibrary', 'getContents')
+			url : Utils.getCDAUrl('ArchivalRepository', 'getUnfiledRecordContents')
 		},
 		sorters : [{
 			property : 'cm:name',
@@ -104,24 +119,54 @@ function() {
 		}]
 	});
 	
-	var actionProvider = Ext.create('component.document.fileexplorer.ActionProvider', {
-		dataUrls : ['data/actions/testactions.xml'],
+	var actionProvider = Ext.create('FileExplorer.ActionProvider', {
+		dataUrls : ['data/actions/archivalrepositoryactions.xml'],
 		getActionIds : function(rec) {
 			if (rec.raw.ISFOLDER) {
-				return ['viewdetail', 'editproperties', 'fdrmoveto', 'fdrcopyto', 'deletefdr'];
+				return ['downloadzip', 'viewdetail', 'editproperties', 'printcatalog', 'fdrmoveto', 'fdrcopyto', 'deletefdr'];
 			}
-			return ['download', 'viewinexplorer', 'editproperties', 'uploadnewversion', 'editoffline', 'docmoveto', 'doccopyto', 'deletedoc'];
+			return ['download', 'editproperties', 'reopenrecord', 'completerecord', 'fileto', 'printcover', 'viewinexplorer', 'uploadnewversion', 'editoffline', 'docmoveto', 'doccopyto', 'deletedoc'];
+		},
+		preconditions : {
+			permit : function(rec, config) {
+			    return rec.raw.PERMISSIONS.indexOf(config[0].textContent) != -1;
+			},
+			state : function(rec, config) {
+			    return rec.data['edm:state'] == config[0].textContent;
+			},
+			type : function(rec, config) {
+			    return rec.raw['TYPE'] == config[0].textContent;
+			}
 		}
 	});
 	
-	var actionExecutor = Ext.create('component.document.fileexplorer.ActionExecutor', {
-		downloadZip : function(action, recs) {
-			alert('download zip,' + recs);
-		},
-		download : function(action, recs) {
-			alert('download!');
-		}
-	});
+	var actionExecutor = Ext.create('FileExplorer.ActionExecutor', {
+        execute : function(action, selection) {
+            
+            switch(action.id) {
+                case 'completerecord' :
+                  Utils.request_AJAX(Utils.getCDAUrl('ArchivalRepository', 'compeleteRecord'), {
+                      objectId : selection.raw['sys:node-uuid']
+                  }, function() {
+                      Utils.success('完成档案成功');
+                      store.reload();
+                  });
+                  break;
+                case 'reopenrecord' :
+                  Utils.request_AJAX(Utils.getCDAUrl('ArchivalRepository', 'reopenRecord'), {
+                      objectId : selection.raw['sys:node-uuid']
+                  }, function() {
+                      Utils.success('档案已打开');
+                      store.reload();
+                  });
+                  break;
+                default :
+                  alert(action.id);
+                  console.log(selection);
+            }
+            
+        }
+    });
 	
 	var objectList = Ext.create('FileExplorer.ObjectList', {
 		region : 'center',
@@ -180,9 +225,20 @@ function() {
 			},
 			showFolders : function() {
 				store.clearFilter();
+			},
+			preProcessItems : function(items){
+			    
+			    items.pop();
+			    var select = items.shift();
+			    while (items.length > 5) {
+			        items.shift();
+			    }
+			    
+                items.unshift(select);
 			}
 		}, bcbar]
 	});
+	
 	
 	return {
 		IVSautoDestroy : false,

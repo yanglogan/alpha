@@ -121,4 +121,6 @@ public interface IAfSession {
 	 */
 	public void setUserQuota(String userLoginId, long quota);
 
+	public IAfClassification createClassificationEx(IAfID parentClassificationId, String classificationName, String typeName) throws AfException;
+
 }

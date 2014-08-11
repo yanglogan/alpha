@@ -1,7 +1,7 @@
 var _PRODUCT_NAME = 'PDM';
 Utils.setTitle(_PRODUCT_NAME);
 Ext.onReady(function() {
-	
+
 	//IVS PRE SETTING.
 	IVS.BASEURL = base;
 	IVS.DEFAULT_VIEW = 'workflow.my_tasks';
@@ -12,7 +12,7 @@ Ext.onReady(function() {
 				win.close();
 			}
 		});
-		
+
 		$('.x-menu').each(function() {
 			var menu = Ext.getCmp($(this).attr('id'));
 			if (menu && menu.hide) {
@@ -23,33 +23,33 @@ Ext.onReady(function() {
 	IVS.afterViewChange = function(viewName) {
 		indicateCurrentChannel();
 	}
-	
+
 	new Ext.util.KeyMap({
 		target : document,
 		binding : [{
 			key : 'f',
 			alt : true,
 			fn : function(e) {
-				
+
 				new Ext.util.DelayedTask(function(){
 					Ext.getCmp('_SEARCH_').focus();
 				}).delay(1);
 			}
 		}]
 	});
-	
+
 	var titlebar = Ext.create('Ext.panel.Panel', {
 		region : 'north',
 		height : 78,
 		border : false,
 		bodyCls : 'titlebar-bg',
-		html : '<table cellspace=0 style="width:100%;padding:1px;" cellpadding=0>' + 
-					'<tr><td style="width:200px;"><img style="margin-right:20px;" src="static/images/logoex.png" /></td><td><span search=1></span></td>' + 
+		html : '<table cellspace=0 style="width:100%;padding:1px;" cellpadding=0>' +
+					'<tr><td style="width:200px;"><img style="margin:0 0 0 4px;" src="static/images/logoex.png" /></td><td><span search=1></span></td>' +
 					'<td align=right style="vertical-align:middle;"><div userbar=1></div></td></tr>'
 					 + '</table>',
 		listeners : {
 			afterRender : function() {
-				
+
 				Ext.create('Ext.toolbar.Toolbar', {
 					renderTo : this.el.query('span[search]')[0],
 					style : 'background-color:transparent;',
@@ -109,7 +109,7 @@ Ext.onReady(function() {
 									}
 								});
 							}
-							
+
 						}
 					}, Ext.create('core.dropdowns.MenuLabel', {
 						html : '<span class="toolbar-label" >基本工程项目</span>',
@@ -134,14 +134,13 @@ Ext.onReady(function() {
 							}]}
 					})]
 				});
-				
+
 				Ext.create('Ext.toolbar.Toolbar', {
 					renderTo : this.el.query('div[userbar]')[0],
 					style : 'background-color:transparent;',
 					width : 400,
 					items : ['->', Ext.create('core.dropdowns.MenuLabel', {
 						needArrow : false,
-						tipsy : Utils.msg('MSG_USERINFO_TIP'),
 						tipsyGravity : 'e',
 						cls : 'hoverable-label',
 						html : '<img style="width:22px;height:22px;" src="static/images/user.png" />',
@@ -154,18 +153,18 @@ Ext.onReady(function() {
 						listeners : {
 							afterRender : function() {
 								var me = this;
-								
+
 								var task = new Ext.util.DelayedTask(function() {
 									me.hideMenu();
 								});
-								
+
 								$(this.el.dom).hover(function() {
 									task.cancel();
 									me.showMenu();
 								}, function() {
 									task.delay(10);
 								});
-								
+
 								me.menu.on('show', function() {
 									$(me.menu.el.dom).hover(function() {
 										task.cancel();
@@ -178,38 +177,33 @@ Ext.onReady(function() {
 						menu : {
 							shadow : false,
 							plain : true,
-							listeners : {
-								show : function() {
-									this.getComponent(0).refreshQuotaInfo();
-								}
-							},
 							items : [{
 								height : 100,
 								width : 180,
 								style : 'right:10px!important;',
 								bodyPadding : 10,
 								xtype : 'panel',
-								html : '<div class="userinfo"><div>' + loginUserName + '</div><div>' + 
+								html : '<div class="userinfo"><div>' + loginUserName + '</div><div>' +
 									Utils.msg('MSG_QUOTA_USED')
-								 + '&nbsp;&nbsp;<span usage=1></span></div><div>' + 
+								 + '&nbsp;&nbsp;<span usage=1></span></div><div>' +
 								 	Utils.msg('MSG_QUOTA_TOTAL')
-								 + '&nbsp;&nbsp;<span quota=1></span>' + 
+								 + '&nbsp;&nbsp;<span quota=1></span>' +
 								 	'<span class="quota-reload">&nbsp;&nbsp;&nbsp;&nbsp;</span>'
 								 + '</div><div class="quota-progressbar-bg"><div class="quota-progress"></div></div></div>',
 								setInfo : function(json) {
 									var usage = json.usage;
 									var quota = json.quota;
-									
+
 									this.el.query('span[usage]')[0].innerHTML = Ext.util.Format.fileSize(usage);
 									this.el.query('span[quota]')[0].innerHTML = quota == -1 ? Utils.msg('MSG_QUOTA_NO_LIMIT') : Ext.util.Format.fileSize(quota);
-									
+
 									Ext.fly(this.el.query('div.quota-progress')[0]).setStyle('width', (quota == -1 ? 0 : (usage / quota * 100)) + '%');
 								},
 								refreshQuotaInfo : function() {
 									var me = this;
-									Utils.request_AJAX(Utils.getCDAUrl('UserCenter', 'getUserCapacityInfo'), null, function(resp) {
-										me.setInfo(Ext.decode(resp.responseText));
-									}, true);
+									$.get(Utils.getCDAUrl('UserCenter', 'getUserCapacityInfo'), function(data){
+										me.setInfo(Ext.decode(data));
+									});
 								},
 								listeners : {
 									afterRender : function() {
@@ -220,7 +214,7 @@ Ext.onReady(function() {
 											html : true,
 											gravity : $.fn.tipsy.autoWE
 										});
-										
+
 										this.refreshQuotaInfo();
 									}
 								}
@@ -237,13 +231,13 @@ Ext.onReady(function() {
 							}, '-', {
 								text : Utils.msg('MSG_LOGOUT'),
 								handler : function() {
-									
+
 									Ext.Msg.confirm(Utils.msg('MSG_LOGOUT'), Utils.msg('MSG_CONFIRM_LOGOUT'), function(btn) {
-				
+
 										if (btn == 'yes') {
-											
+
 											Utils.request_AJAX(Utils.getServiceUrl('authentication', 'logout'), null, function() {
-												
+
 												Ext.getBody().animate({
 													to : {
 														opacity : 0
@@ -255,14 +249,14 @@ Ext.onReady(function() {
 												});
 											});
 										}
-										
+
 									});
 								}
 							}]
 						}
 					})]
 				});
-				
+
 			}
 		},
 		bbar : {
@@ -273,7 +267,7 @@ Ext.onReady(function() {
 			listeners : {
 				beforerender : function() {
 					var me = this;
-					
+
 					Ext.Ajax.request({
 					    url: base + 'data/navi/menus.json',
 					    method : 'GET',
@@ -284,14 +278,14 @@ Ext.onReady(function() {
 					        	if (naviItem.nlsid) {
 					        		naviItem.text = Utils.msg(naviItem.nlsid);
 					        	}
-					        	
+
 					        	Ext.each(naviItem.menuData, function(menuData) {
 					        		Ext.each(menuData, function(column) {
 					        			Ext.each(column.blocks, function(block) {
 						        			if (block.nlsid) {
 								        		block.title = Utils.msg(block.nlsid);
 								        	}
-						        			
+
 						        			Ext.each(block.items, function(item) {
 						        				if (item.nlsid) {
 									        		item.title = Utils.msg(item.nlsid);
@@ -301,7 +295,7 @@ Ext.onReady(function() {
 					        		});
 					        	});
 					        });
-						
+
 							Ext.each(arr, function(naviItem) {
 								me.add(Ext.create('core.navs.NaviItem', {
 									text : '<div class="navi-item-btn-text">' + naviItem.text + '</div>',
@@ -311,21 +305,21 @@ Ext.onReady(function() {
 									menuData : naviItem.menuData
 								}));
 							});
-							
+
 							indicateCurrentChannel();
 					    }
 					});
 				}
 			}
-			
+
 		}
-		
+
 	});
-	
+
 	// ZeroClipboard.config({
 	    // swfPath: 'static/ext/zeroclipboard/ZeroClipboard.swf'
 	// });
-	
+
 	Ext.getBody().setOpacity(0);
 	Ext.getBody().show();
 	Ext.create('Ext.Viewport', {
@@ -341,22 +335,22 @@ Ext.onReady(function() {
 			}
 		}
 	});
-	
+
 });
 
 function indicateCurrentChannel() {
 	var viewName = IVS.getViewName();
-	
+
 	if (Ext.isEmpty(viewName)) {
 		viewName = IVS.DEFAULT_VIEW;
 	}
-	
+
 	var menubar = Ext.getCmp('_MENUBAR');
 	var items = menubar.items.items;
 	for (var i = 0; i < items.length; i++) {
 		var item = items[i];
 		if (!item.findView) continue;
-		
+
 		var m;
 		if ((m = item.findView(viewName))) {
 			menubar.currentMenu = item.id;
@@ -364,9 +358,9 @@ function indicateCurrentChannel() {
 			Utils.setTitle(m.title + ' - ' + _PRODUCT_NAME);
 			break;
 		}
-		
+
 	}
-	
+
 }
 
 function getCurrentProject(){
@@ -438,7 +432,7 @@ $.ajax({
     url : Utils.getCDAUrl('DataDictionary', 'getObjectFields'),
     async : false,
     success : function(data) {
-    	
+
     	Ext.define('OBJECT', {
 		    extend: 'Ext.data.Model',
 		    fields: Ext.decode(data)

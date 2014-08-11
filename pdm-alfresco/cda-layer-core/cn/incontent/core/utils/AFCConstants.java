@@ -7,6 +7,7 @@ package cn.incontent.core.utils;
  **/
 public class AFCConstants {
 
+	public static final String ASPECTS = "ASPECTS";
 	public static final String TYPE = "TYPE";
 	public static final String SIZE = "SIZE";
 	public static final String EXTENSION = "EXTENSION";

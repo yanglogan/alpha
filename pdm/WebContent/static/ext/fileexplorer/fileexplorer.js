@@ -423,7 +423,8 @@ Ext.define('FileExplorer.DetailView', {
 						
 						var actionlink = $('<div class="fe-row-action-link fe-action-icon" style="overflow:hidden;background-image:url(' + 
 							action.icon  + ')' + '" title="' + FileExplorer.i18nFunc(FileExplorer.i18nFunc(action.nlsid)) + '">' + FileExplorer.i18nFunc(action.nlsid) + '</div>');
-						actionlink.click(function() {
+						actionlink.click(function(e) {
+							e.stopPropagation();
 							var sels = rec;
 							if (action.multisupport) {
 								sels = [rec];
@@ -438,7 +439,8 @@ Ext.define('FileExplorer.DetailView', {
 						
 						var actionlink = $('<div class="fe-row-action-link fe-action-icon" style="overflow:hidden;background-image:url(' + 
 							action.icon  + ')' + '" title="' + FileExplorer.i18nFunc(action.nlsid) + '">' + FileExplorer.i18nFunc(action.nlsid) + '</div>');
-						actionlink.click(function() {
+						actionlink.click(function(e) {
+							e.stopPropagation();
 							var sels = rec;
 							if (action.multisupport) {
 								sels = [rec];
@@ -464,7 +466,8 @@ Ext.define('FileExplorer.DetailView', {
 					});
 					var morelink = $('<div class="fe-row-action-link fe-row-action-link-more fe-action-icon fe-icon-more">' + FileExplorer.ObjectList.prototype.i18n.more + '</div>');
 					ele.append(morelink);
-					morelink.click(function() {
+					morelink.click(function(e) {
+						e.stopPropagation();
 						var el = new Ext.Element(this);
 						var ele = $(this);
 						var xy = el.getXY();
@@ -496,13 +499,20 @@ Ext.define('FileExplorer.DetailView', {
 				
 			});
 			
-			$('.fe-clickable').click(function() {
+			$('.fe-clickable').click(function(e) {
+				e.stopPropagation();
 				var ele = $(this);
 				view.actions[ele.attr('action')](view, ele);
 			});
 			
 			//row hover events.
-			$(this.el.dom).find('.x-grid-row').hover(function() {
+			$(this.el.dom).find('.x-grid-cell-row-checker').addClass('fe-row-checker-indicator');
+			
+			$(this.el.dom).find('.x-grid-row').click(function(e) {
+				if (!$(e.target).hasClass('x-grid-row-checker') && !$(e.target).hasClass('x-grid-cell-row-checker')) {
+					e.stopPropagation();
+				}
+			}).hover(function() {
 				if ($(this).find(rowActionSelector).attr('forceshow') == '1') {
 					return;
 				}

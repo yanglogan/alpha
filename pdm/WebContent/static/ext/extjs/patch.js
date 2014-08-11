@@ -193,22 +193,11 @@ Ext.override(Ext.panel.Panel, {
 	}
 });
 
-Ext.override(Ext.grid.Panel, {
+Ext.override(Ext.panel.Table, {
 	contextDetect : false,
 	afterRender : function() {
-		var me = this;
-		var root = this.el.query('.x-grid-view')[0];
-
-		var rootId = root.id;
-		Ext.fly(root).on('click', function(e, ele, o) {
-			if (ele.id == rootId) {
-				//deselect all!
-				me.getSelectionModel().deselectAll();
-			}
-		});
-
+		
 		if (this.contextDetect) {
-
 			//bind dblclick event!
 			var dblclickBtn;
 			Ext.each(this.dockedItems.items, function(bar) {
@@ -264,7 +253,26 @@ Ext.override(Ext.grid.Panel, {
 			this.on('selectionchange', function(selmodel, selected, eOpts) {
 				refreshDynamic(me, selected);
 			});
+			this.fireEvent('selectionchange', this.selModel, this.selModel.getSelection(), null);
 		}
+		
+		this.callParent();
+	}
+});
+
+Ext.override(Ext.grid.Panel, {
+	contextDetect : false,
+	afterRender : function() {
+		var me = this;
+		var root = this.el.query('.x-grid-view')[0];
+
+		var rootId = root.id;
+		Ext.fly(root).on('click', function(e, ele, o) {
+			if (ele.id == rootId) {
+				//deselect all!
+				me.getSelectionModel().deselectAll();
+			}
+		});
 
 		this.callParent();
 	}

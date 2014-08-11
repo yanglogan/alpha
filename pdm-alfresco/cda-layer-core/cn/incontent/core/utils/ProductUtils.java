@@ -72,6 +72,12 @@ public class ProductUtils {
 		
 		NodeRef nf = AFCHelper.getNodeRefById(afSession, id);
 		
+		ArrayList<String> aspects = new ArrayList<String>();
+		map.put(AFCConstants.ASPECTS, aspects);
+		for (QName aspect : ServiceHelper.getNodeService(afSession).getAspects(nf)) {
+			aspects.add(AFCHelper.qNameToString(afSession, aspect));
+		}
+		
 		QName typeQName = ServiceHelper.getNodeService(afSession).getType(nf);
 		String typeName = AFCHelper.qNameToString(afSession, typeQName);
 

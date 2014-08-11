@@ -64,7 +64,7 @@ public class MessageResource {
 		
 		List<BundleWrap> list = new ArrayList<BundleWrap>();
 		if (regex == null) {
-			ResourceBundle rb = bundleMap.get(id);
+			ResourceBundle rb = bundleMap.get(id + getEnvLocale(locale));
 			if (rb != null) {
 				list.add(new BundleWrap(id, rb));
 			}

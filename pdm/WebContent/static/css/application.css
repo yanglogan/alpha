@@ -445,6 +445,15 @@ span.hyperlink:hover {
 	font-family : '微软雅黑', 'Microsoft YaHei', Helvetica, SimSun, arial, freesans, clean, sans-serif!important;
 }
 
+.x-column-header,.x-grid-header-ct {
+	background-color : white;
+	font-weight : normal;
+}
+.x-column-header-over {
+	background-color : #FAFAFA;
+	font-weight : bold;
+}
+
 .x-column-form-item {
 	margin-bottom : 1px!important;
 }
@@ -545,19 +554,6 @@ table.x-column td.x-form-item-body {
 	background-color : #F9F9F9;
 }
 
-/* progressbar */
-.x-progress-default {
-	background-color : #9ee0bc;
-}
-
-.x-progress-default .x-progress-text {
-	text-shadow : white 0px 1px 1px;
-}
-
-.x-progress-default .x-progress-bar-default {
-	background-image : url(../images/progress.gif);
-}
-
 /* window */
 .x-panel-header-default .x-tool-img, .x-window-header-default .x-tool-img, .x-btn-icon-el {
 	background-color : transparent!important;
@@ -640,7 +636,7 @@ table.x-column td.x-form-item-body {
 }
 
 .quota-progress {
-	height : 100%;
+	height : 0%;
 	background-color : #3F9A00;
 }
 

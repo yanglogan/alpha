@@ -13,4 +13,6 @@ public interface IAfClassification extends IAfSysObject {
 
 	public IAfClassification createSubClassification(String classificationName) throws AfException;
 
+	public IAfClassification createSubClassification(String classificationName, String typeName) throws AfException;
+
 }

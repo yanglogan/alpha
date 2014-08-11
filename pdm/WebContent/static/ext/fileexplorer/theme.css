@@ -23,6 +23,12 @@
 	color: white;
 	background-color: #AAAAAA;
 }
+.fe-row-checker-indicator {
+	border-left : 2px transparent solid;
+}
+.fe-row-checker-indicator:hover {
+	border-left : 2px red solid;
+}
 .fe-display-row {
 	color: #333333;
 	margin-top: 5px;
@@ -104,6 +110,9 @@
 	width: 64px;
 	height: 64px;
 	background-repeat: no-repeat;
+}
+.fe-icon-printer {
+	background-image: url(images/printer-16.png);
 }
 .fe-icon-foldernew {
 	background-image: url(images/folder-new-16.png);

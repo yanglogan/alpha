@@ -416,6 +416,31 @@ public class AfSession implements IAfSession {
 
 		return new AfClassification(cs.createCategory(AFCHelper.getNodeRefById(this, parentClassificationId), classificationName), this, null);
 	}
+	
+	@Override
+	public IAfClassification createClassificationEx(IAfID parentClassificationId, String classificationName, String typeName) throws AfException {
+		IAfType type = getType(typeName);
+		if (type == null) {
+			throw new AfException(typeName + " not found");
+		}
+		
+		if (!type.isSubTypeOf("cm:category")) {
+			throw new AfException(typeName + " is not a subtype of cm:category");
+		}
+		
+		NodeRef nf = null;
+		CategoryService cs = ServiceHelper.getCategoryService(this);
+		if (parentClassificationId == null || !parentClassificationId.isValid()) {
+			//create root!
+			nf = cs.createRootCategory(StoreRef.STORE_REF_WORKSPACE_SPACESSTORE, ContentModel.ASPECT_GEN_CLASSIFIABLE, classificationName);
+		} else {
+			nf = cs.createCategory(AFCHelper.getNodeRefById(this, parentClassificationId), classificationName);
+		}
+		
+		ServiceHelper.getNodeService(this).setType(nf, AFCHelper.stringToQName(this, typeName));
+		
+		return new AfClassification(nf, this, null);
+	}
 
 	@Override
 	public IAfClassification createTag(String tag) throws AfException {

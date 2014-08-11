@@ -28,10 +28,8 @@ var userLoginId = '<%=user.getUserLoginId() %>';
 
 <script type="text/javascript" src="${basePath}static/ext/plupload/plupload.full.min.js"></script>
 
-<!--  
 <script type="text/javascript" src="${basePath}static/ext/zeroclipboard/ZeroClipboard.Core.min.js"></script>
 <script type="text/javascript" src="${basePath}static/ext/zeroclipboard/ZeroClipboard.min.js"></script>
--->
 
 <script>
 var JSLIB = ['index'];

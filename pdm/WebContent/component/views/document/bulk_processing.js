@@ -1,5 +1,5 @@
 function() {
-    function getstatic/imagestring(record) {
+    function getstaticimagestring(record) {
         var errorImgSrc = 'this.src="static/images/filetypes/_default.png"';
 
         var extension = record.get('extension');
@@ -28,7 +28,7 @@ function() {
             sortable : false,
             menuDisabled : true,
             renderer : function(value, metaData, record, rowIndex, colIndex, store) {
-                return getstatic/imagestring(record);
+                return getstaticimagestring(record);
             }
         }, {
             text : Utils.msg('MSG_NAME'),

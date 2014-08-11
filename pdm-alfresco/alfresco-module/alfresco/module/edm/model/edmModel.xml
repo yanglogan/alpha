@@ -28,6 +28,12 @@
 
     <types>
 
+        <type name="edm:category">
+            <title>Category</title>
+            <parent>cm:category</parent>
+            <archive>false</archive>
+        </type>
+
         <type name="edm:cfgType">
             <title>Configuration Type</title>
             <parent>cm:cmobject</parent>
@@ -118,7 +124,6 @@
                 <aspect>cm:versionable</aspect>
                 <aspect>edm:internalRef</aspect>
                 <aspect>edm:lifecycle</aspect>
-                <aspect>edm:componentIdentifier</aspect>
             </mandatory-aspects>
         </type>
 
@@ -178,7 +183,6 @@
                 <aspect>cm:titled</aspect>
                 <aspect>edm:internalRef</aspect>
                 <aspect>edm:lifecycle</aspect>
-                <aspect>edm:componentIdentifier</aspect>
                 <aspect>edm:specTypes</aspect>
                 <aspect>edm:governingControl</aspect>
             </mandatory-aspects>
@@ -809,13 +813,6 @@
             </mandatory-aspects>
         </type>
 
-        <type name="edm:category">
-            <title>Category</title>
-            <parent>cm:category</parent>
-            <archive>false</archive>
-
-        </type>
-
         <type name="edm:organization">
             <title>Organization</title>
             <parent>cm:authorityContainer</parent>
@@ -954,6 +951,15 @@
             </properties>
         </type>
 
+        <type name="rms:site">
+            <title>Site</title>
+            <parent>edm:folder</parent>
+
+            <mandatory-aspects>
+                <aspect>cm:titled</aspect>
+            </mandatory-aspects>
+        </type>
+
         <type name="rms:managementContainer">
             <title>Management Container</title>
             <parent>edm:folder</parent>
@@ -971,6 +977,11 @@
             <mandatory-aspects>
                 <aspect>rms:managementRoot</aspect>
             </mandatory-aspects>
+        </type>
+
+        <type name="rms:unfiledRecordContainer">
+            <title>Unfiled Record Container</title>
+            <parent>rms:managementContainer</parent>
         </type>
 
         <type name="rms:recordCategory">
@@ -1207,26 +1218,6 @@
                     <title>Template Reference</title>
                     <type>d:text</type>
                     <multiple>true</multiple>
-                </property>
-            </properties>
-        </aspect>
-
-        <aspect name="edm:componentIdentifier">
-            <title>Component Identifier</title>
-            <properties>
-                <property name="edm:identifier">
-                   <title>Identifier</title>
-                   <type>d:text</type>
-                   <index enabled="true">
-                      <atomic>true</atomic>
-                      <stored>false</stored>
-                      <tokenised>false</tokenised>
-                   </index>
-                </property>
-                <property name="edm:numberingApplied">
-                    <title>Numbering Applied</title>
-                    <type>d:boolean</type>
-                       <default>false</default>
                 </property>
             </properties>
         </aspect>
@@ -1575,9 +1566,33 @@
             </associations>
         </aspect>
 
+        <aspect name="rms:componentIdentifier">
+            <title>Component Identifier</title>
+            <properties>
+                <property name="rms:identifier">
+                   <title>Identifier</title>
+                   <type>d:text</type>
+                   <index enabled="true">
+                      <atomic>true</atomic>
+                      <stored>false</stored>
+                      <tokenised>false</tokenised>
+                   </index>
+                </property>
+                <property name="rms:numberingApplied">
+                    <title>Numbering Applied</title>
+                    <type>d:boolean</type>
+                       <default>false</default>
+                </property>
+            </properties>
+
+            <mandatory-aspects>
+                <aspect>rms:filePlanComponent</aspect>
+            </mandatory-aspects>
+        </aspect>
+
         <!-- edm:filePlanComponent is a marker interface for all things -->
         <aspect name="rms:filePlanComponent">
-            <title>Library Component</title>
+            <title>Component Marker</title>
             <properties>
                 <property name="rms:rootNodeRef">
                     <title>Root node reference</title>
@@ -1718,11 +1733,19 @@
             <properties>
                 <property name="rms:recordOriginatingUserId">
                     <type>d:text</type>
-                      <protected>true</protected>
+                    <protected>true</protected>
                 </property>
                 <property name="rms:recordOriginatingOrganization">
-                       <type>d:text</type>
-                      <protected>true</protected>
+                    <type>d:text</type>
+                    <protected>true</protected>
+                </property>
+                <property name="rms:recordOriginatingCreationDate">
+                    <type>d:date</type>
+                    <protected>true</protected>
+                </property>
+                <property name="rms:recordOriginatingLocation">
+                    <type>d:any</type>
+                    <protected>true</protected>
                 </property>
             </properties>
         </aspect>

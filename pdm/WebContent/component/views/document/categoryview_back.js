@@ -22,7 +22,7 @@ function() {
 		displayField : 'cm:name',
 		autoScroll : true,
 		root : {
-			'cm:name' : msg('MSG_REPOSITORY'),
+			'cm:name' : msg('MSG_CATEGORIES'),
 			expanded : true
 		},
 		getCurrentNode : function() {
@@ -32,10 +32,9 @@ function() {
 		},
 		store : {
 			model : 'OBJECT',
-			autoLoad : true,
 			proxy : {
 				type : 'ajax',
-				url : Utils.getCDAUrl('DocumentLibrary', 'getFolders')
+				url : Utils.getCDAUrl('ConfigCategory', 'getCategories')
 			},
 			listeners: {
 				beforeload : function (store, operation, eOpts) {
@@ -63,25 +62,6 @@ function() {
 					rec = rec.parentNode;
 				}
 				
-				new Ext.util.DelayedTask(function() {
-					bcbar.clearPath();
-					Ext.each(arr, function(r) {
-						bcbar.addPathItem(r.get('cm:name'), r);
-					});
-				}).delay(10);
-			}
-		}
-	});
-	
-	var bcbar = Ext.create('FileExplorer.BreadCrumbToolbar', {
-		dock : 'top',
-		beforePathClicked : function(data) {
-			tree.getSelectionModel().select(data);
-		},
-		upfolder : function() {
-			var rec = tree.getCurrentNode();
-			if (rec.parentNode) {
-				tree.getSelectionModel().select(rec.parentNode);
 			}
 		}
 	});
@@ -96,7 +76,10 @@ function() {
 				root : 'results',
 				totalProperty : 'total'
 			},
-			url : Utils.getCDAUrl('DocumentLibrary', 'getContents')
+			url : Utils.getCDAUrl('ConfigCategory', 'getContents'),
+			extraParams : {
+				path : '/ROOT/'
+			}
 		},
 		sorters : [{
 			property : 'cm:name',
@@ -135,25 +118,7 @@ function() {
 		defaultActions : {
 			onObjectClick : function(rec) {
 				if (rec.raw.ISFOLDER) {
-					//TODO
-					var currentNode = tree.getCurrentNode();
-					
-					currentNode.expand(false, function() {
-						var child = currentNode.findChild('sys:node-uuid', rec.raw['sys:node-uuid']);
-						
-						if (child) {
-							tree.getSelectionModel().select(child);
-						} else {
-							tree.store.reload({
-								node : currentNode,
-								callback : function() {
-									node.expand();
-									child = node.findChild('sys:node-uuid', rec.raw['sys:node-uuid']);
-									tree.getSelectionModel().select(child);
-								}
-							});
-						}
-					});
+					alert('show detail!');
 					
 				} else if (rec.raw.ISCONTENT && rec.raw.SIZE && rec.raw.PERMISSIONS.indexOf('ReadContent') != -1) {
 					Utils.goUrl(Utils.getCDAUrl('_CONTENT', 'getContent'), {
@@ -169,8 +134,11 @@ function() {
 		store : store,
 		dockedItems : [{
 			xtype : 'feactiontoolbar',
-			cls : 'fe-toolbar fe-toolbar-top',
 			dock : 'top',
+			preProcessItems : function(items) {
+				items[1].hidden = items[2].hidden = true;
+				console.log(items);
+			},
 			hideFolders : function() {
 				store.filter({
 					filterFn : function(item) {
@@ -181,7 +149,7 @@ function() {
 			showFolders : function() {
 				store.clearFilter();
 			}
-		}, bcbar]
+		}]
 	});
 	
 	return {
