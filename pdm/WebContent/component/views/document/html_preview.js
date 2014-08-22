@@ -40,21 +40,18 @@ function(){
                         width : 200,
                         items : [{
                             btnType : 'small',
-                            textColor : 'black',
                             text : '喜欢',
                             handler : function() {
                                 alert()
                             }
                         }, '-', {
                             btnType : 'small',
-                            textColor : 'black',
                             text : '收藏',
                             handler : function() {
                                 alert()
                             }
                         }, '-', {
                             btnType : 'small',
-                            textColor : 'black',
                             text : '评论',
                             handler : function() {
                                 alert()
@@ -64,7 +61,6 @@ function(){
                     Ext.create('Ext.button.Button', {
                         renderTo : this.el.query('div[download]')[0],
                         btnType : 'small',
-                        textColor : 'black',
                         text : '下载',
                         handler : function() {
                             Utils.goUrl(Utils.getCDAUrl('_CONTENT', 'getTextContent'), {

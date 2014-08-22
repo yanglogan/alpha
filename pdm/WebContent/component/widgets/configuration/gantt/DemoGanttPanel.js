@@ -133,7 +133,8 @@ Ext.define("component.configuration.gantt.DemoGanttPanel", {
 
 			// Define the buttons that are available for user interaction
 			tbar : new component.configuration.gantt.Toolbar({
-				gantt : this
+				gantt : this,
+				title : 'DEMO GANTT'
 			})
 		});
 

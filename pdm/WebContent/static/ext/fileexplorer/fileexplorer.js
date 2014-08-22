@@ -1,9 +1,17 @@
 var FileExplorer = FileExplorer || {};
 FileExplorer.currentUserName = '';
 FileExplorer.thumbnailRootPath = '/';
-FileExplorer.i18nFunc = function(nlsid) {
-	return nlsid;
-}
+FileExplorer.iconRootPath = '/';
+
+FileExplorer.i18n = {
+	name : 'Name',
+	title : 'Title',
+	createdby : 'Created By',
+	status : 'Status',
+	size : 'Size',
+	datemodified : 'Date Modified',
+	operation : 'Operation'
+};
 
 Object.size = function(obj) {
     var size = 0, key;
@@ -66,11 +74,16 @@ Ext.define('FileExplorer.ObjectList', {
 	extend : 'Ext.panel.Panel',
 	xtype : 'feobjectlist',
 	___UCODE : 'feobjectlist',
+	defaultView : 'detailed',
 	i18n : {
 		more : 'More...'
 	},
+	viewConfigs : {
+		//USAGE:you can specify any custom configs for each view here.
+	},
 	actionProvider : {//note this object should be instance of FileExplorer.ActionProvider
-		getValidActions : function() {return [];}
+		getValidActions : function() {return [];},
+		i18nFunc : function(nlsid) {return nlsid;}
 	},
 	actionExecutor : null,//note this object should be instance of FileExplorer.ActionExecutor
 	defaultActions : {
@@ -95,6 +108,9 @@ Ext.define('FileExplorer.ObjectList', {
 		
 		if (this.store) {
 			var actionProvider = this.actionProvider;
+			if (actionProvider == null) {
+				this.actionProvider = actionProvider = Ext.create('FileExplorer.ActionProvider');
+			}
 			this.store.on('refresh', function() {
 				this.each(function(rec) {
 					var actionlist = actionProvider.getValidActions(rec);
@@ -120,7 +136,7 @@ Ext.define('FileExplorer.ObjectList', {
     		displayInfo : true
 		});
 		
-		this.items = this.GET_VIEW('detailed');
+		this.items = this.GET_VIEW(this.defaultView);
 		
 		this.callParent();
 	},
@@ -134,8 +150,7 @@ Ext.define('FileExplorer.ObjectList', {
 		if (selModel) {
 			selModel.deselectAll();
 		}
-		
-		this.removeAll(false);
+		this.removeAll(true);
 		
 		if (p != null) {
 			this.add(p);
@@ -146,29 +161,27 @@ Ext.define('FileExplorer.ObjectList', {
 		detailed : 'FileExplorer.DetailViewPanel',
 		table : 'FileExplorer.TableViewPanel'
 	},
-	_VIEWS : {},
 	GET_VIEW : function(viewName) {
-		if (this._VIEWS[viewName]) {
-			return this._VIEWS[viewName];
-		}
-		
 		var xtype = this._VIEWTYPES[viewName];
 		if (!xtype) {
 			alert('no view type registered for:' + viewName);
 			return null;
 		}
 		
-		var panel = Ext.create(this._VIEWTYPES[viewName], {
+		var cfg = {};
+		if (this.viewConfigs && this.viewConfigs[viewName]) {
+			cfg = this.viewConfigs[viewName];
+		}
+		
+		var panel = Ext.create(this._VIEWTYPES[viewName], Ext.applyIf({
 			store : this.store,
 			oList : this
-		});
+		}, cfg));
 		
 		var me = this;
 		panel.on('selectionchange', function(m, recs) {
 			me.fireEvent('selectionchange', recs);
 		});
-		
-		this._VIEWS[viewName] = panel;
 		
 		return panel;
 	},
@@ -182,8 +195,13 @@ Ext.define('FileExplorer.DetailViewPanel', {
 	extend : 'Ext.grid.Panel',
 	xtype : 'fedetailviewpanel',
 	stripeRows : false,
-	selModel : Ext.create('Ext.selection.CheckboxModel'),
 	hideHeaders : true,
+	initComponent : function() {
+		this.selModel = Ext.create('Ext.selection.CheckboxModel', {
+			showHeaderCheckbox : false
+		});
+		this.callParent();
+	},
 	columns : [{
 		xtype : 'felockcolumn'
 	}, {
@@ -194,34 +212,64 @@ Ext.define('FileExplorer.DetailViewPanel', {
 		flex : 1
 	}, {
 		//action column
-		xtype : 'fedetailactioncolumn'
+		xtype : 'femultirowactioncolumn'
 	}],
-	viewType : 'fedetailview'
+	viewType : 'fedetailview',
+	afterRender : function() {
+		this.body.setStyle('border-top-width', '0px');
+		this.body.setStyle('border-bottom-width', '0px');
+		this.callParent();
+	}
 });
-//TODO
+
 Ext.define('FileExplorer.TableViewPanel', {
 	extend : 'Ext.grid.Panel',
 	xtype : 'fetableviewpanel',
 	stripeRows : false,
-	selModel : Ext.create('Ext.selection.CheckboxModel'),
+	viewType : 'fecommonview',
 	hideHeaders : false,
+	initComponent : function() {
+		this.selModel = Ext.create('Ext.selection.CheckboxModel', {
+			showHeaderCheckbox : false
+		});
+		this.callParent();
+	},
 	columns : [{
-		width : 40,
-		renderer : function() {
-			return 'icon';
-		}
+		xtype : 'felockcolumn'
+	}, {
+		xtype : 'feiconcolumn'
 	}, {
 		width : 200,
+		xtype : 'fenamecolumn',
 		dataIndex : 'cm:name',
-		text : '名称'
+		i18nkey : 'name'
 	}, {
 		width : 200,
+		xtype : 'fedisplaycolumn',
 		dataIndex : 'cm:title',
-		text : '标题'
+		i18nkey : 'title'
 	}, {
-		width : 200,
-		dataIndex : 'cm:description',
-		text : '说明'
+		width : 100,
+		xtype : 'feusercolumn',
+		dataIndex : 'cm:creator',
+		i18nkey : 'createdby'
+	}, {
+		width : 155,
+		xtype : 'fedatetimecolumn',
+		dataIndex : 'cm:modified',
+		i18nkey : 'datemodified'
+	}, {
+		width : 80,
+		xtype : 'fecolumn',
+		dataIndex : 'edm:state',
+		i18nkey : 'status'
+	}, {
+		width : 80,
+		xtype : 'fesizecolumn',
+		i18nkey : 'size'
+	}, {
+		xtype : 'feactioncolumn',
+		i18nkey : 'operation'
 	}]
 });
 
@@ -229,16 +277,66 @@ Ext.define('FileExplorer.TableViewPanel', {
 Ext.define('FileExplorer.Column', {
 	extend : 'Ext.grid.column.Column',
 	xtype : 'fecolumn',
+	draggable : false,
 	menuDisabled : true,
-	sortable : false
+	initComponent : function() {
+		if (this.i18nkey) {
+			this.setText(FileExplorer.i18n[this.i18nkey]);
+		}
+		this.sortable = false;
+		this.callParent();
+	}
 });
 
-Ext.define('FileExplorer.DetailActionColumn', {
+Ext.define('FileExplorer.SizeColumn', {
 	extend : 'FileExplorer.Column',
-	xtype : 'fedetailactioncolumn',
+	xtype : 'fesizecolumn',
+	align : 'right',
+	renderer : function(value, md, rec, rowIdx, colIdx, store, view) {
+		if (!rec.raw.ISCONTENT || !rec.raw.SIZE) return '';
+		return Ext.util.Format.fileSize(rec.raw.SIZE);
+	}
+});
+
+Ext.define('FileExplorer.ActionColumn', {
+	extend : 'FileExplorer.Column',
+	xtype : 'feactioncolumn',
 	minWidth : 200,
 	renderer : function(value, md, rec, rowIdx, colIdx, store, view) {
-		return '<div class="fe-row-actions fe-hide-show" idx="' + rowIdx + '"></div>';
+		return '<div class="fe-row-actions fe-row-icon-actions fe-hide-show" idx="' + rowIdx + '"></div>';
+	}
+});
+
+Ext.define('FileExplorer.MultiRowActionColumn', {
+	extend : 'FileExplorer.Column',
+	xtype : 'femultirowactioncolumn',
+	minWidth : 200,
+	renderer : function(value, md, rec, rowIdx, colIdx, store, view) {
+		return '<div class="fe-row-actions fe-hide-show fe-row-actions-multi" idx="' + rowIdx + '"></div>';
+	}
+});
+
+Ext.define('FileExplorer.NameColumn', {
+	extend : 'FileExplorer.Column',
+	xtype : 'fenamecolumn',
+	renderer : function(value, md, rec, rowIdx, colIdx, store, view) {
+		return '<span title="' + value + '" action="objectclick" rowidx=' + rowIdx + ' class="fe-clickable">' + value + '</span>';
+	}
+});
+
+Ext.define('FileExplorer.UserColumn', {
+	extend : 'FileExplorer.Column',
+	xtype : 'feusercolumn',
+	renderer : function(value, md, rec, rowIdx, colIdx, store, view) {
+		return '<span title="' + value + '" action="user" user=' + value + ' class="fe-clickable">' + value + '</span>';
+	}
+});
+
+Ext.define('FileExplorer.DisplayColumn', {
+	extend : 'FileExplorer.Column',
+	xtype : 'fedisplaycolumn',
+	renderer : function(value, md, rec, rowIdx, colIdx, store, view) {
+		return '<span title="' + value + '">' + value + '</span>';
 	}
 });
 
@@ -357,11 +455,53 @@ Ext.define('FileExplorer.ThumbnailColumn', {
 	}
 });
 
+Ext.define('FileExplorer.DateTimeColumn', {
+	extend : 'FileExplorer.Column',
+	xtype : 'fedatetimecolumn',
+	renderer : function(value, md, rec, rowIdx, colIdx, store, view) {
+		return FileExplorer.parseDateStr(value, 'Y-m-d H:i:s');
+	}
+});
+
+Ext.define('FileExplorer.DateColumn', {
+	extend : 'FileExplorer.Column',
+	xtype : 'fedatecolumn',
+	renderer : function(value, md, rec, rowIdx, colIdx, store, view) {
+		return FileExplorer.parseDateStr(value, 'Y-m-d');
+	}
+});
+
+Ext.define('FileExplorer.ShortDateColumn', {
+	extend : 'FileExplorer.Column',
+	xtype : 'feshortdatecolumn',
+	renderer : function(value, md, rec, rowIdx, colIdx, store, view) {
+		return FileExplorer.parseDateStr(value, 'Y-m-d');
+	}
+});
+
+Ext.define('FileExplorer.IconColumn', {
+	extend : 'FileExplorer.Column',
+	xtype : 'feiconcolumn',
+	text : 'F',
+	maxWidth : 40,
+	resizable : false,
+	renderer : function(value, md, rec, rowIdx, colIdx, store, view) {
+		var errorImgSrc = 'this.src="' + FileExplorer.iconRootPath + '_default.png"';
+		var extension = rec.raw.EXTENSION;
+		if (rec.raw.ISFOLDER) {
+			extension = 'folder';
+		}
+	
+		return '<img class="icon16" src="' + FileExplorer.iconRootPath + extension + '.png" onerror=' + errorImgSrc + '>';
+	}
+});
+
 Ext.define('FileExplorer.LockColumn', {
 	extend : 'FileExplorer.Column',
 	xtype : 'felockcolumn',
-	maxWidth : 25,
+	maxWidth : 30,
 	resizable : false,
+	text : 'S',
 	i18n : {
 		editing : 'You are editing this file.',
 		lockedby : 'Locked by {lockOwner}'
@@ -384,9 +524,9 @@ Ext.define('FileExplorer.LockColumn', {
 });
 
 //================GRID VIEWS==========================
-Ext.define('FileExplorer.DetailView', {
+Ext.define('FileExplorer.TableView', {
 	extend : 'Ext.view.Table',
-	xtype : 'fedetailview',
+	xtype : 'fetableview',
 	actions : {
 		objectclick : function(view, ele) {
 			var grid = view.ownerCt;
@@ -398,107 +538,21 @@ Ext.define('FileExplorer.DetailView', {
 			grid.oList.defaultActions.onUserClick(ele.attr('user'));
 		}
 	},
+	stripeRows : false,
 	afterRender : function() {
 		var view = this;
 		var grid = this.ownerCt;
 		var rowActionSelector = '.fe-row-actions';
 		
+		var actionProvider = grid.ownerCt.actionProvider;
 		var actionExecutor = grid.ownerCt.actionExecutor;
 		if (!actionExecutor) {
 			actionExecutor = {
 				execute : Ext.emptyFn
 			};
 		}
+		
 		view.on('refresh', function() {
-			
-			//TODO add record actions 1st!
-			$(this.el.dom).find(rowActionSelector).each(function() {
-				var ele = $(this);
-				var rec = grid.store.getAt(parseInt(ele.attr('IDX')));
-				var actionlist = rec.ACTIONLIST;
-				
-				if (actionlist.length < 4) {
-					Ext.each(actionlist, function(action, idx) {
-						if(idx >= 4) return false;
-						
-						var actionlink = $('<div class="fe-row-action-link fe-action-icon" style="overflow:hidden;background-image:url(' + 
-							action.icon  + ')' + '" title="' + FileExplorer.i18nFunc(FileExplorer.i18nFunc(action.nlsid)) + '">' + FileExplorer.i18nFunc(action.nlsid) + '</div>');
-						actionlink.click(function(e) {
-							e.stopPropagation();
-							var sels = rec;
-							if (action.multisupport) {
-								sels = [rec];
-							}
-							actionExecutor.execute(action, sels);
-						});
-						ele.append(actionlink);
-					});
-				} else {
-					Ext.each(actionlist, function(action, idx) {
-						if(idx >= 3) return false;
-						
-						var actionlink = $('<div class="fe-row-action-link fe-action-icon" style="overflow:hidden;background-image:url(' + 
-							action.icon  + ')' + '" title="' + FileExplorer.i18nFunc(action.nlsid) + '">' + FileExplorer.i18nFunc(action.nlsid) + '</div>');
-						actionlink.click(function(e) {
-							e.stopPropagation();
-							var sels = rec;
-							if (action.multisupport) {
-								sels = [rec];
-							}
-							actionExecutor.execute(action, sels);
-						});
-						ele.append(actionlink);
-					});
-					
-					var menuitems = [];
-					Ext.each(actionlist.splice(3), function(action) {
-						menuitems.push({
-							text : FileExplorer.i18nFunc(action.nlsid),
-							icon : action.icon,
-							handler : function() {
-								var sels = rec;
-								if (action.multisupport) {
-									sels = [rec];
-								}
-								actionExecutor.execute(action, sels);
-							}
-						});
-					});
-					var morelink = $('<div class="fe-row-action-link fe-row-action-link-more fe-action-icon fe-icon-more">' + FileExplorer.ObjectList.prototype.i18n.more + '</div>');
-					ele.append(morelink);
-					morelink.click(function(e) {
-						e.stopPropagation();
-						var el = new Ext.Element(this);
-						var ele = $(this);
-						var xy = el.getXY();
-						xy[1] = xy[1] + el.getHeight() - 1;
-						Ext.create('Ext.menu.Menu', {
-							id : Ext.id() + 'fe-row-action-menu',
-							shadow : false,
-							width : el.getWidth(),
-							style : 'border-radius:0px;box-shadow:0px 0px 0px;border:1px #CCCCCC solid;',
-							listeners : {
-								show : function() {
-									ele.addClass('fe-row-action-link-over');
-									ele.parent(rowActionSelector).attr('forceshow', '1');
-								},
-								hide : function() {
-									ele.removeClass('fe-row-action-link-over');
-									ele.parent(rowActionSelector).removeAttr('forceshow');
-								},
-								destroy : function() {
-									ele.removeClass('fe-row-action-link-over');
-									ele.parent(rowActionSelector).removeAttr('forceshow');
-								}
-							},
-							items : menuitems
-						}).showAt(xy);
-						
-					});
-				}
-				
-			});
-			
 			$('.fe-clickable').click(function(e) {
 				e.stopPropagation();
 				var ele = $(this);
@@ -506,10 +560,9 @@ Ext.define('FileExplorer.DetailView', {
 			});
 			
 			//row hover events.
-			$(this.el.dom).find('.x-grid-cell-row-checker').addClass('fe-row-checker-indicator');
-			
+			$(this.el.dom).find('.x-grid-cell-row-checker').addClass('fe-row-checker-indicator').addClass('fe-grid-row');
 			$(this.el.dom).find('.x-grid-row').click(function(e) {
-				if (!$(e.target).hasClass('x-grid-row-checker') && !$(e.target).hasClass('x-grid-cell-row-checker')) {
+				if (!$(e.target).hasClass('x-grid-row-checker')) {
 					e.stopPropagation();
 				}
 			}).hover(function() {
@@ -518,10 +571,6 @@ Ext.define('FileExplorer.DetailView', {
 				}
 				
 				$(this).find('.fe-hide-show').show();
-				var res = $('*[id$=fe-row-action-menu]');
-				if (res.length != 0) {
-					Ext.getCmp(res.attr('id')).destroy();
-				}
 				//hide all
 				$(this).parent().find(rowActionSelector).hide();
 				
@@ -534,12 +583,126 @@ Ext.define('FileExplorer.DetailView', {
 				$(this).find('.fe-hide-show').hide();
 				$(this).find(rowActionSelector).hide();
 			});
+			
+			//TODO add record actions 1st!
+			$(this.el.dom).find(rowActionSelector).each(function() {
+				var ele = $(this);
+				var rec = grid.store.getAt(parseInt(ele.attr('IDX')));
+				var actionlist = rec.ACTIONLIST;
+				
+				var commonactions;
+				if (actionlist.length <= 4) {
+					commonactions = actionlist.slice(0, 4);
+				} else {
+					commonactions = actionlist.slice(0, 3);
+				}
+				
+				Ext.each(commonactions, function(action, idx) {
+					var actionlink = $(view.getAcionElement(action, actionProvider));
+					actionlink.click(function(e) {
+						e.stopPropagation();
+						var sels = rec;
+						if (action.multisupport) {
+							sels = [rec];
+						}
+						actionExecutor.execute(action, sels);
+					});
+					ele.append(actionlink);
+				});
+				var extraactions = actionlist.slice(3);
+				if (extraactions.length > 1) {
+					var menuitems = [];
+					Ext.each(extraactions, function(action) {
+						menuitems.push({
+							text : actionProvider.i18nFunc(action.nlsid),
+							icon : action.icon,
+							handler : function() {
+								var sels = rec;
+								if (action.multisupport) {
+									sels = [rec];
+								}
+								actionExecutor.execute(action, sels);
+							}
+						});
+					});
+					
+					var morelink = $(view.getMoreActionElement());
+					ele.append(morelink);
+					
+					var menu = Ext.create('Ext.menu.Menu', {
+						id : Ext.id() + 'fe-row-action-menu',
+						shadow : false,
+						style : 'border-radius:0px;box-shadow:0px 0px 0px;border:1px #CCCCCC solid;',
+						items : menuitems,
+						listeners : {
+							show : function() {
+								morelink.addClass('fe-row-action-link-over');
+								morelink.parent(rowActionSelector).attr('forceshow', '1');
+							},
+							hide : function() {
+								morelink.removeClass('fe-row-action-link-over');
+								morelink.parent(rowActionSelector).removeAttr('forceshow');
+							},
+							afterRender : function() {
+								$(this.el.dom).hover(function() {
+									task.cancel();
+								}, function() {
+									task.delay(10);
+								});
+							}
+						}
+					})
+					var task = new Ext.util.DelayedTask(function(){
+						menu.hide();
+					});
+					
+					morelink.hover(function() {
+						task.cancel();
+						if (menu.isVisible()) return;
+						var ele = Ext.fly(this);
+						menu.setWidth(ele.getWidth());
+						var xy = ele.getXY();
+						xy[1] = xy[1] + ele.getHeight() - 1;
+						menu.showAt(xy);
+					}, function() {
+						task.delay(10);
+					});
+				}
+				
+			});
 
 		});
 		
 		view.fireEvent('refresh');
-		
 		this.callParent();
+	}
+});
+
+Ext.define('FileExplorer.DetailView', {
+	extend : 'FileExplorer.TableView',
+	xtype : 'fedetailview',
+	getAcionElement : function(action, actionProvider) {
+		return '<div class="fe-row-action-link fe-action-icon" style="overflow:hidden;background-image:url(' + 
+			action.icon  + ')' + '" title="' + actionProvider.i18nFunc(action.nlsid) + '">' + 
+			actionProvider.i18nFunc(action.nlsid) + '</div>'
+	},
+	getMoreActionElement : function() {
+		return '<div class="fe-row-action-link fe-row-action-link-more fe-action-icon fe-icon-more">' + 
+			FileExplorer.ObjectList.prototype.i18n.more + '</div>';
+	}
+});
+
+Ext.define('FileExplorer.CommonView', {
+	extend : 'FileExplorer.TableView',
+	xtype : 'fecommonview',
+	getAcionElement : function(action, actionProvider) {
+		return '<span class="fe-row-action-link fe-action-icon" style="overflow:hidden;background-image:url(' + 
+			action.icon  + ')' + '" title="' + actionProvider.i18nFunc(action.nlsid) + '"></span>';
+	},
+	getMoreActionElement : function() {
+		return '<label class="fe-row-action-link fe-row-action-link-more fe-action-icon fe-icon-more" title="'+ 
+			FileExplorer.ObjectList.prototype.i18n.more +
+			'"></label>';
 	}
 });
 
@@ -557,6 +720,9 @@ Ext.define('FileExplorer.BaseObject', {
 Ext.define('FileExplorer.ActionProvider', {
 	extend : 'FileExplorer.BaseObject',
 	dataUrls : [],
+	i18nFunc : function(nlsid) {
+		return nlsid;
+	},
 	getActionIds : function(rec) {},
 	preconditions : {},//key-ref value:function(rec, configElement[a jquery object])
 	registerPrecondition : function(ref, precondition) {
@@ -704,8 +870,7 @@ Ext.define('FileExplorer.ActionToolbar', {
 	},
 	cls : 'fe-toolbar',
 	defaults : {
-		btnType : 'label',
-		textColor : 'black'
+		btnType : 'label'
 	},
 	getObjectList : function() {
 		return this.ownerCt;
@@ -733,11 +898,22 @@ Ext.define('FileExplorer.ActionToolbar', {
 		});
 	},
 	changeView : function(viewName) {
+		//try 2 init.
+		if (this._CURRENT_VIEW == null) {
+			this._CURRENT_VIEW = this.getObjectList().defaultView;
+		}
+		
+		if (this._CURRENT_VIEW == viewName) return;
+		
+		this._CURRENT_VIEW = viewName;
 		this.getObjectList().changeView(viewName);
 	},
+	//private
+	_CURRENT_VIEW : null,
 	//public
 	hideFolders : function() {},
 	showFolders : function() {},
+	doUpload : function() {},
 	initComponent : function() {
 		var me = this;
 		var i18n = Ext.getClass(this).prototype.i18n;
@@ -745,7 +921,6 @@ Ext.define('FileExplorer.ActionToolbar', {
 		this.sortableAttrs = Ext.applyIf({
 			'cm:name' : i18n.sort.name,
 			'cm:title' : i18n.sort.title,
-			'cm:description' : i18n.sort.desc,
 			'cm:created' : i18n.sort.created
 		}, this.sortableAttrs);
 		
@@ -761,7 +936,7 @@ Ext.define('FileExplorer.ActionToolbar', {
 		}
 		
 		var sortBtn = Ext.create('Ext.button.Button', Ext.applyIf({
-			text : i18n.sort.name,
+			text : this.sortableAttrs[this.sortAttr],
 			menu : sortmenu
 		}, me.defaults));
 		this.sortBtn = sortBtn;
@@ -852,7 +1027,7 @@ Ext.define('FileExplorer.ActionToolbar', {
 			text : i18n.action.upload,
 			iconCls : 'fe-icon fe-icon-action-upload',
 			handler : function() {
-				//TODO
+				me.doUpload();
 			}
 		}, {
 			text : i18n.select.selected,
@@ -864,6 +1039,7 @@ Ext.define('FileExplorer.ActionToolbar', {
 						return;
 					}
 					var btn = this;
+					var actionProvider = me.getObjectList().actionProvider;
 					me.getObjectList().on('selectionchange', function(recs) {
 						btn.setDisabled(recs.length == 0);
 						if (btn.menu) {
@@ -897,7 +1073,7 @@ Ext.define('FileExplorer.ActionToolbar', {
 							var menus = [];
 							Ext.each(arr, function(action) {
 								menus.push({
-									text : FileExplorer.i18nFunc(action.nlsid),
+									text : actionProvider.i18nFunc(action.nlsid),
 									icon : action.icon,
 									handler : function() {
 										me.getObjectList().actionExecutor.execute(action, recs);
@@ -915,8 +1091,13 @@ Ext.define('FileExplorer.ActionToolbar', {
 									me.getObjectList().getSelectionModel().deselectAll();
 								}
 							});
-							btn.menu = Ext.create('Ext.menu.Menu', {
-								items : menus
+							var mn = Ext.menu.Manager.get(menus);
+							mn.ownerBtn = btn;
+							btn.menu = mn;
+							btn.mon(mn, {
+								scope : btn,
+								show : btn.onMenuShow,
+								hide : btn.onMenuHide
 							});
 							
 						}).delay(200);
@@ -1025,7 +1206,6 @@ Ext.define('FileExplorer.BreadCrumbToolbar', {
 	},
 	defaults : {
 		btnType : 'label',
-		textColor : 'black',
 		cls : 'fe-bc-item'
 	},
 	cls : 'fe-toolbar',
@@ -1248,7 +1428,7 @@ Ext.define('FileExplorer.TreeColumn', {
         '<tpl else>',
             '<span class="{textCls} {childCls}" style="font-weight:{bold};">{value}</span>',
         '</tpl>',
-        '&nbsp;<span title="{reloadTip}" nodeId="{nodeId}" class="fe-hide-show fe-icon fe-icon-reload">&nbsp;&nbsp;&nbsp;&nbsp;</span>'
+        '&nbsp;<label title="{reloadTip}" nodeId="{nodeId}" style="padding-bottom:1px;padding-right:1px;" class="fe-hide-show fe-icon fe-icon-reload">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>'
     ],
     treeRenderer: function(value, metaData, record, rowIdx, colIdx, store, view) {
         var me = this,
@@ -1259,6 +1439,21 @@ Ext.define('FileExplorer.TreeColumn', {
             rootVisible = view.rootVisible,
             lines = [],
             parentData;
+        
+        if (this.defaultIcon && !data.icon) {
+        	data.icon = this.defaultIcon;
+        }
+        
+        if (this.defaultIconCls && !data.iconCls) {
+        	data.iconCls = this.defaultIconCls;
+        }
+        
+        if (this.calculateIcon) {
+        	var icon = this.calculateIcon(record);
+        	if (icon) {
+        		data.icon = icon;
+        	}
+        }
 
         if (cls) {
             metaData.tdCls += ' ' + cls;
@@ -1301,6 +1496,9 @@ Ext.define('FileExplorer.TreeColumn', {
 Ext.define('FileExplorer.TreePanel', {
     extend : 'Ext.tree.Panel',
     xtype : 'fetreepanel',
+    defaultIcon : null,
+    defaultIconCls : null,
+    calculateIcon : function(data) {},
     requires : ['FileExplorer.TreeView', 'FileExplorer.TreeColumn'],
 	initComponent : function() {
 		
@@ -1309,6 +1507,9 @@ Ext.define('FileExplorer.TreePanel', {
 		
 		this.addCls(this.autoWidthCls);
 		this.columns = [{
+			defaultIcon : this.defaultIcon,
+			defaultIconCls : this.defaultIconCls,
+			calculateIcon : this.calculateIcon,
             xtype    : 'fetreecolumn',
             text     : 'Name',
             width    : Ext.isIE6 ? '100%' : 10000, // IE6 needs width:100%

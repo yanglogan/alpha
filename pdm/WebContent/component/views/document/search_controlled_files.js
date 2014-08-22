@@ -1,7 +1,7 @@
 function() {
-    
+
     Utils.importJs(base + 'dm/cunstom/dm_component.js');
-    
+
     var controlledStore = new Ext.data.Store({
         fields:['cm:name', 'cm:title', 'edm:specConfigTypes', 'edm:specDocTypes', 'edm:specSubFdrTypes', 'edm:typeName', 'edm:type', 'edm:internalRef', 'edm:tplRef', 'edm:tplObjType', 'edm:tplObjName', 'EXTENSION', 'TYPE', 'PATH', 'ISFOLDER', 'ISCONTENT'],
         pageSize : 20,
@@ -17,11 +17,11 @@ function() {
                 totalProperty : 'total'
             },
             extraParams : {
-                
+
             }
         }
     });
-    
+
     var controlledGrid = Ext.create('Ext.grid.Panel', {
         selType : 'checkboxmodel',
         store : controlledStore,
@@ -56,7 +56,7 @@ function() {
                     Ext.getCmp('sentboxTab').getForm().reset();
                     Ext.getCmp('sentboxTab').show();
                     this.ownerCt.ownerCt.getDockedComponent(1).getComponent(0).setSrc("static/images/up.png");
-                    
+
                 }
             }, {
                 text : '搜索',
@@ -75,18 +75,18 @@ function() {
             }]
         },
         columns : [
-        
+
             { width : 36, resizable : false, hideable : false, sortable : false, menuDisabled : true,
                 renderer : function(value, metaData, record, rowIndex, colIndex, store) {
                     return getstatic/imagestring(record);
-                } 
+                }
             },
             { text: Utils.msg('MSG_NAME'),  dataIndex: 'cm:name', width : 200 },
             { text: Utils.msg('MSG_TITLE'), dataIndex: 'cm:title', width : 120 }
         ]
 
     });
-    
+
     var controlled = Ext.create('Ext.panel.Panel', {
         title : '受控文件',
         autoScroll : true,
@@ -106,15 +106,15 @@ function() {
             }
         }]
     });
-    
-    
+
+
     var searchTab = Ext.create('Ext.tab.Panel', {
         width : '100%',
         plain : true,
         items : [controlled]
     });
-    
-    
+
+
     var dm_search_panel = Ext.create('Ext.panel.Panel', {
         IVSautoDestroy : true,
         border : false,
@@ -141,7 +141,7 @@ function() {
             items : [searchTab]
         }
     });
-    
-        
+
+
     return dm_search_panel;
 }

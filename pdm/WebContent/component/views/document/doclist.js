@@ -126,7 +126,6 @@ function() {
 	    	}
 	    }, Ext.create('core.buttons.UploadButton', {
 	    	text : 'Upload',
-	    	textColor : 'black',
 	    	btnType : 'normal',
 	    	uploadUrl : Utils.getCDAUrl('Upload', 'upload'),
 	    	getDropElement : function() {

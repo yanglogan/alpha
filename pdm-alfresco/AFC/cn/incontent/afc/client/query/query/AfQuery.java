@@ -23,7 +23,7 @@ import cn.incontent.afc.entries.model.exception.AfException;
 public class AfQuery implements IAfQuery {
 
 	private StringBuffer query;
-	private SearchParameters sp;
+	protected SearchParameters sp;
 	
 	public AfQuery() {
 		this.query = new StringBuffer();

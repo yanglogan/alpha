@@ -12,6 +12,34 @@ Utils.HTML5Supported = typeof window.Worker == 'function';
 //for debug mode,left this to be true,else set it to false!
 Utils.showErrorDetailBtn = true;
 
+Utils.toggleFullScreen = function(element) {
+	if(!element) {
+		element = document.documentElement;
+	}
+	if(!document.fullscreenElement && // alternative standard method
+	!document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {// current working methods
+		if(element.requestFullscreen) {
+			element.requestFullscreen();
+		} else if(document.documentElement.msRequestFullscreen) {
+			element.msRequestFullscreen();
+		} else if(document.documentElement.mozRequestFullScreen) {
+			element.mozRequestFullScreen();
+		} else if(document.documentElement.webkitRequestFullscreen) {
+			element.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+		}
+	} else {
+		if(document.exitFullscreen) {
+			document.exitFullscreen();
+		} else if(document.msExitFullscreen) {
+			document.msExitFullscreen();
+		} else if(document.mozCancelFullScreen) {
+			document.mozCancelFullScreen();
+		} else if(document.webkitExitFullscreen) {
+			document.webkitExitFullscreen();
+		}
+	}
+}
+
 Utils.createCss = function(name, content) {
 	
 	return new (function(name, content) {
@@ -228,6 +256,23 @@ Utils.getTimeStampStr = function() {
 
 Utils.getTimeStamp = function() {
 	return new Date().getTime();
+}
+
+Utils.syncAJAX = function(url, method) {
+	if (!method) {
+		method = 'GET';
+	}
+	
+	var data = null;
+	$.ajax({
+    	type : method,
+        url : url,
+        async : false,
+        success : function(d) {
+        	data = d;
+        }
+    });
+    return data;
 }
 
 //note that the jsPath can be an array!
@@ -489,21 +534,15 @@ Utils.request_FORM = function(form, url, arguments, successHandler, failureHandl
 
 Utils.handleFormError = function(action) {
 	
-	var btns = ['->', {
-		btnType : 'success',
-		text : Utils.msg('MSG_OK'),
-		handler : function() {
-			this.ownerCt.ownerCt.close();
-		}
-	}];
+	var btns = ['->'];
 	
 	if (Utils.showErrorDetailBtn) {
 		
 		btns.push({
-			btnType : 'warning',
 			text : Utils.msg('MSG_DETAIL'),
 			handler : function() {
 				Ext.create('Ext.window.Window', {
+					btnType : 'warning',
 					title : Utils.msg('MSG_DETAIL'),
 					autoScroll : true,
 					maximizable : true,
@@ -514,7 +553,7 @@ Utils.handleFormError = function(action) {
 					bodyPadding : 5,
 					buttons : [{
 						text : Utils.msg('MSG_CLOSE'),
-						btnType : 'success',
+						btnType : 'info',
 						closeWinBtn : true
 					}],
 					html : '<pre style="font-weight:bold;font-size:16px;">' + action.result.errorDetail + '</pre>'
@@ -525,6 +564,13 @@ Utils.handleFormError = function(action) {
 		});
 	}
 	
+	btns.push({
+		btnType : 'info',
+		text : Utils.msg('MSG_OK'),
+		handler : function() {
+			this.ownerCt.ownerCt.close();
+		}
+	});
 	btns.push('->');
 	
 	new top.Ext.window.Window({

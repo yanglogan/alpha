@@ -12,6 +12,30 @@ if(!Array.prototype.indexOf) {
     }
 }
 
+Ext.util.Format.fileSize = (function(){
+    var byteLimit = 1024,
+        kbLimit = 1048576,
+        mbLimit = 1073741824;
+        
+    return function(size) {
+        var out;
+        if (size < byteLimit) {
+            if (size === 1) {
+                out = '1B';
+            } else {
+                out = size + ' B';
+            }
+        } else if (size < kbLimit) {
+            out = (Math.round(((size*10) / byteLimit))/10) + 'KB';
+        } else if (size < mbLimit) {
+            out = (Math.round(((size*10) / kbLimit))/10) + 'MB';
+        } else {
+            out = (Math.round(((size*10) / mbLimit))/10) + 'GB';
+        }
+        return out;
+    };
+})();
+
 Ext.define('ExtThemeNeptune.resizer.Splitter', {
 	override : 'Ext.resizer.Splitter',
 	size : 5
@@ -42,8 +66,7 @@ Ext.define('Ext.window.YesNoWindow', {
 		var buttons = [{
 			text : this.noText,
 			hidden : !this.showNoButton,
-			scale : 'medium',
-			btnType : 'warning',
+			btnType : 'common',
 			handler : function() {
 				var flag = me.onClose();
 				
@@ -55,8 +78,7 @@ Ext.define('Ext.window.YesNoWindow', {
 		}, {
 			text : this.yesText,
 			hidden : !this.showYesButton,
-			scale : 'medium',
-			btnType : 'success',
+			btnType : 'info',
 			handler : function() {
 				me.onOk();
 			}
@@ -190,6 +212,13 @@ Ext.override(Ext.panel.Panel, {
 		}
 
 		this.callParent();
+	},
+	setHTML : function(html) {
+		this.getInnerEl().setHTML(html);
+		this.doLayout();
+	},
+	getInnerEl : function() {
+		return this.body.child('span').child('div');
 	}
 });
 
@@ -270,7 +299,9 @@ Ext.override(Ext.grid.Panel, {
 		Ext.fly(root).on('click', function(e, ele, o) {
 			if (ele.id == rootId) {
 				//deselect all!
-				me.getSelectionModel().deselectAll();
+				try {
+					me.getSelectionModel().deselectAll();
+				} catch (e) {}
 			}
 		});
 
@@ -279,6 +310,7 @@ Ext.override(Ext.grid.Panel, {
 });
 
 Ext.override(Ext.button.Button, {
+	btnType : 'common',
 	initComponent : function() {
 
 		if (this.btnType) {
@@ -286,30 +318,70 @@ Ext.override(Ext.button.Button, {
 			this.overCls = 'over-' + this.btnType;
 			this.focusCls = 'over-' + this.btnType;
 			this.pressedCls = 'pressed-' + this.btnType;
-
-			if ('medium' == this.scale && this.minWidth == null) {
-				this.minWidth = 80;
-			}
+			this.textCls = 'x-btn-text-' + this.btnType;
+			this.pressedTextCls = 'x-btn-pressed-text-' + this.btnType;
+			this.menuActiveCls = 'menu-active-' + this.btnType;
 		}
 
+		if (this.actionBtn) {
+			this.minWidth = 70;
+		}
+		
 		if (this.closeWinBtn) {
 			this.handler = function() {
-				this.ownerCt.ownerCt.close();
+				try {
+					this.ownerCt.ownerCt.close();
+				} catch (e) {}
 			}
 		}
-
+		
 		this.callParent();
 	},
+	toggle: function(state, suppressEvent) {
+        var me = this;
+        state = state === undefined ? !me.pressed: !!state;
+        if (state !== me.pressed) {
+            if (me.rendered) {
+                me[state ? 'addClsWithUI': 'removeClsWithUI'](me.pressedCls);
+                Ext.fly(me.el.query('.x-btn-inner')[0])[state ? 'addCls' : 'removeCls'](this.pressedTextCls);
+            }
+            me.pressed = state;
+            if (!suppressEvent) {
+                me.fireEvent('toggle', me, state);
+                Ext.callback(me.toggleHandler, me.scope || me, [me, state]);
+            }
+        }
+        return me;
+   },
+	onMouseDown: function(e) {
+        var me = this;
+
+        if (Ext.isIE) {
+            me.getFocusEl().focus();
+        }
+
+        if (!me.disabled && e.button === 0) {
+            Ext.button.Manager.onButtonMousedown(me, e);
+            me.addClsWithUI(me.pressedCls);
+            Ext.fly(this.el.query('.x-btn-inner')[0]).addCls(this.pressedTextCls);
+        }
+    },
+    onMouseUp: function(e) {
+        var me = this;
+
+        // If the external mouseup listener of the ButtonManager fires after the button has been destroyed, ignore.
+        if (!me.isDestroyed && e.button === 0) {
+            if (!me.pressed) {
+                me.removeClsWithUI(me.pressedCls);
+                Ext.fly(this.el.query('.x-btn-inner')[0]).removeCls(this.pressedTextCls);
+            }
+        }
+    },
 	afterRender : function() {
 
 		if (this.btnType) {
-
-			if (!this.textColor) {
-				this.textColor = 'white';
-			}
-
-			Ext.fly(this.el.query('.x-btn-inner')[0]).setStyle('color', this.textColor);
-
+			Ext.fly(this.el.query('.x-btn-inner')[0]).addCls(this.textCls);
+			
 			if (Ext.isIE7 || Ext.isIE8) {
 				this.el.dom.style.cssText = 'border-width:1px!important;';
 				Ext.each(this.el.query('*[class^="x-frame"]'), function(ele) {
@@ -333,7 +405,6 @@ Ext.override(Ext.button.Button, {
 				this.el.setStyle('border-top-left-radius', '0px');
 				this.el.setStyle('border-bottom-left-radius', '0px');
 			}
-			
 			
 		}
 		
@@ -730,7 +801,7 @@ Ext.override(Ext.window.MessageBox, {
 			handler : this.btnCallback,
 			itemId : btnId,
 			scope : this,
-			btnType : ['ok', 'yes'].indexOf(btnId) == -1 ? 'warning' : 'success',
+			btnType : ['ok', 'yes'].indexOf(btnId) == -1 ? 'common' : 'info',
 			text : this.buttonText[btnId],
 			minWidth : 75
 		});
@@ -872,6 +943,7 @@ Ext.override(Ext.toolbar.Paging, {
 		var me = this;
 		return [{
 			itemId : 'first',
+			btnType : 'label',
 			tipsy : me.firstText,
 			overflowText : me.firstText,
 			iconCls : Ext.baseCSSPrefix + 'tbar-page-first',
@@ -880,6 +952,7 @@ Ext.override(Ext.toolbar.Paging, {
 			scope : me
 		}, {
 			itemId : 'prev',
+			btnType : 'label',
 			tipsy : me.prevText,
 			overflowText : me.prevText,
 			iconCls : Ext.baseCSSPrefix + 'tbar-page-prev',
@@ -913,6 +986,7 @@ Ext.override(Ext.toolbar.Paging, {
 			text : Ext.String.format(me.afterPageText, 1)
 		}, '-', {
 			itemId : 'next',
+			btnType : 'label',
 			tipsy : me.nextText,
 			overflowText : me.nextText,
 			iconCls : Ext.baseCSSPrefix + 'tbar-page-next',
@@ -921,6 +995,7 @@ Ext.override(Ext.toolbar.Paging, {
 			scope : me
 		}, {
 			itemId : 'last',
+			btnType : 'label',
 			tipsy : me.lastText,
 			overflowText : me.lastText,
 			iconCls : Ext.baseCSSPrefix + 'tbar-page-last',
@@ -929,6 +1004,7 @@ Ext.override(Ext.toolbar.Paging, {
 			scope : me
 		}, '-', {
 			itemId : 'refresh',
+			btnType : 'label',
 			tipsy : me.refreshText,
 			overflowText : me.refreshText,
 			iconCls : Ext.baseCSSPrefix + 'tbar-loading',
@@ -1048,7 +1124,7 @@ Ext.override(Ext.Img, {
 		
 		this.callParent();
 	},
-	adjustRatio : function(ratio) {
+	adjustRatio : function(ratio, callback) {
 		if (this.supportRatio) {
 			
 			this.el.animate({
@@ -1056,7 +1132,8 @@ Ext.override(Ext.Img, {
 					width : this.w * ratio,
 					height : this.h * ratio
 				},
-				duration : 200
+				duration : 200,
+				callback : callback
 			});
 		}
 		

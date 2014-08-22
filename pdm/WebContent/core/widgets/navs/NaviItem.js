@@ -1,3 +1,4 @@
+
 Ext.define('core.navs.NaviItem', {
 	extend : 'Ext.button.Button',
 	xtype : 'naviitem',
@@ -6,6 +7,7 @@ Ext.define('core.navs.NaviItem', {
 	initComponent : function() {
 		this.cls = 'nav-item';
 		var me = this;
+		this.btnType = null;
 		
 		this.listeners = {
 			mouseover : function() {

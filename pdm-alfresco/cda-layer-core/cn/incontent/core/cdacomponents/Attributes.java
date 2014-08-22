@@ -5,10 +5,13 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.lang.StringUtils;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Repository;
 
@@ -20,11 +23,13 @@ import cn.incontent.afc.entries.model.id.AfID;
 import cn.incontent.afc.entries.model.id.IAfID;
 import cn.incontent.afc.entries.model.permission.Permission;
 import cn.incontent.afc.entries.model.type.attr.IAfAttr;
+import cn.incontent.afc.entries.model.type.attr.IAfAttrAllowedValues;
 import cn.incontent.cda.server.core.ArgumentList;
 import cn.incontent.cda.server.core.CDAComponent;
 import cn.incontent.cda.server.core.CDAContext;
 import cn.incontent.cda.server.core.annotations.CDAInterface;
 import cn.incontent.cda.server.utils.FilenameUtils;
+import cn.incontent.core.utils.JsonComparator;
 
 /**
  * @author Val.(Valentine Vincent) E-mail:valer@126.com
@@ -34,7 +39,6 @@ import cn.incontent.cda.server.utils.FilenameUtils;
 @Repository("Attributes")
 public class Attributes extends CDAComponent {
 
-	public static final String AOP = "_AOP_";
 	public static final String OBJECT = "_OBJECT_";
 	public static final String TYPE = "_TYPE_";
 	public static final String CANCHANGE = "_CAN_CHANGE_";
@@ -42,6 +46,65 @@ public class Attributes extends CDAComponent {
 	public static final String SEPARATOR = ", ";
 
 	public static DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	
+	@CDAInterface
+	public Object getAttributesAndUI(ArgumentList args, CDAContext comp) {
+
+		IAfSession afSession = getAfSession();
+
+		try {
+			IAfPersistentObject object = afSession.getObject(new AfID(args.get("objectId")));
+
+			JSONObject json = new JSONObject();
+			json.put(TYPE, object.getTypeName());
+
+			// object data
+			json.put(OBJECT, wrapObjectData(object));
+			json.put(CANCHANGE, object.userHasPermission(afSession.getUserLoginId(), Permission.WRITE));
+			
+			List<JSONObject> list = new ArrayList<JSONObject>();
+			for (IAfAttr attr : object.getAttrs()) {
+				JSONObject rec = new JSONObject();
+				
+				if (attr.isProtected()) {
+					continue;
+				}
+				String attrName = attr.getName();
+				if (attrName.startsWith("sys:") || attrName.startsWith("app:")) {
+					continue;
+				}
+				
+				list.add(rec);
+				rec.put("name", attr.getName());
+				rec.put("title", attr.getTitle());
+				rec.put("dataType", attr.getDataType());
+				rec.put("required", attr.isRequired());
+				rec.put("repeating", attr.isRepeating());
+				
+				IAfAttrAllowedValues av = attr.getAllowedValues();
+				if (av != null) {
+					rec.put("dataType", -1);
+					JSONArray opts = new JSONArray();
+					for (String value : av.getAllowedValues()) {
+						JSONObject opt = new JSONObject();
+						opt.put(value, av.getLabel(value));
+						opts.put(opt);
+					}
+					
+					rec.put("constraint", opts);
+				}
+				
+			}
+			
+			Collections.sort(list, new JsonComparator("name", true));
+			json.put("_ATTRS_", list);
+
+			return json;
+		} catch (Exception e) {
+			return getMsg(false, e);
+		}
+
+	}
 	
 	@CDAInterface
 	public Object getProperties(ArgumentList args, CDAContext comp) {

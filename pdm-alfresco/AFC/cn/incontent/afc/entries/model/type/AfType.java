@@ -85,6 +85,16 @@ public class AfType implements IAfType {
 		}
 		return ServiceHelper.getDictionaryService(_afSession).isSubClass(_td.getName(), q);
 	}
+	
+	@Override
+	public List<IAfAttr> getOwnAttrs() {
+		List<IAfAttr> attrs = new ArrayList<IAfAttr>();
+		
+		for (PropertyDefinition pd : _td.getProperties().values()) {
+			attrs.add(new AfAttr(pd, _afSession));
+		}
+		return attrs;
+	}
 
 	@Override
 	public List<IAfAttr> getAttrs() throws AfException {

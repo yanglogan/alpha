@@ -22,15 +22,9 @@ function() {
 				}
 			});
 		},
-		tbar : {
-			defaults : {
-				scale : 'medium'
-			},
+		tbar : Ext.create('core.toolbar.NavToolbar', {
+			title : msg('MSG_CONFIG_CATEGORY'),
 			items : [{
-				xtype : 'label',
-				html : msg('MSG_CONFIG_CATEGORY'),
-				cls : 'title-label'
-			}, {
 				btnType : 'info',
 				dynamic : 'singleselect',
 				text : Utils.msg('MSG_NEW'),
@@ -141,7 +135,7 @@ function() {
 					
 				}
 			}]
-		},
+		}),
 		contextDectect : true,
 		root : {
 			'cm:name' : msg('MSG_CATEGORIES'),

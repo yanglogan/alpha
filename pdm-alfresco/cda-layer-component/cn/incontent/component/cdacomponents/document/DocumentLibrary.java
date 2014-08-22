@@ -11,15 +11,14 @@ import org.springframework.stereotype.Repository;
 
 import cn.incontent.afc.client.IAfSession;
 import cn.incontent.afc.client.query.AfMultiQuery;
-import cn.incontent.afc.client.query.IAfQueryCondition;
 import cn.incontent.afc.client.query.IQuery;
-import cn.incontent.afc.client.query.query.AfQuery;
-import cn.incontent.afc.client.query.query.IAfQuery;
-import cn.incontent.afc.client.query.querycond.AspectCond;
-import cn.incontent.afc.client.query.querycond.ParentCond;
+import cn.incontent.afc.client.query.jcrquery.AfJCRQuery;
+import cn.incontent.afc.client.query.jcrquery.IAfJCRQuery;
+import cn.incontent.afc.client.query.jcrquerycond.JCRAspectCond;
+import cn.incontent.afc.client.query.jcrquerycond.JCRTypeCond;
 import cn.incontent.afc.client.query.querycond.PathCond;
-import cn.incontent.afc.client.query.querycond.TypeCond;
 import cn.incontent.afc.client.query.res.IAfCollection;
+import cn.incontent.afc.entries.model.abs.IAfPersistentObject;
 import cn.incontent.afc.entries.model.exception.AfException;
 import cn.incontent.afc.entries.model.id.AfID;
 import cn.incontent.afc.entries.model.id.IAfID;
@@ -27,6 +26,7 @@ import cn.incontent.cda.server.core.ArgumentList;
 import cn.incontent.cda.server.core.CDAComponent;
 import cn.incontent.cda.server.core.CDAContext;
 import cn.incontent.cda.server.core.annotations.CDAInterface;
+import cn.incontent.core.cdacomponents.Attributes;
 import cn.incontent.core.utils.ComponentUtils;
 import cn.incontent.core.utils.ProductUtils;
 import cn.incontent.core.utils.ResrcUtils;
@@ -48,21 +48,19 @@ public class DocumentLibrary extends CDAComponent {
 		
 		IAfID parentFolderId = new AfID(args.get("parentId"));
 		
-		IAfQuery query = new AfQuery();
-		
-		IAfQueryCondition queryCondition = new TypeCond("cm:folder");
+		IAfJCRQuery query = new AfJCRQuery();
 		
 		if (!parentFolderId.isValid()) {
 			if (!StringUtils.isEmpty(args.get("path"))) {
-				queryCondition.appendAND(new PathCond(args.get("path") + "/*"));
+				query.setPath(new PathCond(args.get("path") + "/*"));
 			} else {
-				queryCondition.appendAND(new PathCond("/*"));
+				query.setPath(new PathCond("/*"));
 			}
 		} else {
-			queryCondition.appendAND(new ParentCond(parentFolderId, afSession));
+			query.setContext(parentFolderId);
 		}
 		
-		query.setQueryCondition(queryCondition);
+		query.setQueryCondition(new JCRTypeCond("cm:folder"));
 		query.addOrderByAttr("cm:name", true);
 		
 		JSONArray res = new JSONArray();
@@ -88,28 +86,50 @@ public class DocumentLibrary extends CDAComponent {
 	}
 	
 	@CDAInterface
+	public Object delete(ArgumentList args, CDAContext context) {
+		
+		IAfSession afSession = getAfSession();
+		try {
+			for (String objectId : args.get("objectIds").split(Attributes.SEPARATOR)) {
+				IAfPersistentObject o = afSession.getObject(new AfID(objectId));
+				
+				if (o != null) {
+					o.destroy();
+				}
+			}
+		} catch (Exception e) {
+			return getMsg(false, e);
+		}
+		
+		return getMsg(true, null);
+	}
+	
+	@CDAInterface
 	public Object getContents(ArgumentList args, CDAContext context) {
 		
 		IAfSession afSession = getAfSession();
 		
 		IAfID parentFolderId = new AfID(args.get("parentId"));
-		IAfQueryCondition parentFolderCondition = new ParentCond(parentFolderId, afSession);
+		
+		IAfJCRQuery folderQuery = new AfJCRQuery();
+		folderQuery.setQueryCondition(new JCRTypeCond("cm:folder"));
+		
+		IAfJCRQuery nonFolderQuery = new AfJCRQuery();
+		nonFolderQuery.setQueryCondition(new JCRTypeCond("cm:cmobject").appendNOT(new JCRAspectCond("cm:workingcopy")).appendNOT(new JCRTypeCond("cm:folder")));
+		
 		if (!parentFolderId.isValid()) {
 			//try to get from path
 			String path = args.get("path");
 			if (StringUtils.isEmpty(path)) {
 				path = "";
 			}
-			parentFolderCondition = new PathCond(path + "/*");
+			PathCond pc = new PathCond(path + "/*");
+			folderQuery.setPath(pc);
+			nonFolderQuery.setPath(pc);
+		} else {
+			folderQuery.setContext(parentFolderId);
+			nonFolderQuery.setContext(parentFolderId);
 		}
-		
-		IAfQuery folderQuery = new AfQuery();
-		IAfQueryCondition folderCondition = new TypeCond("cm:folder").appendAND(parentFolderCondition);
-		folderQuery.setQueryCondition(folderCondition);
-		
-		IAfQuery nonFolderQuery = new AfQuery();
-		IAfQueryCondition nonfolderQueryCondition = parentFolderCondition.appendMinus(new AspectCond("cm:workingcopy")).appendNOT(new TypeCond("cm:folder"));
-		nonFolderQuery.setQueryCondition(nonfolderQueryCondition);
 		
 		IAfCollection coll = null;
 		

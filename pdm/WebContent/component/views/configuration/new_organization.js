@@ -1,5 +1,5 @@
 function() {
-	
+
 	var formP = {
 		width : 1000,
 		border : false,
@@ -78,10 +78,10 @@ function() {
 			fieldLabel : msg('MSG_POSTCODE'),
 			itemId : 'pPostcode',
 			columnWidth : .5,
-			maxLength: 10,
-            enforceMaxLength: true,
-            regex: /^\d{6}?$/,
-            regexText: msg('MSG_POSTCODE_FORMAT'),
+			maxLength : 10,
+			enforceMaxLength : true,
+			regex : /^\d{6}?$/,
+			regexText : msg('MSG_POSTCODE_FORMAT'),
 			name : 'edm:pPostcode'
 		}, {
 			//TODO SEP
@@ -100,34 +100,34 @@ function() {
 			columnWidth : 1,
 			fieldLabel : msg('MSG_SAME_AS_ABOVE'),
 			checked : false,
-			listeners : {  
-                    'change' : function(obj, ischecked) {  
-                        var postalAddress = this.ownerCt.getComponent('postalAddress');
-                        var pCity = this.ownerCt.getComponent('pCity');
-                        var pCounty = this.ownerCt.getComponent('pCounty');
-                        var pCountry = this.ownerCt.getComponent('pCountry');
-                        var pPostcode = this.ownerCt.getComponent('pPostcode');
-                        
-                        var deliveryAddress = this.ownerCt.getComponent('deliveryAddress');
-                        var dCity = this.ownerCt.getComponent('dCity');
-                        var dCounty = this.ownerCt.getComponent('dCounty');
-                        var dCountry = this.ownerCt.getComponent('dCountry');
-                        var dPostcode = this.ownerCt.getComponent('dPostcode');
-                        if (ischecked){
-                            deliveryAddress.setValue(postalAddress.getValue());
-                            dCity.setValue(pCity.getValue());
-                            dCounty.setValue(pCounty.getValue());
-                            dCountry.setValue(pCountry.getValue());
-                            dPostcode.setValue(pPostcode.getValue());
-                        } else {
-                            deliveryAddress.setValue('');
-                            dCity.setValue('');
-                            dCounty.setValue('');
-                            dCountry.setValue('');
-                            dPostcode.setValue('');
-                        }
-                    }  
-                }
+			listeners : {
+				'change' : function(obj, ischecked) {
+					var postalAddress = this.ownerCt.getComponent('postalAddress');
+					var pCity = this.ownerCt.getComponent('pCity');
+					var pCounty = this.ownerCt.getComponent('pCounty');
+					var pCountry = this.ownerCt.getComponent('pCountry');
+					var pPostcode = this.ownerCt.getComponent('pPostcode');
+
+					var deliveryAddress = this.ownerCt.getComponent('deliveryAddress');
+					var dCity = this.ownerCt.getComponent('dCity');
+					var dCounty = this.ownerCt.getComponent('dCounty');
+					var dCountry = this.ownerCt.getComponent('dCountry');
+					var dPostcode = this.ownerCt.getComponent('dPostcode');
+					if(ischecked) {
+						deliveryAddress.setValue(postalAddress.getValue());
+						dCity.setValue(pCity.getValue());
+						dCounty.setValue(pCounty.getValue());
+						dCountry.setValue(pCountry.getValue());
+						dPostcode.setValue(pPostcode.getValue());
+					} else {
+						deliveryAddress.setValue('');
+						dCity.setValue('');
+						dCounty.setValue('');
+						dCountry.setValue('');
+						dPostcode.setValue('');
+					}
+				}
+			}
 		}, {
 			xtype : 'textfield',
 			fieldLabel : msg('MSG_CITY'),
@@ -153,10 +153,10 @@ function() {
 			fieldLabel : msg('MSG_POSTCODE'),
 			itemId : 'dPostcode',
 			columnWidth : .5,
-			maxLength: 10,
-            enforceMaxLength: true,
-            regex: /^\d{6}?$/,
-            regexText: msg('MSG_POSTCODE_FORMAT'),
+			maxLength : 10,
+			enforceMaxLength : true,
+			regex : /^\d{6}?$/,
+			regexText : msg('MSG_POSTCODE_FORMAT'),
 			name : 'edm:dPostcode'
 		}, {
 			//TODO SEP
@@ -170,7 +170,7 @@ function() {
 			allowBlank : false,
 			columnWidth : .5,
 			regex : /\d{3}-\d{8}|\d{4}-\d{7}/,
-            regexText: msg('MSG_PHONE_FORMAT'),
+			regexText : msg('MSG_PHONE_FORMAT'),
 			name : 'edm:orgPhone'
 		}, {
 			xtype : 'textfield',
@@ -179,22 +179,21 @@ function() {
 			columnWidth : .5,
 			name : 'edm:orgFax'
 		}, {
-		    itemId : 'orgWeb',
+			itemId : 'orgWeb',
 			columnWidth : 1,
 			xtype : 'textfield',
 			fieldLabel : msg('MSG_WEBSITE'),
 			name : 'edm:orgWebsite'
 		}, {
-		    itemId : 'orgEmail',
+			itemId : 'orgEmail',
 			columnWidth : 1,
 			xtype : 'textfield',
 			fieldLabel : msg('MSG_EMAIL_ADDRESS'),
 			allowBlank : false,
-			vtype: 'email',
+			vtype : 'email',
 			name : 'edm:orgEmail'
-		}, 
-		
-		
+		},
+
 		//USER INFO
 		{
 			xtype : 'header',
@@ -313,34 +312,34 @@ function() {
 			columnWidth : 1,
 			fieldLabel : msg('MSG_SAME_AS_ABOVE'),
 			checked : false,
-			listeners : {  
-                    'change' : function(obj, ischecked) {  
-                        var postalAddress = this.ownerCt.getComponent('postalAddress');
-                        var pCity = this.ownerCt.getComponent('pCity');
-                        var pCounty = this.ownerCt.getComponent('pCounty');
-                        var pCountry = this.ownerCt.getComponent('pCountry');
-                        var pPostcode = this.ownerCt.getComponent('pPostcode');
-                        
-                        var uAddress = this.ownerCt.getComponent('uAddress');
-                        var uCity = this.ownerCt.getComponent('uCity');
-                        var uCounty = this.ownerCt.getComponent('uCounty');
-                        var uCountry = this.ownerCt.getComponent('uCountry');
-                        var uPostcode = this.ownerCt.getComponent('uPostcode');
-                        if (ischecked){
-                            uAddress.setValue(postalAddress.getValue());
-                            uCity.setValue(pCity.getValue());
-                            uCounty.setValue(pCounty.getValue());
-                            uCountry.setValue(pCountry.getValue());
-                            uPostcode.setValue(pPostcode.getValue());
-                        } else {
-                            deliveryAddress.setValue('');
-                            dCity.setValue('');
-                            dCounty.setValue('');
-                            dCountry.setValue('');
-                            dPostcode.setValue('');
-                        }
-                    }  
-                }
+			listeners : {
+				'change' : function(obj, ischecked) {
+					var postalAddress = this.ownerCt.getComponent('postalAddress');
+					var pCity = this.ownerCt.getComponent('pCity');
+					var pCounty = this.ownerCt.getComponent('pCounty');
+					var pCountry = this.ownerCt.getComponent('pCountry');
+					var pPostcode = this.ownerCt.getComponent('pPostcode');
+
+					var uAddress = this.ownerCt.getComponent('uAddress');
+					var uCity = this.ownerCt.getComponent('uCity');
+					var uCounty = this.ownerCt.getComponent('uCounty');
+					var uCountry = this.ownerCt.getComponent('uCountry');
+					var uPostcode = this.ownerCt.getComponent('uPostcode');
+					if(ischecked) {
+						uAddress.setValue(postalAddress.getValue());
+						uCity.setValue(pCity.getValue());
+						uCounty.setValue(pCounty.getValue());
+						uCountry.setValue(pCountry.getValue());
+						uPostcode.setValue(pPostcode.getValue());
+					} else {
+						deliveryAddress.setValue('');
+						dCity.setValue('');
+						dCounty.setValue('');
+						dCountry.setValue('');
+						dPostcode.setValue('');
+					}
+				}
+			}
 		}, {
 			xtype : 'textfield',
 			fieldLabel : msg('MSG_CITY'),
@@ -366,9 +365,9 @@ function() {
 			fieldLabel : msg('MSG_POSTCODE'),
 			itemId : 'uPostcode',
 			columnWidth : .5,
-			maxLength: 10,
-            regex: /^\d{6}?$/,
-            regexText: msg('MSG_POSTCODE_FORMAT'),
+			maxLength : 10,
+			regex : /^\d{6}?$/,
+			regexText : msg('MSG_POSTCODE_FORMAT'),
 			name : 'edm:uPostcode'
 		}, {
 			//TODO SEP
@@ -382,7 +381,7 @@ function() {
 			itemId : 'uPhone',
 			allowBlank : false,
 			regex : /\d{3}-\d{8}|\d{4}-\d{7}/,
-			regexText: msg('MSG_PHONE_FORMAT'),
+			regexText : msg('MSG_PHONE_FORMAT'),
 			name : 'edm:uPhone'
 		}, {
 			xtype : 'textfield',
@@ -395,33 +394,33 @@ function() {
 			columnWidth : 1,
 			fieldLabel : msg('MSG_SAME_AS_ABOVE'),
 			checked : false,
-			listeners : {  
-                    'change' : function(obj, ischecked) {  
-                        var orgPhone = this.ownerCt.getComponent('orgPhone');
-                        var orgFax = this.ownerCt.getComponent('orgFax');
-                        var orgEmail = this.ownerCt.getComponent('orgEmail');
-                        
-                        var uPhone = this.ownerCt.getComponent('uPhone');
-                        var uFax = this.ownerCt.getComponent('uFax');
-                        var uEmail = this.ownerCt.getComponent('uEmail');
-                        if (ischecked){
-                            uPhone.setValue(orgPhone.getValue());
-                            uFax.setValue(orgFax.getValue());
-                            uEmail.setValue(orgEmail.getValue());
-                        } else {
-                            uPhone.setValue('');
-                            uFax.setValue('');
-                            uEmail.setValue('');
-                        }
-                    }  
-                }
+			listeners : {
+				'change' : function(obj, ischecked) {
+					var orgPhone = this.ownerCt.getComponent('orgPhone');
+					var orgFax = this.ownerCt.getComponent('orgFax');
+					var orgEmail = this.ownerCt.getComponent('orgEmail');
+
+					var uPhone = this.ownerCt.getComponent('uPhone');
+					var uFax = this.ownerCt.getComponent('uFax');
+					var uEmail = this.ownerCt.getComponent('uEmail');
+					if(ischecked) {
+						uPhone.setValue(orgPhone.getValue());
+						uFax.setValue(orgFax.getValue());
+						uEmail.setValue(orgEmail.getValue());
+					} else {
+						uPhone.setValue('');
+						uFax.setValue('');
+						uEmail.setValue('');
+					}
+				}
+			}
 		}, {
 			xtype : 'textfield',
 			columnWidth : 1,
 			fieldLabel : msg('MSG_EMAIL_ADDRESS'),
 			itemId : 'uEmail',
 			allowBlank : false,
-			vtype: 'email',
+			vtype : 'email',
 			name : 'edm:uEmail'
 		}, {
 			xtype : 'textfield',
@@ -431,7 +430,7 @@ function() {
 			name : 'edm:uMobile'
 		}]
 	};
-	
+
 	return {
 		IVSautoDestroy : true,
 		border : false,
@@ -442,34 +441,29 @@ function() {
 			align : 'center'
 		},
 		bodyCls : 'form-body',
-		tbar : {
-			cls : 'toolbar-shadow',
-            items : [{
-				cls : 'title-label',
-				xtype : 'label',
-				html : msg('MSG_CREATE_ORGANIZATION')
-			}, '->', {
-                btnType : 'success',
-                scale : 'medium',
-                text : msg('MSG_APPLY'),
-                handler : function() {
-                    var orgDetailForm = this.ownerCt.ownerCt.items.get(0);
-                    if (orgDetailForm.getComponent('password').getValue() != orgDetailForm.getComponent('passwordconfirm').getValue()){
-                        Utils.error(msg('MSG_PASSWORD_CONFIRM_FAIL'));
-                        return;
-                    }
-                    
-                    Utils.request_FORM(orgDetailForm.form, Utils.getCDAUrl('ObjectCrud', 'create'), {
-                        TYPE : 'edm:organization'
-                    }, function(resp, opts) {
-                        Utils.error(msg('MSG_CREATE_SUCCESS'));
-                        IVS.changeView('configuration.organization_create_success');
-                    });
-                    
-                }
-         }]  
-        },
+		tbar : Ext.create('core.toolbar.NavToolbar', {
+			title : msg('MSG_CREATE_ORGANIZATION'),
+			items : [{
+				text : msg('MSG_APPLY'),
+				btnType : 'info',
+				actionBtn : true,
+				handler : function() {
+					var orgDetailForm = this.ownerCt.ownerCt.items.get(0);
+					if(orgDetailForm.getComponent('password').getValue() != orgDetailForm.getComponent('passwordconfirm').getValue()) {
+						Utils.error(msg('MSG_PASSWORD_CONFIRM_FAIL'));
+						return;
+					}
+
+					Utils.request_FORM(orgDetailForm.form, Utils.getCDAUrl('ObjectCrud', 'create'), {
+						TYPE : 'edm:organization'
+					}, function(resp, opts) {
+						Utils.error(msg('MSG_CREATE_SUCCESS'));
+						IVS.changeView('configuration.organization_create_success');
+					});
+				}
+			}]
+		}),
 		items : formP
 	};
-	
+
 }

@@ -2,6 +2,16 @@ if (FileExplorer.ObjectList) {
 	FileExplorer.ObjectList.prototype.i18n.more = '更多...';
 }
 
+FileExplorer.i18n = {
+	name : '名称',
+	title : '标题',
+	createdby : '创建人',
+	status : '状态',
+	size : '大小',
+	datemodified : '修改时间',
+	operation : '操作'
+};
+
 if(FileExplorer.ActionToolbar) {
 	
 	FileExplorer.ActionToolbar.prototype.i18n.sort.name = '名称';

@@ -124,7 +124,6 @@ Ext.define('component.document.toolbar.BtnActions', {
             }, {
                 text : '取消',
                 btnType : 'common',
-                textColor : '#666666',
                 scale : 'medium',
                 handler : function(){
                     win.close();

@@ -32,30 +32,23 @@ function() {
 		var attributes = json ? json['_OBJECT_'] : '';
         maildetialpanel.add({
 			border : false,
-			tbar : {
-				cls : 'toolbar-shadow',
+			tbar : Ext.create('core.toolbar.NavToolbar', {
+				title : msg('MSG_NEW_MAIL'),
 				items : [{
-					cls : 'title-label',
-					xtype : 'label',
-					html : msg('MSG_NEW_MAIL')
-				}, {
+					actionBtn : true,
 					text : msg('MSG_ADD_BOOK'),
-					scale : 'medium',
-					btnType : 'info',
 					btnPosition : 'first',
 					handler : function() {//TODO
 					}
 				}, {
+					actionBtn : true,
 					text : msg('MSG_OPTION'),
-					scale : 'medium',
-					btnType : 'info',
 					btnPosition : 'middle',
 					handler : function() {//TODO
 					}
 				}, {
+					actionBtn : true,
 					text : msg('MSG_PREVIEW'),
-					scale : 'medium',
-					btnType : 'info',
 					btnPosition : 'middle',
 					handler : function() {//TODO
 						if (draftMailId == '' || draftMailId.length == 0){
@@ -65,9 +58,8 @@ function() {
 						IVS.changeView('mail.view_mail?objectId=' + draftMailId);
 					}
 				}, {
+					actionBtn : true,
 					text : msg('MSG_SAVE_TO_DRAFT'),
-					scale : 'medium',
-					btnType : 'info',
 					btnPosition : 'last',
 					handler : function() {
 					    
@@ -84,10 +76,10 @@ function() {
 	                        draftMailId = resp.result.msg;
 	                    });
 					}
-				}, '->', {
+				}, {
+					actionBtn : true,
 					text : msg('MSG_SEND'),
-					scale : 'medium',
-					btnType : 'success',
+					btnType : 'info',
 					handler : function() {
 					    
 					    var mailDetailForm = this.ownerCt.ownerCt.items.get(0);
@@ -104,7 +96,7 @@ function() {
 	                    });
 					}
 				}]
-			},
+			}),
 			layout : {
 				type : 'vbox',
 				align : 'center'

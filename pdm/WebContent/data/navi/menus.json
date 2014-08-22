@@ -1,7 +1,7 @@
 [
     {
         "nlsid": 'MSG_TM_TASKS',
-        "icon": 'static/images/common/task.png',
+        "icon": 'static/images/menu/task.png',
         "menuData": [[
                 {
                     "blocks": [
@@ -10,7 +10,7 @@
                             "items": [
                                 {
                                     "nlsid": 'MSG_TM_MY_TASKS',
-                                    "view": 'workflow.my_tasks'
+                                    "view": 'task.my_tasks'
                                 }
                             ]
                         }, {
@@ -28,7 +28,7 @@
         ]
     }, {
         "nlsid": 'MSG_DM_DOCUMENT',
-        "icon": 'static/images/common/copy.png',
+        "icon": 'static/images/menu/document.png',
         "menuData": [[
                 {
                     "blocks": [
@@ -79,10 +79,10 @@
                             "items": [
                                 {
                                     "nlsid": 'MSG_DM_CONTROLLED_FILES',
-                                    "view": 'document.search_files?classification=controlled'
+                                    "view": 'document.search_controlled_files'
                                 }, {
                                     "nlsid": 'MSG_DM_TEMPORARY_FILES',
-                                    "view": 'document.search_files?classification=temporary'
+                                    "view": 'document.search_temporary_files'
                                 }
                             ]
                         }, {
@@ -96,7 +96,7 @@
         ]
     }, {
         "nlsid": 'MSG_AR_ARCHIVAL',
-        "icon": 'static/images/common/copy.png',
+        "icon": 'static/images/menu/record.png',
         "menuData": [[
                 {
                     "blocks": [
@@ -105,7 +105,7 @@
                             "items": [
                                 {
                                     "nlsid": 'MSG_AR_REPOSITORY',
-                                    "view": 'archival.repository'
+                                    "view": 'archival.recordlibrary'
                                 },{
                                     "nlsid": 'MSG_AR_UNFILED_RECORDS',
                                     "view": 'archival.unfiledrecords'
@@ -126,7 +126,7 @@
         ]
     }, {
         "nlsid": 'MSG_MM_MAIL',
-        "icon": 'static/images/common/mail.png',
+        "icon": 'static/images/menu/mail.png',
         "menuData": [[
                 {
                     "blocks": [
@@ -202,7 +202,7 @@
         ]
     }, {
         "nlsid": 'MSG_WF_WORKFLOWS',
-        "icon": 'static/images/common/workflow.png',
+        "icon": 'static/images/menu/workflow.png',
         "menuData": [[
                 {
                     "blocks": [
@@ -211,7 +211,7 @@
                             "items": [
                                 {
                                     "nlsid": 'MSG_WF_WORKFLOWS',
-                                    "view": 'workflow.search_workflows'
+                                    "view": 'workflow.search_workflow_instances'
                                 }, {
                                     "nlsid": 'MSG_WF_TEMPLATES',
                                     "view": 'workflow.search_workflow_templates'
@@ -228,11 +228,31 @@
                         }
                     ]
                 }
+            ], [
+                {
+                    "blocks": [
+                        {
+                            "nlsid": 'MSG_WF_STANDARD_SEARCHES',
+                            "items": [
+                                {
+                                    "nlsid": 'MSG_WF_INITIATED_BY_ME',
+                                    "view": 'initiated_by_me'
+                                }, {
+                                    "nlsid": 'MSG_WF_RECEIVED_IN_THE_LAST_7_DAYS',
+                                    "view": 'received_in_the_last_7_days'
+                                }, {
+                                    "nlsid": 'MSG_WF_COMPLETED_IN_THE_LAST_7_DAYS',
+                                    "view": 'completed_in_the_last_7_days'
+                                }
+                            ]
+                        }
+                    ]
+                }
             ]
         ]
     }, {
         "nlsid": 'MSG_SD_SUPPLIER_DOCUMENTS',
-        "icon": 'static/images/common/supplier_document.png',
+        "icon": 'static/images/menu/supplier-document.png',
         "menuData": [[
                 {
                     "blocks": [
@@ -261,17 +281,50 @@
             ]
         ]
     }, {
-        "nlsid": 'MSG_SD_PROJECT',
-        "icon": 'static/images/common/supplier_document.png',
+        "nlsid": 'MSG_PM_PROJECT',
+        "icon": 'static/images/menu/project.png',
         "menuData": [[
                 {
                     "blocks": [
                         {
-                            "nlsid": 'MSG_SD_PROJECT',
+                            "nlsid": 'MSG_PM_SEARCH',
                             "items": [
                                 {
-                                    "nlsid": 'MSG_SD_PROJECT_PLANNING',
-                                    "view": 'configuration.project_planning'
+                                    "nlsid": 'MSG_PM_LIST_MY_PROJECTS',
+                                    "view": 'project.list_my_projects'
+                                }
+                            ]
+                        }, {
+                            "nlsid": 'MSG_PM_CREATE_NEW',
+                            "items": [
+                                {
+                                    "nlsid": 'MSG_PM_CREATE_PROJECT',
+                                    "view": 'project.new_project'
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ], [
+                {
+                    "blocks": [
+                        {
+                            "nlsid": 'MSG_PM_CONFIGURATION',
+                            "items": [
+                                {
+                                    "nlsid": 'MSG_PM_PROJECT_SETTINGS',
+                                    "view": 'project.project_settings'
+                                }, {
+                                    "nlsid": 'MSG_PM_CONFIGURE_ACCESS_CONTROL',
+                                    "view": 'project.configure_access_control'
+                                }
+                            ]
+                        }, {
+                            "nlsid": 'MSG_PM_ACTIONS',
+                            "items": [
+                                {
+                                    "nlsid": 'MSG_PM_PROJECT_PLANNING',
+                                    "view": 'project.project_planning'
                                 }
                             ]
                         }
@@ -281,7 +334,7 @@
         ]
     }, {
         "nlsid": 'MSG_CM_SETUP',
-        "icon": 'static/images/common/gear.png',
+        "icon": 'static/images/menu/config.png',
         "menuData": [[
                 {
                     "blocks": [
@@ -290,10 +343,13 @@
                             "items": [
                                 {
                                     "nlsid": 'MSG_CM_PREFERENCES',
-                                    "view": 'preferences'
+                                    "view": 'configuration.preferences'
+                                }, {
+                                    "nlsid": 'MSG_CM_CONFIGURE_REPOSITORY',
+                                    "view": 'configuration.config_repository'
                                 }, {
                                     "nlsid": 'MSG_CM_ASSIGN_USER_ROLES',
-                                    "view": 'assign_user_roles'
+                                    "view": 'configuration.assign_user_roles'
                                 }, {
                                     "nlsid": 'MSG_CM_CONFIGURE_USER_ROLE_SETTINGS',
                                     "view": 'configuration.configure_user_role_settings'
@@ -301,17 +357,11 @@
                             ]
                         }
                     ]
-                }, {
+                }
+            ], [
+                {
                     "blocks": [
                         {
-                            "nlsid": 'MSG_CM_USER',
-                            "items": [
-                                {
-                                    "nlsid": 'MSG_CM_ACCOUNT_DETAILS',
-                                    "view": 'account_details'
-                                }
-                            ]
-                        }, {
                             "nlsid": 'MSG_CM_MY_ORGANIZATION',
                             "items": [
                                 {
@@ -323,37 +373,6 @@
                                 }, {
                                     "nlsid": 'MSG_CM_CREATE_USER',
                                     "view": 'new_user'
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ], [
-                {
-                    "blocks": [
-                        {
-                            "nlsid": 'MSG_CM_PROJECT',
-                            "items": [
-                                {
-                                    "nlsid": 'MSG_CM_PROJECT_SETTINGS',
-                                    "view": 'configuration.project_settings'
-                                }, {
-                                    "nlsid": 'MSG_CM_LIST_MY_PROJECTS',
-                                    "view": 'list_my_projects'
-                                }, {
-                                    "nlsid": 'MSG_CM_CREATE_PROJECT',
-                                    "view": 'new_project'
-                                }, {
-                                    "nlsid": 'MSG_CM_CONFIGURE_ACCESS_CONTROL',
-                                    "view": 'configure_access_control'
-                                }
-                            ]
-                        }, {
-                            "nlsid": 'MSG_CM_ABOUT',
-                            "items": [
-                                {
-                                    "nlsid": 'MSG_CM_ABOUT',
-                                    "view": 'about'
                                 }
                             ]
                         }

@@ -2,6 +2,8 @@ Ext.define('core.locator.FolderLocator', {
 	extend : 'Ext.window.Window',
 	xtype : 'folderlocator',
 	rootPath : '/',
+	rootVisible : false,
+	rootText : '',
 	singleSelect : true,
 	width : 350,
 	height : 450,
@@ -30,9 +32,10 @@ Ext.define('core.locator.FolderLocator', {
 		
 		this.treePanel = Ext.create('Ext.tree.Panel', {
 			animCollapse : true,
-			rootVisible : false,
+			rootVisible : this.rootVisible,
 			root : {
-				path : this.rootPath
+				'cm:name' : this.rootText,
+				PATH : this.rootPath
 			},
 			bodyBorder : false,
 			displayField : 'cm:name',
@@ -81,11 +84,10 @@ Ext.define('core.locator.FolderLocator', {
 		
 		this.buttons = [{
 			text : Utils.msg('MSG_CANCEL'),
-			closeWinBtn : true,
-			btnType : 'warning'
+			closeWinBtn : true
 		}, {
 			text : Utils.msg('MSG_OK'),
-			btnType : 'success',
+			btnType : 'info',
 			handler : function() {
 				me.doOk();
 			}

@@ -28,7 +28,7 @@ public class CDATest {
 		
 		CommonDataProcessor dp = new CommonDataProcessor(args);
 //		
-		CDAResult result = CDA.call("DataDictionary", "getObjectFields", endpointUrl, user.getTicket(), Locale.getDefault(), dp);
+		CDAResult result = CDA.call("DmTest", "test22", endpointUrl, user.getTicket(), Locale.getDefault(), dp);
 //		
 		System.out.println(result.getHeaders());
 //		

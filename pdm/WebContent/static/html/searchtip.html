@@ -1,0 +1,59 @@
+<div style='overflow-y:auto;overflow-x:hidden;height:100%;background-color:#FAFAFA;color:#487091;text-shadow:white 0px 1px 1px;padding:5px;'>
+<div style='font-size:15px;background-color:#F0F0F0;padding:10px;margin:-5px;'>查询到0个结果</div>
+<div style='font-size:17px;padding:10px;font-weight:bold;'>搜索技巧</div>
+<style>
+.searchtip-td {
+	width: 50%;
+	vertical-align: top;
+}
+.searchtip-td>div {
+	padding : 6px;
+	font-size : 13px;
+}
+.searchtip-example {
+	font-style : italic;
+	font-size : 14px!important;
+}
+.searchtip-subtitle {
+	text-decoration : underline;
+	font-size : 16px!important;
+}
+</style>
+<table style='width:100%;' cellspacing=0 cellpadding=0>
+	<tr>
+		<td class='searchtip-td'>
+           <div class="searchtip-subtitle">按属性和文档内容查找项</div>
+           <div>要按通用属性或文档内容搜索项，只需键入一个词，例如：</div>
+           <div class="searchtip-example">business</div>
+           <div>此查询的结果将列出文档内容、标记，或者名称、标题或描述的通用属性中与词“business”匹配的所有项。</div>
+           <div>添加更多词可以生成相关度更高的结果，例如：</div>
+           <div class="searchtip-example">business process</div>
+           <div>此查询的结果将列出文档内容、标记，或者名称、标题或描述的通用属性中与词“business”或“process”匹配的所有项。 结果将按相关性排序，包含这两个词的项列在最前面。</div>
+           <div>要减少搜索结果的数目，可以使用 AND 将多个词组合在一起，例如：</div>
+           <div class="searchtip-example">business and process</div>
+           <div>此查询的结果将列出文档内容、标记，或者名称、标题或描述的通用属性中同时包含词“business”和“process”的所有项。</div>
+           <div>要搜索特定的短语，请使用引号，例如：</div>
+           <div class="searchtip-example">"business process"</div>
+           <div>此查询的结果将列出文档内容、标记，或者名称、标题或描述的通用属性中包含短语“business process”的所有项。</div>
+           <div>可以使用通配符进行部分匹配。例如，要查找包含以“proc”开头的词的所有项，请执行以下操作：</div>
+           <div class="searchtip-example">proc*</div>
+		</td>
+		<td class='searchtip-td'>
+           <div class="searchtip-subtitle">按特定属性或文档内容查找项</div>
+           <div>要按特定属性搜索项，请添加属性作为前缀，例如：</div>
+           <div class="searchtip-example">title:production</div>
+           <div>此查询的结果将列出标题属性中包含词“production”的所有项。</div>
+           <div>要按文档内容搜索内容，请添加特殊的 TEXT 属性作为前缀，例如：</div>
+           <div class="searchtip-example">TEXT:production</div>
+           <div>此查询的结果将列出文档内容中包含词“production”的所有内容项。</div>
+           <div>常用的属性前缀包括：name、title、description、creator、modifier、TEXT、TYPE 和 ASPECT。 可以在短语两侧使用引号，并可以使用通配符进行部分匹配。</div>
+           <div>要搜索在特定日期创建的项，请使用日期属性搜索，例如：</div>
+           <div class="searchtip-example">created:"2011-09-26"</div>
+           <div>此查询的结果将列出在 2011 年 9 月 26 日创建的所有项。</div>
+           <div>要搜索在特定日期范围内修改的项，请使用日期范围属性搜索，例如：</div>
+           <div class="searchtip-example">modified:"2011-09-26".."2011-10-30"</div>
+           <div>此查询的结果将列出在 2011 年 9 月 26 日和 10 月 30 日之间（包括这两个边界日期）修改的所有项。 可以使用特殊关键字“NOW”、“MIN”和“MAX”来指明当前日期、可能的最早时间和最远将来时间的时间戳记。</div>
+		</td>
+	</tr>
+</table>
+</div>

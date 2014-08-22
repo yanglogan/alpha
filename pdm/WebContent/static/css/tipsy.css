@@ -5,7 +5,7 @@
 	z-index: 100000;
 }
 .tipsy-inner {
-	background-color: #0c552d;
+	background-color: black;
 	color: #FFF;
 	max-width: 200px;
 	padding: 5px 8px 4px 8px;
@@ -18,27 +18,27 @@
 	-webkit-border-radius: 3px;
 }
 /* Uncomment for shadow */
-/*.tipsy-inner { box-shadow: 0 0 5px #0c552d000; -webkit-box-shadow: 0 0 5px #0c552d000; -moz-box-shadow: 0 0 5px #0c552d000; }*/
+/*.tipsy-inner { box-shadow: 0 0 5px black000; -webkit-box-shadow: 0 0 5px black000; -moz-box-shadow: 0 0 5px black000; }*/
 
 .tipsy-arrow {
 	position: absolute;
 	width: 0;
 	height: 0;
 	line-height: 0;
-	border: 5px dashed #0c552d;
+	border: 5px dashed black;
 }
 /* Rules to colour arrows */
 .tipsy-arrow-n {
-	border-bottom-color: #0c552d;
+	border-bottom-color: black;
 }
 .tipsy-arrow-s {
-	border-top-color: #0c552d;
+	border-top-color: black;
 }
 .tipsy-arrow-e {
-	border-left-color: #0c552d;
+	border-left-color: black;
 }
 .tipsy-arrow-w {
-	border-right-color: #0c552d;
+	border-right-color: black;
 }
 .tipsy-n .tipsy-arrow {
 	top: 0px;

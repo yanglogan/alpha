@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions comment='recycle bin actions'>
+	<action id='delete' icon='static/images/documentlibrary/actions/document-delete-16.png' nlsid='MSG_ACTION_DELETE' multisupport='true'>
+		<preconditions>
+			<precondition ref='permit'>
+				<permit>DeleteNode</permit>
+			</precondition>
+		</preconditions>
+		<execution>
+			<type>function</type>
+			<specification>delete</specification>
+		</execution>
+	</action>
+	<action id='recover' icon='static/images/documentlibrary/actions/document-cloud-sync-16.png' nlsid='MSG_ACTION_RECOVER' multisupport='true'>
+		<preconditions>
+			<precondition ref='recovercheck' />
+		</preconditions>
+		<execution>
+			<type>function</type>
+			<specification>recover</specification>
+		</execution>
+	</action>
+</actions>

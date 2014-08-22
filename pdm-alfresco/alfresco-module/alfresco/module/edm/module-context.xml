@@ -2,14 +2,16 @@
 <!DOCTYPE beans PUBLIC '-//SPRING//DTD BEAN//EN' 'http://www.springframework.org/dtd/spring-beans.dtd'>
 
 <beans>
-
-    <bean id="edm_DictionaryBootstrap" parent="dictionaryModelBootstrap"
-        depends-on="dictionaryBootstrap">
-        <property name="models">
-            <list>
-                <value>alfresco/module/edm/model/edmModel.xml</value>
-            </list>
-        </property>
+    <bean id="edm_dictionaryBootstrap" parent="dictionaryModelBootstrap" depends-on="dictionaryBootstrap">
+       <property name="models">
+           <list>
+               <value>alfresco/module/edm/model/edmModel.xml</value>
+           </list>
+       </property>
+       <property name="labels">
+           <list>
+               <value>alfresco/module/edm/messages/edm-model</value>
+           </list>
+       </property>
     </bean>
-
 </beans>

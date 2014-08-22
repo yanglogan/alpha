@@ -12,13 +12,13 @@ Ext.define('component.document.fileexplorer.ActionExecutor', {
 		
 		if (type == 'function' && this[specification]) {
 			this[specification](action, selection);
-			return;
+			return true;
 		}
 		
 		if (type == 'view') {
 			
 			if (Ext.isArray(selection)) {
-				Utils.error('you should not specify a view execution that support multi selection!');
+				Utils.error('you should not specify a view execution that supports multi selection!');
 				return;
 			}
 			
@@ -31,6 +31,7 @@ Ext.define('component.document.fileexplorer.ActionExecutor', {
 			});
 			
 			IVS.changeView(specification, params);
+			return true;
 		}
 		
 	}

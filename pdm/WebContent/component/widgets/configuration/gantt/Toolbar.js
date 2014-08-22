@@ -1,15 +1,10 @@
 Ext.define("component.configuration.gantt.Toolbar", {
-	extend : "Ext.Toolbar",
+	extend : "core.toolbar.NavToolbar",
 
 	gantt : null,
 	autoScroll : true,
 	initComponent : function() {
 		var gantt = this.gantt;
-		this.defaults = {
-			btnType : 'normal',
-			textColor : 'black',
-			scale : 'medium'
-		};
 		
 		this.cls = 'toolbar-shadow';
 		gantt.taskStore.on({

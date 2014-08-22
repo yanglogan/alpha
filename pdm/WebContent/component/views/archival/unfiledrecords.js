@@ -1,32 +1,21 @@
 function() {
 	
-	Utils.importCSS(['static/ext/fileexplorer/theme.css']);
-	Utils.importJS(['static/ext/fileexplorer/fileexplorer.js', 'static/ext/fileexplorer/i18n/lang-' + localeString + '.js']);
+	if (typeof FileExplorer == 'undefined') {
+		Utils.importCSS(['static/ext/fileexplorer/theme.css']);
+		Utils.importJS(['static/ext/fileexplorer/fileexplorer.js', 'static/ext/fileexplorer/i18n/lang-' + localeString + '.js',
+		                  'component/i18n/archival/archival-' + localeString + '.js']);
+	}
 	
 	FileExplorer.currentUserName = userLoginId;
 	FileExplorer.thumbnailRootPath = 'static/images/thumbnail/';
-	FileExplorer.i18nFunc = msg;
+	FileExplorer.iconRootPath = 'static/images/filetypes/';
 	
 	
 	var tree = Ext.create('FileExplorer.TreePanel', {
-	    tbar : ['选择全宗: ',{
-	        xtype : 'combo',
-	        width : 120,
-	        listeners :  {
-	            afterRender : function() {
-	                var me = this;
-	                me.on('valuechange', function(rec) {
-	                    alert('valuechange');
-	                    tree.store.removeAll();
-	                    tree.store.proxy.extraParams.parentId = rec['text'];
-	                });
-	            }
-	        }
-	    }],
 		bodyBorder : false,
 		collapsible : true,
 		preventHeader : true,
-		rootVisible : true,
+		rootVisible : false,
 		region : 'west',
 		split : true,
 		collapseMode : 'mini',
@@ -36,8 +25,14 @@ function() {
 		useArrows : true,
 		displayField : 'cm:name',
 		autoScroll : true,
+		calculateIcon : function(record) {
+            if (record.raw['TYPE'] == 'rms:unfiledRecordContainer') {
+                return 'static/images/filetypes/repository.png';
+            }
+            return 'static/images/filetypes/folder.png';
+        },
 		root : {
-			'cm:name' : msg('MSG_REPOSITORY'),
+			'cm:name' : msg('MSG_UNFILED_REPOSITORY'),
 			expanded : true
 		},
 		getCurrentNode : function() {
@@ -50,7 +45,7 @@ function() {
 			autoLoad : false,
 			proxy : {
 				type : 'ajax',
-				url : Utils.getCDAUrl('ArchivalRepository', 'getUnfiledRecordFolder')
+				url : Utils.getCDAUrl('UnfiledRecordComponent', 'getUnfiledRecordFolder')
 			},
 			listeners: {
 				beforeload : function (store, operation, eOpts) {
@@ -74,6 +69,7 @@ function() {
 				var rec = records[0];
 				var arr = [];
 				while (rec) {
+				    if (rec.internalId == 'root') break;
 					arr.unshift(rec);
 					rec = rec.parentNode;
 				}
@@ -90,6 +86,7 @@ function() {
 	
 	var bcbar = Ext.create('FileExplorer.BreadCrumbToolbar', {
 		dock : 'top',
+		cls : 'fe-toolbar fe-toolbar-top',
 		beforePathClicked : function(data) {
 			tree.getSelectionModel().select(data);
 		},
@@ -111,7 +108,7 @@ function() {
 				root : 'results',
 				totalProperty : 'total'
 			},
-			url : Utils.getCDAUrl('ArchivalRepository', 'getUnfiledRecordContents')
+			url : Utils.getCDAUrl('UnfiledRecordComponent', 'getUnfiledRecordContents')
 		},
 		sorters : [{
 			property : 'cm:name',
@@ -119,59 +116,73 @@ function() {
 		}]
 	});
 	
-	var actionProvider = Ext.create('FileExplorer.ActionProvider', {
-		dataUrls : ['data/actions/archivalrepositoryactions.xml'],
+	var actionProvider = Ext.create('component.document.fileexplorer.ActionProvider', {
+		dataUrls : ['data/actions/recordactions.xml'],
+		i18nFunc : msg,
 		getActionIds : function(rec) {
 			if (rec.raw.ISFOLDER) {
-				return ['downloadzip', 'viewdetail', 'editproperties', 'printcatalog', 'fdrmoveto', 'fdrcopyto', 'deletefdr'];
+				return ['viewdetail', 'editproperties'];
 			}
-			return ['download', 'editproperties', 'reopenrecord', 'completerecord', 'fileto', 'printcover', 'viewinexplorer', 'uploadnewversion', 'editoffline', 'docmoveto', 'doccopyto', 'deletedoc'];
+			return ['reopenrecord', 'completerecord', 'fileto', 'editproperties', 'printcover'];
 		},
-		preconditions : {
-			permit : function(rec, config) {
-			    return rec.raw.PERMISSIONS.indexOf(config[0].textContent) != -1;
-			},
-			state : function(rec, config) {
-			    return rec.data['edm:state'] == config[0].textContent;
-			},
+		extraPreconditions : {
 			type : function(rec, config) {
 			    return rec.raw['TYPE'] == config[0].textContent;
 			}
 		}
 	});
 	
-	var actionExecutor = Ext.create('FileExplorer.ActionExecutor', {
-        execute : function(action, selection) {
-            
-            switch(action.id) {
-                case 'completerecord' :
-                  Utils.request_AJAX(Utils.getCDAUrl('ArchivalRepository', 'compeleteRecord'), {
-                      objectId : selection.raw['sys:node-uuid']
-                  }, function() {
-                      Utils.success('完成档案成功');
-                      store.reload();
-                  });
-                  break;
-                case 'reopenrecord' :
-                  Utils.request_AJAX(Utils.getCDAUrl('ArchivalRepository', 'reopenRecord'), {
-                      objectId : selection.raw['sys:node-uuid']
-                  }, function() {
-                      Utils.success('档案已打开');
-                      store.reload();
-                  });
-                  break;
-                default :
-                  alert(action.id);
-                  console.log(selection);
-            }
-            
+	var actionExecutor = Ext.create('component.archival.RecordActions', {
+        callback : function(action) {
+            objectList.getDockedItems()[2].moveFirst();
         }
     });
 	
 	var objectList = Ext.create('FileExplorer.ObjectList', {
 		region : 'center',
+		defaultView : 'table',
 		actionProvider : actionProvider,
 		actionExecutor : actionExecutor,
+		viewConfigs : {
+            table : {
+                columns : [{
+                    xtype : 'feiconcolumn'
+                }, {
+                    width : 200,
+                    xtype : 'fenamecolumn',
+                    dataIndex : 'cm:name',
+                    i18nkey : 'name'
+                }, {
+                    width : 200,
+                    xtype : 'fedisplaycolumn',
+                    dataIndex : 'cm:title',
+                    i18nkey : 'title'
+                }, {
+                    width : 155,
+                    xtype : 'fedatetimecolumn',
+                    dataIndex : 'rms:publicationDate',
+                    i18nkey : 'publicationDate'
+                }, {
+                    width : 100,
+                    xtype : 'feusercolumn',
+                    dataIndex : 'rms:originator',
+                    i18nkey : 'originator'
+                }, {
+                    width : 150,
+                    xtype : 'fedisplaycolumn',
+                    dataIndex : 'rms:originatingOrganization',
+                    i18nkey : 'originatingOrganization', 
+                }, {
+                    width : 155,
+                    xtype : 'fedatetimecolumn',
+                    dataIndex : 'rms:dateFiled',
+                    i18nkey : 'datfiled'
+                }, {
+                    xtype : 'feactioncolumn',
+                    i18nkey : 'operation'
+                }]
+            }
+        },
 		listeners : {
 			selectionchange : function(recs) {
 				//console.log(recs);
@@ -200,10 +211,9 @@ function() {
 						}
 					});
 					
-				} else if (rec.raw.ISCONTENT && rec.raw.SIZE && rec.raw.PERMISSIONS.indexOf('ReadContent') != -1) {
-					Utils.goUrl(Utils.getCDAUrl('_CONTENT', 'getContent'), {
-						specification : rec.raw['sys:node-uuid']
-					}, true);
+				} else if (rec.raw.ISCONTENT) {
+					var action = actionProvider.getActionDef('documentdetails');
+                    actionExecutor.execute(action, rec);
 				}
 				
 			},
@@ -223,6 +233,14 @@ function() {
 					}
 				});
 			},
+			sortableAttrs : {
+                'cm:name' : '名称',
+                'cm:title' : '标题',
+                'rms:publicationDate' : '成文日期',
+                'rms:originator' : '责任者',
+                'rms:originatingOrganization' : '责任单位',
+                'rms:dateFiled' : '归档日期'
+            },
 			showFolders : function() {
 				store.clearFilter();
 			},
@@ -234,13 +252,66 @@ function() {
 			        items.shift();
 			    }
 			    
-                items.unshift(select);
+			    while (select.menu.length > 0) {
+                    select.menu.pop();
+                }
+                select.menu.push({
+                    text : '未完成档案',
+                    iconCls : 'fe-icon fe-icon-select-documents',
+                    handler : function() {
+                        var arr = [];
+                        me.getObjectList().store.each(function(rec) {
+                            if (rec.raw['ASPECTS'].indexOf('rms:declaredRecord') == -1) {
+                                arr.push(rec);
+                            }
+                        });
+                        me.getObjectList().getSelectionModel().select(arr);
+                    }
+                }, {
+                    text : '已完成档案',
+                    iconCls : 'fe-icon fe-icon-select-documents',
+                    handler : function() {
+                        var arr = [];
+                        me.getObjectList().store.each(function(rec) {
+                            if (rec.raw['ASPECTS'].indexOf('rms:declaredRecord') != -1) {
+                                arr.push(rec);
+                            }
+                        });
+                        me.getObjectList().getSelectionModel().select(arr);
+                    }
+                }, {
+                text : '反向',
+                iconCls : 'fe-icon fe-icon-select-invert',
+                handler : function() {
+                    var arr = [];
+                    var selModel = me.getObjectList().getSelectionModel();
+                    me.getObjectList().store.each(function(rec) {
+                        if (!selModel.isSelected(rec)) {
+                            arr.push(rec);
+                        }
+                    });
+                    selModel.select(arr);
+                }
+                }, {
+                    text : '无',
+                    iconCls : 'fe-icon fe-icon-select-none',
+                    handler : function() {
+                        me.getObjectList().getSelectionModel().deselectAll();
+                    }
+            });
+			    
+            items.unshift(select);
+            
 			}
 		}, bcbar]
 	});
 	
 	
 	return {
+	    tbar : Ext.create('core.toolbar.NavToolbar', {
+            title : '收集整编',
+            returnBtnVisible : false
+        }),
 		IVSautoDestroy : false,
 		layout : 'border',
 		items : [tree, objectList]

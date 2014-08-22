@@ -1,14 +1,14 @@
 /* file explorer css */
 .fe-tree-cell {
 	height: 30px;
+	padding-top : 2px;
 }
 .fe-tree-cell-root {
 	background-color: #F3F3F3;
-	border-top: 1px white solid;
 	border-bottom: 1px #CCCCCC solid;
 }
 .fe-tree-row-selected {
-	background-color: red !important;
+	background-color: white !important;
 }
 .fe-hide-show {
 	display: none;
@@ -27,12 +27,13 @@
 	border-left : 2px transparent solid;
 }
 .fe-row-checker-indicator:hover {
-	border-left : 2px red solid;
+	border-left : 2px green solid;
 }
 .fe-display-row {
 	color: #333333;
 	margin-top: 5px;
 	overflow: hidden;
+	min-height : 20px;
 	text-overflow: ellipsis;
 }
 .fe-display-disabled-row {
@@ -56,30 +57,47 @@
 	background-position: 2px;
 	padding-left: 20px;
 }
+.fe-grid-row,.fe-row-actions {
+	height : 29px;
+}
 .fe-display-title-row {
-	height: 20px;
-	font-size: 17px;
+	line-height : 16px;
+	font-size: 16px;
 }
 .fe-row-actions {
-	margin: -5px;
+	overflow: hidden;
+}
+.fe-row-icon-actions {
+	margin:-5px;padding-top:7px;
+}
+.fe-row-actions-multi {
 	height: 120px;
 	border-left: 1px #CCCCCC solid;
 	padding: 4px;
-	overflow: hidden;
+	margin: -5px;
 }
-.fe-row-action-link {
-	cursor: pointer;
+.fe-row-action-link,.fe-common-display-line {
+	white-space:nowrap;
 	padding: 3px;
 	padding-top : 4px;
 	padding-bottom : 4px;
+	cursor : default;
 	width: 100%;
 	border: 1px transparent solid;
 	text-overflow: ellipsis;
 	margin: 1px;
+	text-shadow : white 0px 1px 1px;
 }
 .fe-row-action-link:hover, .fe-row-action-link-over {
+	cursor: pointer;
 	border: 1px #CCCCCC solid;
 	background-color: white;
+}
+.fe-row-action-link:active {
+	background-color : #507CAD;
+	border:1px #507CAD solid;
+	color : white;
+	text-shadow : #707070 0px 1px 1px;
 }
 .fe-toolbar {
 	background-color: white;
@@ -203,13 +221,16 @@
 .fe-icon-reload:hover {
 	background-color : white;
 	border : 1px #999999 solid;
-	border-radius : 999px;
+	border-radius : 1px;
 	cursor : pointer;
+}
+.fe-icon-reload:active {
+	background-color : #F9F9F9;
 }
 .fe-action-icon {
 	background-repeat: no-repeat;
 	padding-left: 22px;
-	background-position: 3px;
+	background-position: 4px;
 }
 .fe-icon-editing {
 	background-image: url(images/indicators/editing-16.png);

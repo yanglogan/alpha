@@ -24,6 +24,7 @@
     <namespaces>
         <namespace uri="http://www.incontent.cn/model/dictionary/1.0" prefix="edm" />
         <namespace uri="http://www.incontent.cn/model/record/1.0" prefix="rms" />
+        <namespace uri="http://www.incontent.cn/model/form/1.0" prefix="emf" />
     </namespaces>
 
     <types>
@@ -85,10 +86,11 @@
                         <tokenised>true</tokenised>
                     </index>
                 </property>
-                <property name="edm:lock">
-                    <title>Lock</title>
+                <property name="edm:numberingApplied">
+                    <title>Numbering Applied</title>
                     <type>d:boolean</type>
-                       <default>false</default>
+                    <protected>true</protected>
+                    <default>false</default>
                 </property>
                 <property name="edm:revision">
                     <title>Revision</title>
@@ -166,7 +168,6 @@
                     <title>Folder Hidden</title>
                     <type>d:boolean</type>
                     <protected>true</protected>
-                    <mandatory>true</mandatory>
                     <default>false</default>
                 </property>
                 <property name="edm:isClosed">
@@ -174,7 +175,6 @@
                     <description>Indicates whether the folder is closed</description>
                     <type>d:boolean</type>
                     <protected>true</protected>
-                    <mandatory>true</mandatory>
                     <default>false</default>
                 </property>
             </properties>
@@ -273,6 +273,7 @@
                 <property name="edm:wbsLeaf">
                     <title>Project Short Name</title>
                     <type>d:boolean</type>
+                    <default>false</default>
                 </property>
                 <property name="edm:wbsStartDate">
                     <title>Start Date</title>
@@ -562,7 +563,7 @@
                 <property name="edm:readFlag">
                     <title>Read Flag</title>
                     <type>d:boolean</type>
-                       <default>false</default>
+                    <default>false</default>
                 </property>
                 <property name="edm:response">
                     <title>Response</title>
@@ -665,7 +666,7 @@
                 <property name="edm:plIsDefault">
                     <title>Is Default</title>
                     <type>d:boolean</type>
-                       <default>false</default>
+                    <default>false</default>
                 </property>
             </properties>
         </type>
@@ -687,7 +688,7 @@
                 <property name="edm:lockNumbering">
                     <title>Lock Numbering</title>
                     <type>d:boolean</type>
-                       <default>false</default>
+                    <default>false</default>
                 </property>
                 <property name="edm:numberFormat">
                     <title>Number Format</title>
@@ -951,6 +952,19 @@
             </properties>
         </type>
 
+        <type name="emf:form">
+            <title>Form</title>
+            <parent>cm:content</parent>
+
+            <properties>
+                <property name="emf:isTemplate">
+                    <title>Is Template</title>
+                    <type>d:boolean</type>
+                    <default>false</default>
+                </property>
+            </properties>
+        </type>
+
         <type name="rms:site">
             <title>Site</title>
             <parent>edm:folder</parent>
@@ -970,8 +984,8 @@
             </mandatory-aspects>
         </type>
 
-        <type name="rms:fondsLibrary">
-            <title>Fonds</title>
+        <type name="rms:recordLibrary">
+            <title>Record Library</title>
             <parent>rms:managementContainer</parent>
 
             <mandatory-aspects>
@@ -1072,7 +1086,7 @@
         </type>
 
         <type name="rms:oaLibrary">
-            <title>Office Administration Document Library</title>
+            <title>OA Library</title>
             <parent>rms:managementContainer</parent>
 
             <mandatory-aspects>
@@ -1081,12 +1095,12 @@
         </type>
 
         <type name="rms:oaCategory">
-            <title>Office Administration Category</title>
+            <title>OA Category</title>
             <parent>rms:managementContainer</parent>
         </type>
 
         <type name="rms:oaFolder">
-            <title>Office Administration Folder</title>
+            <title>OA Folder</title>
             <parent>edm:folder</parent>
             <archive>false</archive>
 
@@ -1095,8 +1109,8 @@
             </mandatory-aspects>
         </type>
 
-        <type name="rms:RegulationLibrary">
-            <title>Regulation Document Library</title>
+        <type name="rms:regulationLibrary">
+            <title>Regulation Library</title>
             <parent>rms:managementContainer</parent>
 
             <mandatory-aspects>
@@ -1104,12 +1118,12 @@
             </mandatory-aspects>
         </type>
 
-        <type name="rms:RegulationCategory">
+        <type name="rms:regulationCategory">
             <title>Regulation Category</title>
             <parent>rms:managementContainer</parent>
         </type>
 
-        <type name="rms:RegulationFolder">
+        <type name="rms:regulationFolder">
             <title>Regulation Folder</title>
             <parent>edm:folder</parent>
             <archive>false</archive>
@@ -1128,14 +1142,17 @@
                 <property name="edm:internalRef">
                     <title>Internal Reference</title>
                     <type>d:text</type>
+                    <protected>true</protected>
                 </property>
                 <property name="edm:internalChronRef">
                     <title>Internal Chron Reference</title>
                     <type>d:text</type>
+                    <protected>true</protected>
                 </property>
                 <property name="edm:type">
                     <title>Type</title>
                     <type>d:text</type>
+                    <protected>true</protected>
                     <index enabled="true">
                         <atomic>true</atomic>
                         <stored>false</stored>
@@ -1145,6 +1162,7 @@
                 <property name="edm:typeName">
                     <title>Type Name</title>
                     <type>d:text</type>
+                    <protected>true</protected>
                     <index enabled="true">
                         <atomic>true</atomic>
                         <stored>false</stored>
@@ -1178,6 +1196,7 @@
                 <property name="edm:previousState">
                     <title>Previous State</title>
                     <type>d:text</type>
+                    <protected>true</protected>
                     <index enabled="true">
                         <atomic>true</atomic>
                         <stored>false</stored>
@@ -1315,7 +1334,7 @@
             <properties>
                 <property name="edm:projectRef">
                     <title>Project Reference</title>
-                    <type>d:noderef</type>
+                    <type>d:text</type>
                     <protected>true</protected>
                 </property>
             </properties>
@@ -1339,6 +1358,7 @@
                 <property name="edm:isGoverningFdr">
                     <title>Is Governing Folder</title>
                     <type>d:boolean</type>
+                    <default>false</default>
                 </property>
             </properties>
         </aspect>
@@ -1378,8 +1398,8 @@
             </properties>
         </aspect>
 
-        <aspect name="edm:engineerDocument">
-            <title>Engineer Document</title>
+        <aspect name="edm:engineeringDocument">
+            <title>Engineering Document</title>
             <archive>false</archive>
             <properties>
                 <property name="edm:authors">
@@ -1570,18 +1590,14 @@
             <title>Component Identifier</title>
             <properties>
                 <property name="rms:identifier">
-                   <title>Identifier</title>
-                   <type>d:text</type>
-                   <index enabled="true">
-                      <atomic>true</atomic>
-                      <stored>false</stored>
-                      <tokenised>false</tokenised>
-                   </index>
-                </property>
-                <property name="rms:numberingApplied">
-                    <title>Numbering Applied</title>
-                    <type>d:boolean</type>
-                       <default>false</default>
+                    <title>Identifier</title>
+                    <type>d:text</type>
+                    <protected>true</protected>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>false</tokenised>
+                    </index>
                 </property>
             </properties>
 
@@ -1596,7 +1612,7 @@
             <properties>
                 <property name="rms:rootNodeRef">
                     <title>Root node reference</title>
-                    <type>d:noderef</type>
+                    <type>d:text</type>
                     <protected>true</protected>
                 </property>
             </properties>
@@ -1634,8 +1650,9 @@
                 <property name="rms:dateFiled">
                     <title>Date Filed</title>
                     <type>d:date</type>
+                    <protected>true</protected>
                 </property>
-                <property name="rms:origionalName">
+                <property name="rms:originalName">
                     <title>Original Name</title>
                     <type>d:text</type>
                     <protected>true</protected>
@@ -1653,6 +1670,7 @@
                 <property name="rms:originator">
                     <title>Originator</title>
                     <type>d:text</type>
+                    <mandatory>true</mandatory>
                     <index enabled="true">
                         <atomic>true</atomic>
                         <stored>false</stored>
@@ -1662,6 +1680,7 @@
                 <property name="rms:originatingOrganization">
                     <title>Originating Organization</title>
                     <type>d:text</type>
+                    <mandatory>true</mandatory>
                     <index enabled="true">
                         <atomic>true</atomic>
                         <stored>false</stored>

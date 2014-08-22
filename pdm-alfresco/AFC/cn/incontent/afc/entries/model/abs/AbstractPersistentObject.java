@@ -12,7 +12,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.alfresco.model.ContentModel;
-import org.alfresco.repo.security.authentication.AuthenticationUtil;
 import org.alfresco.repo.security.permissions.impl.AccessPermissionImpl;
 import org.alfresco.service.cmr.dictionary.AssociationDefinition;
 import org.alfresco.service.cmr.repository.AssociationRef;
@@ -926,10 +925,10 @@ public abstract class AbstractPersistentObject implements IAfPersistentObject {
 	@Override
 	public boolean userHasPermission(String userLoginId, Permission permission) throws AfException {
 		//if sysadmin or owner, return true always
-		if (AuthenticationUtil.getAdminUserName().equals(userLoginId) || userLoginId.equals(getOwner())) {
+		if (userLoginId.equals(getOwner()) || ServiceHelper.getAuthorityService(afSession).isAdminAuthority(userLoginId)) {
 			return true;
 		}
-
+		
 		for (IAfPermission ac : getACL()) {
 			if (ac.userHasPermission(userLoginId, permission)) {
 				return true;

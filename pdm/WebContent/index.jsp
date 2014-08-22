@@ -27,6 +27,7 @@ var userLoginId = '<%=user.getUserLoginId() %>';
 <script type="text/javascript" src="${basePath}static/ext/nprogress/nprogress.js"></script>
 
 <script type="text/javascript" src="${basePath}static/ext/plupload/plupload.full.min.js"></script>
+<script type="text/javascript" src="${basePath}static/ext/swfobject/swfobject.js"></script>
 
 <script type="text/javascript" src="${basePath}static/ext/zeroclipboard/ZeroClipboard.Core.min.js"></script>
 <script type="text/javascript" src="${basePath}static/ext/zeroclipboard/ZeroClipboard.min.js"></script>

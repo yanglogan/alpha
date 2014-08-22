@@ -117,7 +117,12 @@ public class ProductUtils {
 	
 	private static String getPath(IAfSession afSession, NodeRef nf) {
 		NodeService ns = ServiceHelper.getNodeService(afSession);
-		Path p = ns.getPath(nf);
+		Path p = null;
+		try {
+			p = ns.getPath(nf);
+		} catch (Exception e) {
+			return null;
+		}
 		
 		StringBuffer realPath = new StringBuffer();
 

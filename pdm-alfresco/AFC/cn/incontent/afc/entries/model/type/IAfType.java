@@ -40,4 +40,6 @@ public interface IAfType {
 	public List<String> getDefaultAspects();
 
 	public IAfSession getAfSession();
+
+	public List<IAfAttr> getOwnAttrs();
 }

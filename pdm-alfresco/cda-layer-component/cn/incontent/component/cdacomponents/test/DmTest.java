@@ -7,7 +7,6 @@ import java.io.FileOutputStream;
 import java.util.Locale;
 
 import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Repository;
 
 import cn.incontent.afc.client.IAfSession;
@@ -25,8 +24,6 @@ import cn.incontent.afc.entries.model.abs.IAfSysObject;
 import cn.incontent.afc.entries.model.document.IAfDocument;
 import cn.incontent.afc.entries.model.exception.AfException;
 import cn.incontent.afc.entries.model.folder.IAfFolder;
-import cn.incontent.afc.entries.model.id.AfID;
-import cn.incontent.afc.entries.model.id.IAfID;
 import cn.incontent.afc.entries.model.permission.IAfPermission;
 import cn.incontent.afc.entries.model.permission.Permission;
 import cn.incontent.cda.server.core.ArgumentList;

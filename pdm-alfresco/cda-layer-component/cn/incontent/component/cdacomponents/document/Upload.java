@@ -46,8 +46,18 @@ public class Upload extends CDAComponent {
 			document.setTitle(args.get("cm:name"));
 			document.link(args.get("parentId"));
 			
+			
 			document.setContentType(ContentTypeHelper.getContentTypeByExtension(afSession, FilenameUtils.getExtension(file.getName())));
 			document.setContent(new FileInputStream(file));
+			document.save();
+			
+			
+			if (document.hasAspect("rms:filePlanComponent")) {
+				document.setString("rms:rootNodeRef", args.get("rootNodeRef"));
+			} else {
+				document.addAspect("rms:filePlanComponent");
+				document.setString("rms:rootNodeRef", args.get("rootNodeRef"));
+			}
 			document.save();
 			
 			return getMsg(true, "file:" + file.getAbsolutePath());

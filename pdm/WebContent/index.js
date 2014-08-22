@@ -4,7 +4,7 @@ Ext.onReady(function() {
 
 	//IVS PRE SETTING.
 	IVS.BASEURL = base;
-	IVS.DEFAULT_VIEW = 'workflow.my_tasks';
+	IVS.DEFAULT_VIEW = 'task.my_tasks';
 	IVS.beforeViewChange = function(viewName) {
 		$('.x-window').each(function() {
 			var win = Ext.getCmp($(this).attr('id'));
@@ -37,9 +37,38 @@ Ext.onReady(function() {
 			}
 		}]
 	});
+	
+	var titlebartoggler = Ext.widget({
+        xtype: 'toolbar',
+        border: true,
+        floating: true,
+        fixed: true,
+        preventFocusOnActivate: true,
+        draggable: {
+            constrain: true
+        },
+        style : 'cursor:move;opacity:.9;',
+        items: [{
+        	xtype : 'label',
+        	style : 'font-size:15px;',
+        	cls : 'title-label',
+        	html : Utils.msg('MSG_HEADER_IS_HIDDEN')
+        }, {
+            text : Utils.msg('MSG_SHOW_TITLE_BAR'),
+            btnType : 'info',
+            handler : function() {
+            	titlebar.expand();
+            	this.ownerCt.hide();
+            }
+        }]
+    });
 
 	var titlebar = Ext.create('Ext.panel.Panel', {
 		region : 'north',
+		collapseMode : 'mini',
+		collapsible : true,
+		preventHeader : true,
+		animCollapse : true,
 		height : 78,
 		border : false,
 		bodyCls : 'titlebar-bg',
@@ -57,7 +86,6 @@ Ext.onReady(function() {
 					items : [{
 						btnType : 'common',
 						style : 'margin-right:-2px;border-right:0px;border-bottom-right-radius:0px;border-top-right-radius:0px;',
-						textColor : 'black',
 						text : Utils.msg('MSG_BASE_ATTRS'),
 						id : 'SEARCH_SCOPE',
 						height : 30,
@@ -89,6 +117,17 @@ Ext.onReady(function() {
 						style : Ext.isIE7 || Ext.isIE8 ? 'margin-left:-10px;' : null,
 						emptyText : Utils.msg('MSG_SEARCH_TIP'),
 						listeners : {
+							specialkey : function(field, e) {
+								if (e.getKey() == e.ENTER) {
+									var q = Ext.String.trim(field.getValue());
+									if (Ext.isEmpty(q)) {
+										return;
+									}
+									IVS.changeView('document.search', {
+										q : q
+									});
+								}
+							},
 							blur : function() {
 								var me = this;
 								this.animate({
@@ -109,7 +148,6 @@ Ext.onReady(function() {
 									}
 								});
 							}
-
 						}
 					}, Ext.create('core.dropdowns.MenuLabel', {
 						html : '<span class="toolbar-label" >基本工程项目</span>',
@@ -139,7 +177,25 @@ Ext.onReady(function() {
 					renderTo : this.el.query('div[userbar]')[0],
 					style : 'background-color:transparent;',
 					width : 400,
-					items : ['->', Ext.create('core.dropdowns.MenuLabel', {
+					items : ['->', {
+						icon : 'static/images/hide-show-titlebar.png',
+						btnType : 'label',
+						style : 'background-color:transparent!important;',
+						tipsy : Utils.msg('MSG_HIDE_TITLE_BAR'),
+						handler : function() {
+							titlebar.collapse();
+							titlebartoggler.show();
+    						titlebartoggler.alignTo(document.body, 't-t');
+						}
+					}, {
+						icon : 'static/images/fullscreen.png',
+						btnType : 'label',
+						style : 'background-color:transparent!important;',
+						tipsy : Utils.msg('MSG_FULLSCREEN'),
+						handler : function() {
+							Utils.toggleFullScreen();
+						}
+					}, Ext.create('core.dropdowns.MenuLabel', {
 						needArrow : false,
 						tipsyGravity : 'e',
 						cls : 'hoverable-label',
@@ -147,7 +203,8 @@ Ext.onReady(function() {
 						enableClickShowMenu : false,
 						showMenu : function() {
 							var me = this;
-							me.menu.style = 'box-shadow:0px 0px 0px;left:auto!important;top:38px!important;right:9px!important;' + me.menu.style;
+							var top = me.getPosition()[1] + me.getHeight() - 1;
+							me.menu.style = 'box-shadow:0px 0px 0px;left:auto!important;top:' + top +'px!important;right:9px!important;' + me.menu.style;
 							me.menu.show();
 						},
 						listeners : {
@@ -188,7 +245,7 @@ Ext.onReady(function() {
 								 + '&nbsp;&nbsp;<span usage=1></span></div><div>' +
 								 	Utils.msg('MSG_QUOTA_TOTAL')
 								 + '&nbsp;&nbsp;<span quota=1></span>' +
-								 	'<span class="quota-reload">&nbsp;&nbsp;&nbsp;&nbsp;</span>'
+								 	'<label style="padding-bottom:1px;padding-right:1px;" class="quota-reload">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>'
 								 + '</div><div class="quota-progressbar-bg"><div class="quota-progress"></div></div></div>',
 								setInfo : function(json) {
 									var usage = json.usage;
@@ -226,7 +283,7 @@ Ext.onReady(function() {
 							}, {
 								text : Utils.msg('MSG_RECYCLE_BIN'),
 								handler : function() {
-									IVS.changeView('recycle_bin');
+									IVS.changeView('document.recycle_bin');
 								}
 							}, '-', {
 								text : Utils.msg('MSG_LOGOUT'),
@@ -382,7 +439,7 @@ function _HANDLE_ERROR(message) {
 			closeWinBtn : true
 		}, {
 			text : Utils.msg('MSG_REFRESH'),
-			btnType : 'danger',
+			btnType : 'info',
 			handler : function() {
 				window.location.reload();
 			}

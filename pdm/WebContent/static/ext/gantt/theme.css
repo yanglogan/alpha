@@ -40,10 +40,6 @@
     line-height : 20px;
 }
 
-.x-tree-icon, .x-tree-elbow-img, .x-tree-checkbox {
-    margin-top : 0;
-}
-
 .root-row .x-grid-cell-inner {
     padding-left : 10px;
     font-size    : 120%;

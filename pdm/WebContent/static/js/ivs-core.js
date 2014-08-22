@@ -3,6 +3,7 @@ var IVS = IVS || {};
 IVS.GETVIEW_URL = 'api/IVS/getView/';
 IVS.GETLAYERS_URL = 'api/IVS/getLayers';
 IVS.BASEURL = '';
+IVS.SIGNAL = {};
 
 IVS.DEFAULT_VIEW = 'DEFAULT';
 //feel free 2 override the expiration configs.
@@ -132,11 +133,11 @@ IVS.getViewPresenter = function(exceptionHandler) {
 				
 				//todo
 				if (origiPanel) {
-					
-					if (origiPanel[IVS.AUTODESTROY_KEY]) {
-						expirePanel(origiPanel)
-					} else {
+					var dltFlag = origiPanel[IVS.AUTODESTROY_KEY];
+					if (dltFlag == false) {
 						origiPanel.LAST_SWITCHED_TIME = new Date().getTime();
+					} else {
+						expirePanel(origiPanel);
 					}
 					
 				}
@@ -147,7 +148,8 @@ IVS.getViewPresenter = function(exceptionHandler) {
 					duration : 200,
 					callback : function() {
 						if (p && p.fireEvent) {
-							p.fireEvent('viewShown', [p]);
+							p.fireEvent('viewShown', IVS.SIGNAL);
+							IVS.SIGNAL = {};
 						}
 						
 						IVS.CURRENT_VIEWNAME = viewName;

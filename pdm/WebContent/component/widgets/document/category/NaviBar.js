@@ -9,7 +9,6 @@ Ext.define('component.document.category.NaviBar', {
 		width : 200,
 		height : 35,
 		scale : 'medium',
-		textColor : '#2F2F2F',
 		btnPosition : 'middle',
 		menuAlign : 'tr',
 		xtype : 'columnitem'
