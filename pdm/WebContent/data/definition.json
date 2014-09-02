@@ -1,0 +1,885 @@
+{
+	"page": {
+		"gridSize": 30,
+		"showGrid": true,
+		"height": 1500,
+		"backgroundColor": "255,255,255",
+		"width": 1050,
+		"padding": 60
+	},
+	"elements": {
+		"144b110342137c": {
+			"to": {
+				"id": "144b1103ea815b",
+				"angle": 0,
+				"y": 1141,
+				"x": 564
+			},
+			"text": "",
+			"lineStyle": {
+				"lineColor": "50,50,50",
+				"lineStyle": "solid",
+				"lineWidth": 2,
+				"endArrowStyle": "solidArrow",
+				"beginArrowStyle": "none"
+			},
+			"fontStyle": {
+				"bold": false,
+				"color": "50,50,50",
+				"underline": false,
+				"textAlign": "center",
+				"italic": false,
+				"fontFamily": "Arial",
+				"size": 13
+			},
+			"dataAttributes": [],
+			"from": {
+				"id": "144b1101fcf61e",
+				"angle": 3.141592653589793,
+				"y": 1141,
+				"x": 327
+			},
+			"id": "144b110342137c",
+			"linkerType": "broken",
+			"name": "linker",
+			"points": [
+				{
+					"y": 1141,
+					"x": 445.5
+				}, {
+					"y": 1141,
+					"x": 445.5
+				}
+			],
+			"locked": false,
+			"group": "",
+			"props": {
+				"zindex": 4
+			}
+		},
+		"144b10febfcbfc": {
+			"text": "",
+			"groupName": null,
+			"textBlock": {
+				"w": "w-20",
+				"y": 0,
+				"h": 30,
+				"x": 10
+			},
+			"lineStyle": {
+				"lineColor": "50,50,50",
+				"lineStyle": "solid",
+				"lineWidth": 2
+			},
+			"link": "",
+			"attribute": {
+				"linkable": false,
+				"visible": true,
+				"container": true,
+				"rotatable": false,
+				"markerOffset": 5,
+				"editable": true
+			},
+			"children": [],
+			"parent": "144b10ffa7764",
+			"fontStyle": {
+				"orientation": "vertical",
+				"bold": false,
+				"color": "50,50,50",
+				"vAlign": "middle",
+				"underline": false,
+				"textAlign": "center",
+				"fontFamily": "Arial",
+				"italic": false,
+				"size": 13
+			},
+			"resizeDir": ["l", "b", "r"],
+			"dataAttributes": [],
+			"shapeStyle": {
+				"alpha": 1
+			},
+			"id": "144b10febfcbfc",
+			"anchors": [],
+			"category": "lane",
+			"title": "泳道(垂直)",
+			"name": "verticalLane",
+			"fillStyle": {
+				"color": "255,255,255",
+				"type": "solid"
+			},
+			"path": [
+				{
+					"lineStyle": {
+						"lineStyle": "solid"
+					},
+					"fillStyle": {
+						"type": "none"
+					},
+					"actions": [
+						{
+							"action": "move",
+							"y": "0",
+							"x": "0"
+						}, {
+							"action": "line",
+							"y": "0",
+							"x": "w"
+						}, {
+							"action": "line",
+							"y": "h",
+							"x": "w"
+						}, {
+							"action": "line",
+							"y": "h",
+							"x": "0"
+						}, {
+							"action": "close"
+						}
+					]
+				}, {
+					"lineStyle": {
+						"lineStyle": "solid"
+					},
+					"actions": [
+						{
+							"action": "move",
+							"y": 0,
+							"x": 0
+						}, {
+							"action": "line",
+							"y": 0,
+							"x": "w"
+						}, {
+							"action": "line",
+							"y": 30,
+							"x": "w"
+						}, {
+							"action": "line",
+							"y": 30,
+							"x": 0
+						}, {
+							"action": "close"
+						}
+					]
+				}
+			],
+			"locked": false,
+			"group": "",
+			"props": {
+				"w": 183,
+				"y": 847,
+				"h": 500,
+				"angle": 0,
+				"x": 527,
+				"zindex": 2
+			}
+		},
+		"144b10ffa7764": {
+			"text": "",
+			"groupName": null,
+			"textBlock": {
+				"w": "w-20",
+				"y": 0,
+				"h": 40,
+				"x": 10
+			},
+			"lineStyle": {
+				"lineColor": "50,50,50",
+				"lineStyle": "solid",
+				"lineWidth": 2
+			},
+			"link": "",
+			"attribute": {
+				"linkable": false,
+				"visible": true,
+				"container": true,
+				"rotatable": false,
+				"markerOffset": 5,
+				"editable": true
+			},
+			"children": ["144b10febfcbfc"],
+			"parent": "",
+			"fontStyle": {
+				"orientation": "vertical",
+				"bold": false,
+				"color": "50,50,50",
+				"vAlign": "middle",
+				"underline": false,
+				"textAlign": "center",
+				"fontFamily": "Arial",
+				"italic": false,
+				"size": 16
+			},
+			"resizeDir": ["l", "b", "r"],
+			"dataAttributes": [],
+			"shapeStyle": {
+				"alpha": 1
+			},
+			"id": "144b10ffa7764",
+			"anchors": [],
+			"category": "lane",
+			"title": "泳池(垂直)",
+			"name": "verticalPool",
+			"fillStyle": {
+				"color": "255,255,255",
+				"type": "solid"
+			},
+			"path": [
+				{
+					"lineStyle": {
+						"lineStyle": "solid"
+					},
+					"fillStyle": {
+						"type": "none"
+					},
+					"actions": [
+						{
+							"action": "move",
+							"y": "0",
+							"x": "0"
+						}, {
+							"action": "line",
+							"y": "0",
+							"x": "w"
+						}, {
+							"action": "line",
+							"y": "h",
+							"x": "w"
+						}, {
+							"action": "line",
+							"y": "h",
+							"x": "0"
+						}, {
+							"action": "close"
+						}
+					]
+				}, {
+					"lineStyle": {
+						"lineStyle": "solid"
+					},
+					"actions": [
+						{
+							"action": "move",
+							"y": 0,
+							"x": 0
+						}, {
+							"action": "line",
+							"y": 0,
+							"x": "w"
+						}, {
+							"action": "line",
+							"y": 40,
+							"x": "w"
+						}, {
+							"action": "line",
+							"y": 40,
+							"x": 0
+						}, {
+							"action": "close"
+						}
+					]
+				}
+			],
+			"locked": false,
+			"group": "",
+			"props": {
+				"w": 183,
+				"y": 807,
+				"h": 540,
+				"angle": 0,
+				"x": 527,
+				"zindex": 2
+			}
+		},
+		"144b10fd073025": {
+			"text": "feageawfrwa",
+			"groupName": null,
+			"textBlock": {
+				"w": "w-20",
+				"h": 40,
+				"y": 0,
+				"x": 10
+			},
+			"lineStyle": {
+				"lineColor": "50,50,50",
+				"lineStyle": "solid",
+				"lineWidth": 2
+			},
+			"link": "",
+			"attribute": {
+				"linkable": false,
+				"visible": true,
+				"container": true,
+				"rotatable": false,
+				"markerOffset": 5,
+				"editable": true
+			},
+			"children": ["144b10fcbf3afb"],
+			"parent": "",
+			"fontStyle": {
+				"orientation": "vertical",
+				"bold": false,
+				"vAlign": "middle",
+				"color": "50,50,50",
+				"underline": false,
+				"textAlign": "center",
+				"italic": false,
+				"fontFamily": "Arial",
+				"size": 16
+			},
+			"resizeDir": ["l", "b", "r"],
+			"dataAttributes": [],
+			"shapeStyle": {
+				"alpha": 1
+			},
+			"id": "144b10fd073025",
+			"anchors": [],
+			"title": "泳池(垂直)",
+			"category": "lane",
+			"name": "verticalPool",
+			"path": [
+				{
+					"lineStyle": {
+						"lineStyle": "solid"
+					},
+					"fillStyle": {
+						"type": "none"
+					},
+					"actions": [
+						{
+							"action": "move",
+							"y": "0",
+							"x": "0"
+						}, {
+							"action": "line",
+							"y": "0",
+							"x": "w"
+						}, {
+							"action": "line",
+							"y": "h",
+							"x": "w"
+						}, {
+							"action": "line",
+							"y": "h",
+							"x": "0"
+						}, {
+							"action": "close"
+						}
+					]
+				}, {
+					"lineStyle": {
+						"lineStyle": "solid"
+					},
+					"actions": [
+						{
+							"action": "move",
+							"y": 0,
+							"x": 0
+						}, {
+							"action": "line",
+							"y": 0,
+							"x": "w"
+						}, {
+							"action": "line",
+							"y": 40,
+							"x": "w"
+						}, {
+							"action": "line",
+							"y": 40,
+							"x": 0
+						}, {
+							"action": "close"
+						}
+					]
+				}
+			],
+			"fillStyle": {
+				"color": "255,255,255",
+				"type": "solid"
+			},
+			"locked": false,
+			"group": "",
+			"props": {
+				"w": 250,
+				"angle": 0,
+				"h": 540,
+				"y": 807,
+				"zindex": 1,
+				"x": 152
+			}
+		},
+		"144b1101fcf61e": {
+			"text": "fdgeafs",
+			"groupName": null,
+			"textBlock": {
+				"w": "w",
+				"y": "h*0.1",
+				"h": "h*0.9",
+				"x": "0"
+			},
+			"lineStyle": {
+				"lineColor": "50,50,50",
+				"lineStyle": "solid",
+				"lineWidth": 2
+			},
+			"link": "",
+			"attribute": {
+				"linkable": true,
+				"visible": true,
+				"container": false,
+				"rotatable": true,
+				"markerOffset": 5,
+				"editable": true
+			},
+			"children": [],
+			"parent": "",
+			"fontStyle": {
+				"orientation": "vertical",
+				"bold": false,
+				"color": "50,50,50",
+				"vAlign": "middle",
+				"underline": false,
+				"textAlign": "center",
+				"fontFamily": "Arial",
+				"italic": false,
+				"size": 13
+			},
+			"resizeDir": ["tl", "tr", "br", "bl"],
+			"dataAttributes": [
+				{
+					"id": "144b1101fcf59d",
+					"category": "default",
+					"name": "序号",
+					"value": "",
+					"type": "number"
+				}, {
+					"id": "144b1101fcf0a8",
+					"category": "default",
+					"name": "名称",
+					"value": "",
+					"type": "string"
+				}, {
+					"id": "144b1101fd0107",
+					"category": "default",
+					"name": "所有者",
+					"value": "",
+					"type": "string"
+				}, {
+					"id": "144b1101fd0238",
+					"category": "default",
+					"name": "连接",
+					"value": "",
+					"type": "link"
+				}, {
+					"id": "144b1101fd03f8",
+					"category": "default",
+					"name": "便笺",
+					"value": "",
+					"type": "string"
+				}, {
+					"id": "144b1101fd017",
+					"category": "default",
+					"name": "成本",
+					"value": "",
+					"type": "number"
+				}, {
+					"id": "144b1101fd0f29",
+					"category": "default",
+					"name": "时间",
+					"value": "",
+					"type": "number"
+				}, {
+					"id": "144b1101fd0d7a",
+					"category": "default",
+					"name": "部门",
+					"value": "",
+					"type": "string"
+				}, {
+					"id": "144b1101fd014e",
+					"category": "default",
+					"name": "输入",
+					"value": "",
+					"type": "string"
+				}, {
+					"id": "144b1101fd0f82",
+					"category": "default",
+					"name": "输出",
+					"value": "",
+					"type": "string"
+				}, {
+					"id": "144b1101fd0302",
+					"category": "default",
+					"name": "风险",
+					"value": "",
+					"type": "string"
+				}, {
+					"id": "144b1101fd0202",
+					"category": "default",
+					"name": "备注",
+					"value": "",
+					"type": "string"
+				}
+			],
+			"shapeStyle": {
+				"alpha": 1
+			},
+			"id": "144b1101fcf61e",
+			"anchors": [
+				{
+					"y": "h*0.5",
+					"x": "0"
+				}, {
+					"y": "Math.min(h/2,w/6)/2",
+					"x": "w*0.5"
+				}, {
+					"y": "h*0.5",
+					"x": "w"
+				}, {
+					"y": "h",
+					"x": "w*0.5"
+				}
+			],
+			"category": "flow",
+			"title": "人工输入",
+			"name": "manualInput",
+			"fillStyle": {
+				"color": "255,255,255",
+				"type": "solid"
+			},
+			"path": [
+				{
+					"actions": [
+						{
+							"action": "move",
+							"y": "Math.min(h/2,w/6)",
+							"x": "0"
+						}, {
+							"action": "line",
+							"y": "0",
+							"x": "w"
+						}, {
+							"action": "line",
+							"y": "h",
+							"x": "w"
+						}, {
+							"action": "line",
+							"y": "h",
+							"x": "0"
+						}, {
+							"action": "line",
+							"y": "Math.min(h/2,w/6)",
+							"x": "0"
+						}, {
+							"action": "close"
+						}
+					]
+				}
+			],
+			"locked": false,
+			"group": "",
+			"props": {
+				"w": 100,
+				"y": 1106,
+				"h": 70,
+				"angle": 0,
+				"x": 227,
+				"zindex": 3
+			}
+		},
+		"144b1103ea815b": {
+			"text": "",
+			"groupName": null,
+			"textBlock": {
+				"w": "w-20",
+				"h": "h",
+				"y": "0",
+				"x": "10"
+			},
+			"lineStyle": {
+				"lineColor": "50,50,50",
+				"lineStyle": "solid",
+				"lineWidth": 2
+			},
+			"link": "",
+			"attribute": {
+				"linkable": true,
+				"visible": true,
+				"container": false,
+				"rotatable": true,
+				"markerOffset": 5,
+				"editable": true
+			},
+			"children": [],
+			"parent": "",
+			"fontStyle": {
+				"orientation": "vertical",
+				"bold": false,
+				"vAlign": "middle",
+				"color": "50,50,50",
+				"underline": false,
+				"textAlign": "center",
+				"italic": false,
+				"fontFamily": "Arial",
+				"size": 13
+			},
+			"resizeDir": ["tl", "tr", "br", "bl"],
+			"dataAttributes": [
+				{
+					"id": "144b1103ea85f5",
+					"category": "default",
+					"name": "序号",
+					"value": "",
+					"type": "number"
+				}, {
+					"id": "144b1103ea8ea3",
+					"category": "default",
+					"name": "名称",
+					"value": "",
+					"type": "string"
+				}, {
+					"id": "144b1103ea884f",
+					"category": "default",
+					"name": "所有者",
+					"value": "",
+					"type": "string"
+				}, {
+					"id": "144b1103ea81b5",
+					"category": "default",
+					"name": "连接",
+					"value": "",
+					"type": "link"
+				}, {
+					"id": "144b1103ea85b5",
+					"category": "default",
+					"name": "便笺",
+					"value": "",
+					"type": "string"
+				}, {
+					"id": "144b1103ea8e4",
+					"category": "default",
+					"name": "成本",
+					"value": "",
+					"type": "number"
+				}, {
+					"id": "144b1103ea8b8",
+					"category": "default",
+					"name": "时间",
+					"value": "",
+					"type": "number"
+				}, {
+					"id": "144b1103ea8f53",
+					"category": "default",
+					"name": "部门",
+					"value": "",
+					"type": "string"
+				}, {
+					"id": "144b1103ea8164",
+					"category": "default",
+					"name": "输入",
+					"value": "",
+					"type": "string"
+				}, {
+					"id": "144b1103ea890d",
+					"category": "default",
+					"name": "输出",
+					"value": "",
+					"type": "string"
+				}, {
+					"id": "144b1103ea8f78",
+					"category": "default",
+					"name": "风险",
+					"value": "",
+					"type": "string"
+				}, {
+					"id": "144b1103ea8212",
+					"category": "default",
+					"name": "备注",
+					"value": "",
+					"type": "string"
+				}
+			],
+			"shapeStyle": {
+				"alpha": 1
+			},
+			"id": "144b1103ea815b",
+			"anchors": [
+				{
+					"y": "0",
+					"x": "w/2"
+				}, {
+					"y": "h",
+					"x": "w/2"
+				}, {
+					"y": "h/2",
+					"x": "0"
+				}, {
+					"y": "h/2",
+					"x": "w"
+				}
+			],
+			"title": "判定",
+			"category": "flow",
+			"name": "decision",
+			"path": [
+				{
+					"actions": [
+						{
+							"action": "move",
+							"y": "h/2",
+							"x": "0"
+						}, {
+							"action": "line",
+							"y": "0",
+							"x": "w/2"
+						}, {
+							"action": "line",
+							"y": "h/2",
+							"x": "w"
+						}, {
+							"action": "line",
+							"y": "h",
+							"x": "w/2"
+						}, {
+							"action": "line",
+							"y": "h/2",
+							"x": "0"
+						}, {
+							"action": "close"
+						}
+					]
+				}
+			],
+			"fillStyle": {
+				"color": "255,255,255",
+				"type": "solid"
+			},
+			"locked": false,
+			"group": "",
+			"props": {
+				"w": 90,
+				"angle": 0,
+				"h": 70,
+				"y": 1106,
+				"zindex": 5,
+				"x": 564
+			}
+		},
+		"144b10fcbf3afb": {
+			"text": "feafeafa",
+			"groupName": null,
+			"textBlock": {
+				"w": "w-20",
+				"y": 0,
+				"h": 30,
+				"x": 10
+			},
+			"lineStyle": {
+				"lineColor": "50,50,50",
+				"lineStyle": "solid",
+				"lineWidth": 2
+			},
+			"link": "",
+			"attribute": {
+				"linkable": false,
+				"visible": true,
+				"container": true,
+				"rotatable": false,
+				"markerOffset": 5,
+				"editable": true
+			},
+			"children": [],
+			"parent": "144b10fd073025",
+			"fontStyle": {
+				"orientation": "vertical",
+				"bold": false,
+				"color": "50,50,50",
+				"vAlign": "middle",
+				"underline": false,
+				"textAlign": "center",
+				"fontFamily": "Arial",
+				"italic": false,
+				"size": 13
+			},
+			"resizeDir": ["l", "b", "r"],
+			"dataAttributes": [],
+			"shapeStyle": {
+				"alpha": 1
+			},
+			"id": "144b10fcbf3afb",
+			"anchors": [],
+			"category": "lane",
+			"title": "泳道(垂直)",
+			"name": "verticalLane",
+			"fillStyle": {
+				"color": "255,255,255",
+				"type": "solid"
+			},
+			"path": [
+				{
+					"lineStyle": {
+						"lineStyle": "solid"
+					},
+					"fillStyle": {
+						"type": "none"
+					},
+					"actions": [
+						{
+							"action": "move",
+							"y": "0",
+							"x": "0"
+						}, {
+							"action": "line",
+							"y": "0",
+							"x": "w"
+						}, {
+							"action": "line",
+							"y": "h",
+							"x": "w"
+						}, {
+							"action": "line",
+							"y": "h",
+							"x": "0"
+						}, {
+							"action": "close"
+						}
+					]
+				}, {
+					"lineStyle": {
+						"lineStyle": "solid"
+					},
+					"actions": [
+						{
+							"action": "move",
+							"y": 0,
+							"x": 0
+						}, {
+							"action": "line",
+							"y": 0,
+							"x": "w"
+						}, {
+							"action": "line",
+							"y": 30,
+							"x": "w"
+						}, {
+							"action": "line",
+							"y": 30,
+							"x": 0
+						}, {
+							"action": "close"
+						}
+					]
+				}
+			],
+			"locked": false,
+			"group": "",
+			"props": {
+				"w": 250,
+				"y": 847,
+				"h": 500,
+				"angle": 0,
+				"x": 152,
+				"zindex": 1
+			}
+		}
+	}
+}

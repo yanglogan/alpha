@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions comment='common actions'>
+    <action id='downloadzip' icon='static/images/documentlibrary/actions/document-download-16.png' nlsid='MSG_ACTION_DOWNLOAD_ZIP' multisupport='true'>
+        <preconditions>
+            <precondition ref='permit'>
+                <permit>Read</permit>
+            </precondition>
+        </preconditions>
+        <execution>
+            <type>function</type>
+            <specification>downloadZip</specification>
+        </execution>
+    </action>
+    <action id='download' icon='static/images/documentlibrary/actions/document-download-16.png' nlsid='MSG_ACTION_DOWNLOAD'>
+        <preconditions>
+            <precondition ref='hascontent' />
+            <precondition ref='permit'>
+                <permit>Read</permit>
+            </precondition>
+        </preconditions>
+        <execution>
+            <type>function</type>
+            <specification>download</specification>
+        </execution>
+    </action>
+    <action id='folderdetails' icon='static/images/documentlibrary/actions/folder-view-details-16.png' nlsid='MSG_ACTION_VIEW_DETAILS'>
+        <params>
+            <param name='objectId' datafield='sys:node-uuid' />
+        </params>
+        <execution>
+            <type>view</type>
+            <specification>document.folderdetails</specification>
+        </execution>
+    </action>
+    <action id='documentdetails' icon='static/images/documentlibrary/actions/document-view-details-16.png' nlsid='MSG_ACTION_VIEW_DETAILS'>
+        <params>
+            <param name='objectId' datafield='sys:node-uuid' />
+        </params>
+        <execution>
+            <type>view</type>
+            <specification>document.documentdetails</specification>
+        </execution>
+    </action>
+    <action id='editproperties' icon='static/images/documentlibrary/actions/document-edit-metadata-16.png' nlsid='MSG_ACTION_EDIT_PROPERTIES'>
+        <params>
+            <param name='objectId' datafield='sys:node-uuid' />
+        </params>
+        <preconditions>
+            <precondition ref='permit'>
+                <permit>Write</permit>
+            </precondition>
+            <precondition ref='aspectNotContain'>
+                <aspect>edm:frozen</aspect>
+            </precondition>
+        </preconditions>
+        <execution>
+            <type>view</type>
+            <specification>document.editproperties</specification>
+        </execution>
+    </action>
+    <action id='deletefdr' icon='static/images/documentlibrary/actions/folder-delete-16.png' nlsid='MSG_ACTION_DELETE_FDR' multisupport='true'>
+        <preconditions>
+            <precondition ref='permit'>
+                <permit>Delete</permit>
+            </precondition>
+        </preconditions>
+        <execution>
+            <type>function</type>
+            <specification>delete</specification>
+        </execution>
+    </action>
+    <action id='deletedoc' icon='static/images/documentlibrary/actions/document-delete-16.png' nlsid='MSG_ACTION_DELETE_DOC' multisupport='true'>
+        <params>
+            <param name='objectId' datafield='sys:node-uuid' />
+            <param name='name' datafield='cm:name' />
+        </params>
+        <preconditions>
+            <precondition ref='permit'>
+                <permit>Delete</permit>
+            </precondition>
+            <precondition ref='notcheckedout' />
+            <precondition ref='aspectNotContain'>
+                <aspect>edm:frozen</aspect>
+            </precondition>
+        </preconditions>
+        <execution>
+            <type>function</type>
+            <specification>delete</specification>
+        </execution>
+    </action>
+    <action id='fdrmoveto' icon='static/images/documentlibrary/actions/folder-move-to-16.png' nlsid='MSG_ACTION_MOVE_TO' multisupport='true'>
+        <execution>
+            <type>function</type>
+            <specification>moveTo</specification>
+        </execution>
+    </action>
+    <action id='fdrcopyto' icon='static/images/documentlibrary/actions/folder-copy-to-16.png' nlsid='MSG_ACTION_COPY_TO' multisupport='true'>
+        <execution>
+            <type>function</type>
+            <specification>copyTo</specification>
+        </execution>
+    </action>
+    <action id='docmoveto' icon='static/images/documentlibrary/actions/document-move-to-16.png' nlsid='MSG_ACTION_MOVE_TO' multisupport='true'>
+        <preconditions>
+            <precondition ref='notcheckedout' />
+            <precondition ref='aspectNotContain'>
+                <aspect>edm:frozen,rms:record</aspect>
+            </precondition>
+        </preconditions>
+        <execution>
+            <type>function</type>
+            <specification>moveTo</specification>
+        </execution>
+    </action>
+    <action id='doccopyto' icon='static/images/documentlibrary/actions/document-copy-to-16.png' nlsid='MSG_ACTION_COPY_TO' multisupport='true'>
+        <preconditions>
+            <precondition ref='notcheckedout' />
+            <precondition ref='aspectNotContain'>
+                <aspect>edm:frozen,rms:record</aspect>
+            </precondition>
+        </preconditions>
+        <execution>
+            <type>function</type>
+            <specification>copyTo</specification>
+        </execution>
+    </action>
+    <action id='viewinexplorer' icon='static/images/documentlibrary/actions/view-in-explorer-16.png' nlsid='MSG_ACTION_VIEW_IN_EXPLORER'>
+        <preconditions>
+            <precondition ref='permit'>
+                <permit>Read</permit>
+            </precondition>
+            <precondition ref='aspectNotContain'>
+                <aspect>edm:frozen</aspect>
+            </precondition>
+        </preconditions>
+        <execution>
+            <type>function</type>
+            <specification>viewInExplorer</specification>
+        </execution>
+    </action>
+    <action id='uploadnewversion' icon='static/images/documentlibrary/actions/document-upload-new-version-16.png' nlsid='MSG_ACTION_UPLOAD_NEW_VERSION'>
+        <preconditions>
+            <precondition ref='permit'>
+                <permit>Version</permit>
+            </precondition>
+            <precondition ref='aspectNotContain'>
+                <aspect>edm:frozen,rms:record</aspect>
+            </precondition>
+        </preconditions>
+        <execution>
+            <type>function</type>
+            <specification>uploadNewVersion</specification>
+        </execution>
+    </action>
+    <action id='editoffline' icon='static/images/documentlibrary/actions/document-edit-offline-16.png' nlsid='MSG_ACTION_EDIT_OFFLINE'>
+        <preconditions>
+            <precondition ref='permit'>
+                <permit>Write</permit>
+            </precondition>
+            <precondition ref='notcheckedout' />
+            <precondition ref='aspectNotContain'>
+                <aspect>edm:frozen,rms:record</aspect>
+            </precondition>
+        </preconditions>
+        <execution>
+            <type>function</type>
+            <specification>document.editoffline</specification>
+        </execution>
+    </action>
+    <action id='managepermissions' icon='static/images/documentlibrary/actions/document-manage-permissions-16.png' nlsid='MSG_ACTION_MANAGE_PERMISSIONS'>
+        <preconditions>
+            <precondition ref='notcheckedout' />
+            <precondition ref='permit'>
+                <permit>Write</permit>
+            </precondition>
+            <precondition ref='aspectNotContain'>
+                <aspect>edm:frozen</aspect>
+            </precondition>
+        </preconditions>
+        <execution>
+            <type>view</type>
+            <specification>document.managepermissions</specification>
+        </execution>
+    </action>
+    <action id='managerules' icon='static/images/documentlibrary/actions/folder-manage-rules-16.png' nlsid='MSG_ACTION_MANAGE_RULES'>
+        <preconditions>
+            <precondition ref='permit'>
+                <permit>Write</permit>
+            </precondition>
+            <precondition ref='aspectNotContain'>
+                <aspect>edm:frozen</aspect>
+            </precondition>
+        </preconditions>
+        <execution>
+            <type>view</type>
+            <specification>document.managerules</specification>
+        </execution>
+    </action>
+    <action id='changetype' icon='static/images/documentlibrary/actions/document-change-type-16.png' nlsid='MSG_ACTION_CHANGE_TYPE'>
+        <preconditions>
+            <precondition ref='permit'>
+                <permit>Write</permit>
+            </precondition>
+            <precondition ref='aspectNotContain'>
+                <aspect>edm:frozen</aspect>
+            </precondition>
+        </preconditions>
+        <execution>
+            <type>function</type>
+            <specification>changeType</specification>
+        </execution>
+    </action>
+    <action id='freeze' icon='static/images/documentlibrary/actions/rm-freeze-16.png' nlsid='MSG_ACTION_FREEZE' multisupport='true'>
+        <preconditions>
+            <precondition ref='permit'>
+                <permit>Write</permit>
+            </precondition>
+            <precondition ref='aspectNotContain'>
+                <aspect>edm:frozen</aspect>
+            </precondition>
+        </preconditions>
+        <execution>
+            <type>function</type>
+            <specification>freeze</specification>
+        </execution>
+    </action>
+    <action id='unfreeze' icon='static/images/documentlibrary/actions/rm-unfreeze-16.png' nlsid='MSG_ACTION_UNFREEZE' multisupport='true'>
+        <preconditions>
+            <precondition ref='permit'>
+                <permit>Write</permit>
+            </precondition>
+            <precondition ref='unfreezeable' />
+            <precondition ref='aspectAnyMatch'>
+                <aspect>edm:frozen</aspect>
+            </precondition>
+        </preconditions>
+        <execution>
+            <type>function</type>
+            <specification>unfreeze</specification>
+        </execution>
+    </action>
+    <action id='declaretorecord' icon='static/images/documentlibrary/actions/rm-create-record-16.png' nlsid='MSG_ACTION_DECLARE_TO_RECORD' multisupport='true'>
+        <preconditions>
+            <precondition ref='permit'>
+                <permit>Write</permit>
+            </precondition>
+            <precondition ref='notcheckedout' />
+            <precondition ref='aspectNotContain'>
+                <aspect>edm:frozen,rms:record</aspect>
+            </precondition>
+        </preconditions>
+        <execution>
+            <type>function</type>
+            <specification>declaretorecord</specification>
+        </execution>
+    </action>
+</actions>

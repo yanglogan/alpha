@@ -1,0 +1,1772 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Definition of Engineering Document Management Model -->
+
+<!-- Note: the edm: namespace is defined further on in the document -->
+<model name="edm:datamodel" xmlns="http://www.alfresco.org/model/dictionary/1.0">
+
+    <!-- Meta-data about the model -->
+    <description>EDM Model</description>
+    <author>rongfang</author>
+    <version>1.0</version>
+
+    <!-- Imports are required to allow references to definitions in other models -->
+    <imports>
+        <!-- Import Alfresco Dictionary Definitions -->
+        <import uri="http://www.alfresco.org/model/dictionary/1.0" prefix="d" />
+        <!-- Import Alfresco Content Domain Model Definitions -->
+        <import uri="http://www.alfresco.org/model/content/1.0" prefix="cm" />
+        <!-- Import Alfresco Content Domain Model Definitions -->
+        <import uri="http://www.alfresco.org/model/system/1.0" prefix="sys" />
+    </imports>
+
+    <!-- Engineering Document Management Namespace -->
+    <namespaces>
+        <namespace uri="http://www.incontent.cn/model/dictionary/1.0" prefix="edm" />
+        <namespace uri="http://www.incontent.cn/model/record/1.0" prefix="rms" />
+        <namespace uri="http://www.incontent.cn/model/form/1.0" prefix="emf" />
+    </namespaces>
+
+    <types>
+
+        <type name="edm:category">
+            <title>Category</title>
+            <parent>cm:category</parent>
+            <archive>false</archive>
+        </type>
+
+        <type name="edm:cfgType">
+            <title>Configuration Type</title>
+            <parent>cm:cmobject</parent>
+            <archive>false</archive>
+
+            <mandatory-aspects>
+                <aspect>edm:internalRef</aspect>
+                <aspect>edm:templated</aspect>
+            </mandatory-aspects>
+        </type>
+
+        <type name="edm:docType">
+            <title>Document Type</title>
+            <parent>cm:content</parent>
+            <archive>false</archive>
+
+            <mandatory-aspects>
+                <aspect>edm:internalRef</aspect>
+                <aspect>edm:templated</aspect>
+                <aspect>edm:lifecycle</aspect>
+                <aspect>edm:numberingContext</aspect>
+                <aspect>edm:attrPopContext</aspect>
+                <aspect>edm:variableAttrs</aspect>
+                <aspect>edm:defaultInstance</aspect>
+            </mandatory-aspects>
+        </type>
+
+        <type name="edm:document">
+            <title>Document</title>
+            <parent>cm:content</parent>
+            <archive>false</archive>
+
+            <properties>
+                <property name="edm:confidential">
+                    <title>Confidential</title>
+                    <type>d:text</type>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>true</tokenised>
+                    </index>
+                </property>
+                <property name="edm:language">
+                    <title>Language</title>
+                    <type>d:text</type>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>true</tokenised>
+                    </index>
+                </property>
+                <property name="edm:numberingApplied">
+                    <title>Numbering Applied</title>
+                    <type>d:boolean</type>
+                    <protected>true</protected>
+                    <default>false</default>
+                </property>
+                <property name="edm:revision">
+                    <title>Revision</title>
+                    <type>d:text</type>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>true</tokenised>
+                    </index>
+                </property>
+                <property name="edm:revisionDate">
+                    <title>Revision Date</title>
+                    <type>d:date</type>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>true</tokenised>
+                    </index>
+                </property>
+                <property name="edm:subject">
+                    <title>Subject</title>
+                    <type>d:text</type>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>false</tokenised>
+                    </index>
+                </property>
+            </properties>
+
+            <mandatory-aspects>
+                <aspect>cm:titled</aspect>
+                <aspect>cm:versionable</aspect>
+                <aspect>edm:internalRef</aspect>
+                <aspect>edm:lifecycle</aspect>
+            </mandatory-aspects>
+        </type>
+
+        <type name="edm:reportType">
+            <title>Report Type</title>
+            <parent>edm:docType</parent>
+            <archive>false</archive>
+        </type>
+
+        <type name="edm:report">
+            <title>Report</title>
+            <parent>edm:document</parent>
+            <archive>false</archive>
+        </type>
+
+        <type name="edm:fdrType">
+            <title>Folder Type</title>
+            <parent>cm:folder</parent>
+            <archive>false</archive>
+
+            <mandatory-aspects>
+                <aspect>edm:internalRef</aspect>
+                <aspect>edm:templated</aspect>
+                <aspect>edm:lifecycle</aspect>
+                <aspect>edm:numberingContext</aspect>
+                <aspect>edm:attrPopContext</aspect>
+                <aspect>edm:specTypes</aspect>
+                <aspect>edm:governingControl</aspect>
+                <aspect>edm:defaultInstance</aspect>
+            </mandatory-aspects>
+        </type>
+
+        <type name="edm:folder">
+            <title>Folder</title>
+            <parent>cm:folder</parent>
+            <archive>false</archive>
+
+            <properties>
+                <property name="edm:isHidden">
+                    <title>Folder Hidden</title>
+                    <type>d:boolean</type>
+                    <protected>true</protected>
+                    <default>false</default>
+                </property>
+                <property name="edm:isClosed">
+                    <title>Folder Closed</title>
+                    <description>Indicates whether the folder is closed</description>
+                    <type>d:boolean</type>
+                    <protected>true</protected>
+                    <default>false</default>
+                </property>
+            </properties>
+
+            <mandatory-aspects>
+                <aspect>cm:titled</aspect>
+                <aspect>edm:internalRef</aspect>
+                <aspect>edm:lifecycle</aspect>
+                <aspect>edm:specTypes</aspect>
+                <aspect>edm:governingControl</aspect>
+            </mandatory-aspects>
+        </type>
+
+        <type name="edm:projectConfigArea">
+            <title>Project Config Area</title>
+            <parent>edm:folder</parent>
+            <archive>false</archive>
+        </type>
+
+        <type name="edm:project">
+            <title>Project</title>
+            <parent>edm:folder</parent>
+            <archive>false</archive>
+
+            <properties>
+                <property name="edm:pjShortName">
+                    <title>Project Short Name</title>
+                    <type>d:text</type>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>true</tokenised>
+                    </index>
+                </property>
+                <property name="edm:pjCode">
+                    <title>Project Code</title>
+                    <type>d:text</type>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>true</tokenised>
+                    </index>
+                </property>
+                <property name="edm:pjType">
+                    <title>Project Type</title>
+                    <type>d:text</type>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>true</tokenised>
+                    </index>
+                </property>
+                <property name="edm:pjLocation">
+                    <title>Project Location</title>
+                    <type>d:text</type>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>true</tokenised>
+                    </index>
+                </property>
+                <property name="edm:pjOpenDate">
+                    <title>Date Project Open</title>
+                    <type>d:date</type>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>false</tokenised>
+                    </index>
+                </property>
+                <property name="edm:pjClosedDate">
+                    <title>Date Project Closed</title>
+                    <type>d:date</type>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>false</tokenised>
+                    </index>
+                </property>
+            </properties>
+
+             <mandatory-aspects>
+                <aspect>edm:projectContext</aspect>
+            </mandatory-aspects>
+        </type>
+
+        <type name="edm:wbs">
+            <title>Work breakdown structure</title>
+            <parent>edm:folder</parent>
+            <archive>false</archive>
+
+            <properties>
+                <!-- cm:name used for the WBS Name -->
+                <!-- cm:description used for the Note -->
+                <!-- Folder Relation used for the Parent Identifier -->
+                <property name="edm:wbsLeaf">
+                    <title>Project Short Name</title>
+                    <type>d:boolean</type>
+                    <default>false</default>
+                </property>
+                <property name="edm:wbsStartDate">
+                    <title>Start Date</title>
+                    <type>d:date</type>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>false</tokenised>
+                    </index>
+                </property>
+                <property name="edm:wbsEndDate">
+                    <title>End Date</title>
+                    <type>d:date</type>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>false</tokenised>
+                    </index>
+                </property>
+                <property name="edm:wbsDuration">
+                    <title>Duration</title>
+                    <type>d:text</type>
+                </property>
+                <property name="edm:wbsDurationUnit">
+                    <title>Duration Unit</title>
+                    <type>d:text</type>
+                </property>
+                <property name="edm:wbsPercentDone">
+                    <title>Percent Done</title>
+                    <type>d:text</type>
+                </property>
+                <property name="edm:wbsTaskType">
+                    <title>Task Type</title>
+                    <type>d:text</type>
+                </property>
+                <property name="edm:wbsPriority">
+                    <title>Priority</title>
+                    <type>d:text</type>
+                </property>
+                <property name="edm:baselineStartDate">
+                    <title>Baseline Start Date</title>
+                    <type>d:date</type>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>false</tokenised>
+                    </index>
+                </property>
+                <property name="edm:baselineEndDate">
+                    <title>Baseline End Date</title>
+                    <type>d:date</type>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>false</tokenised>
+                    </index>
+                </property>
+                <property name="edm:wbsDraggable">
+                    <title>Draggable</title>
+                    <type>d:boolean</type>
+                </property>
+                <property name="edm:wbsTaskColor">
+                    <title>Task Color</title>
+                    <type>d:text</type>
+                </property>
+            </properties>
+
+             <mandatory-aspects>
+                <aspect>edm:projectContext</aspect>
+            </mandatory-aspects>
+        </type>
+
+        <type name="edm:basePackage">
+            <title>Base Package</title>
+            <parent>edm:folder</parent>
+            <archive>false</archive>
+            <properties>
+            </properties>
+
+            <mandatory-aspects>
+                <aspect>edm:projectContext</aspect>
+            </mandatory-aspects>
+        </type>
+
+        <type name="edm:supplierPackage">
+            <title>supplierPackage</title>
+            <parent>edm:basePackage</parent>
+            <archive>false</archive>
+            <properties>
+                <property name="edm:suppliedBy">
+                    <title>Supplied By</title>
+                    <type>d:text</type>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>true</tokenised>
+                    </index>
+                </property>
+                <property name="edm:sSendTo">
+                    <title>Send To</title>
+                    <type>d:text</type>
+                    <multiple>true</multiple>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>true</tokenised>
+                    </index>
+                </property>
+                <property name="edm:sTransmittalTpl">
+                    <title>Transmittal Template</title>
+                    <type>d:text</type>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>true</tokenised>
+                    </index>
+                </property>
+                <property name="edm:sTurnaround">
+                    <title>Turnaround</title>
+                    <type>d:int</type>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>true</stored>
+                        <tokenised>false</tokenised>
+                    </index>
+                </property>
+                <property name="edm:requiredBy">
+                    <title>Required By</title>
+                    <type>d:text</type>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>true</tokenised>
+                    </index>
+                </property>
+                <property name="edm:rSendTo">
+                    <title>Send To</title>
+                    <type>d:text</type>
+                    <multiple>true</multiple>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>true</tokenised>
+                    </index>
+                </property>
+                <property name="edm:rTransmittalTpl">
+                    <title>Transmittal Template</title>
+                    <type>d:text</type>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>true</tokenised>
+                    </index>
+                </property>
+                <property name="edm:rTurnaround">
+                    <title>Turnaround</title>
+                    <type>d:int</type>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>true</stored>
+                        <tokenised>false</tokenised>
+                    </index>
+                </property>
+                <property name="edm:totalDocuments">
+                    <title>Total Documents</title>
+                    <type>d:int</type>
+                </property>
+            </properties>
+        </type>
+
+        <type name="edm:mail">
+            <title>Mail</title>
+            <parent>cm:content</parent>
+            <archive>false</archive>
+
+            <properties>
+                <property name="edm:mailType">
+                    <title>Type</title>
+                    <type>d:text</type>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>true</tokenised>
+                    </index>
+                </property>
+                <property name="edm:mailStatus">
+                    <title>Status</title>
+                    <type>d:text</type>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>true</tokenised>
+                    </index>
+                </property>
+                <property name="edm:sentFrom">
+                    <title>Sent From</title>
+                    <type>d:text</type>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>true</tokenised>
+                    </index>
+                </property>
+                <property name="edm:fromOrganization">
+                    <title>From Organization</title>
+                    <type>d:text</type>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>true</tokenised>
+                    </index>
+                </property>
+                <property name="edm:sentTo">
+                    <title>Sent To</title>
+                    <type>d:text</type>
+                    <multiple>true</multiple>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>true</tokenised>
+                    </index>
+                </property>
+                <property name="edm:toOrganization">
+                    <title>To Organization</title>
+                    <type>d:text</type>
+                    <multiple>true</multiple>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>true</tokenised>
+                    </index>
+                </property>
+                <property name="edm:carbonCopy">
+                    <title>Cc</title>
+                    <type>d:text</type>
+                    <multiple>true</multiple>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>true</tokenised>
+                    </index>
+                </property>
+                <property name="edm:responseRequired">
+                    <title>Response Required</title>
+                    <type>d:text</type>
+                </property>
+                <property name="edm:mailDue">
+                    <title>Due</title>
+                    <type>d:date</type>
+                </property>
+                <property name="edm:mailReasonForIssue">
+                    <title>Reason For Issue</title>
+                    <type>d:text</type>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>true</tokenised>
+                    </index>
+                </property>
+                <property name="edm:mailSubject">
+                    <title>Subject</title>
+                    <type>d:text</type>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>true</tokenised>
+                    </index>
+                </property>
+                <property name="edm:mailAttachments">
+                    <title>Attachments</title>
+                    <type>d:text</type>
+                    <multiple>true</multiple>
+                </property>
+                <property name="edm:mailComment">
+                    <title>Comment</title>
+                    <type>d:text</type>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>true</tokenised>
+                    </index>
+                </property>
+                <property name="edm:mailDateReceived">
+                    <title>Date Received</title>
+                    <type>d:date</type>
+                </property>
+                <property name="edm:readFlag">
+                    <title>Read Flag</title>
+                    <type>d:boolean</type>
+                    <default>false</default>
+                </property>
+                <property name="edm:response">
+                    <title>Response</title>
+                    <type>d:text</type>
+                </property>
+                <property name="edm:responseDate">
+                    <title>Response Date</title>
+                    <type>d:date</type>
+                </property>
+                <property name="edm:forward">
+                    <title>Forward</title>
+                    <type>d:text</type>
+                </property>
+                <property name="edm:forwardDate">
+                    <title>Forward Date</title>
+                    <type>d:date</type>
+                </property>
+                <property name="edm:forwardTo">
+                    <title>Forward To</title>
+                    <type>d:text</type>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>true</tokenised>
+                    </index>
+                </property>
+            </properties>
+
+            <mandatory-aspects>
+                <aspect>edm:internalRef</aspect>
+                <aspect>edm:projectContext</aspect>
+            </mandatory-aspects>
+        </type>
+
+        <type name="edm:process">
+            <title>Process</title>
+            <parent>cm:content</parent>
+            <properties>
+                <property name="edm:inputs">
+                    <title>Inputs</title>
+                    <type>d:text</type>
+                    <multiple>true</multiple>
+                </property>
+                <property name="edm:outputs">
+                    <title>Outputs</title>
+                    <type>d:text</type>
+                    <multiple>true</multiple>
+                </property>
+                <property name="edm:attachments">
+                    <title>Attachments</title>
+                    <type>d:text</type>
+                    <multiple>true</multiple>
+                </property>
+                <property name="edm:documents">
+                    <title>Documents</title>
+                    <type>d:text</type>
+                    <multiple>true</multiple>
+                </property>
+                <property name="edm:forms">
+                    <title>Forms</title>
+                    <type>d:text</type>
+                    <multiple>true</multiple>
+                </property>
+            </properties>
+            <mandatory-aspects>
+                <aspect>cm:titled</aspect>
+                <aspect>cm:versionable</aspect>
+                <aspect>edm:internalRef</aspect>
+                <aspect>edm:lifecycle</aspect>
+                <aspect>edm:projectContext</aspect>
+            </mandatory-aspects>
+        </type>
+
+        <type name="edm:picklist">
+            <title>Picklist</title>
+            <parent>cm:cmobject</parent>
+            <properties>
+                <property name="edm:plCategory">
+                    <title>Category</title>
+                    <type>d:text</type>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>true</tokenised>
+                    </index>
+                </property>
+                <property name="edm:plShortValue">
+                    <title>Short Value</title>
+                    <type>d:text</type>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>true</tokenised>
+                    </index>
+                </property>
+                <property name="edm:plOrder">
+                    <title>Order</title>
+                    <type>d:int</type>
+                </property>
+                <property name="edm:plIsDefault">
+                    <title>Is Default</title>
+                    <type>d:boolean</type>
+                    <default>false</default>
+                </property>
+            </properties>
+        </type>
+
+        <type name="edm:numberingConf">
+            <title>Numbering Configuration</title>
+            <parent>cm:cmobject</parent>
+            <properties>
+                <property name="edm:appliedToTypes">
+                    <title>Applied To Types</title>
+                    <type>d:text</type>
+                    <multiple>true</multiple>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>true</tokenised>
+                    </index>
+                </property>
+                <property name="edm:lockNumbering">
+                    <title>Lock Numbering</title>
+                    <type>d:boolean</type>
+                    <default>false</default>
+                </property>
+                <property name="edm:numberFormat">
+                    <title>Number Format</title>
+                    <type>d:text</type>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>true</tokenised>
+                    </index>
+                </property>
+                <property name="edm:numberingEvent">
+                    <title>Numbering Event</title>
+                    <type>d:text</type>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>true</tokenised>
+                    </index>
+                </property>
+                <property name="edm:numberingType">
+                    <title>Numbering Type</title>
+                    <type>d:text</type>
+                    <multiple>true</multiple>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>true</tokenised>
+                    </index>
+                </property>
+                <property name="edm:numberingLabel">
+                    <title>Numbering Label</title>
+                    <type>d:text</type>
+                    <multiple>true</multiple>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>true</tokenised>
+                    </index>
+                </property>
+                <property name="edm:numberingValue">
+                    <title>Numbering Value</title>
+                    <type>d:text</type>
+                    <multiple>true</multiple>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>true</tokenised>
+                    </index>
+                </property>
+                <property name="edm:sequenceType">
+                    <title>Sequence Type</title>
+                    <type>d:text</type>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>true</tokenised>
+                    </index>
+                </property>
+                <property name="edm:storageAttributes">
+                    <title>Storage Attributes</title>
+                    <type>d:text</type>
+                    <multiple>true</multiple>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>true</tokenised>
+                    </index>
+                </property>
+            </properties>
+            <mandatory-aspects>
+                <aspect>edm:internalRef</aspect>
+            </mandatory-aspects>
+        </type>
+
+        <type name="edm:attrPopConf">
+            <title>Attribute Population Configuration</title>
+            <parent>cm:cmobject</parent>
+            <properties>
+                <property name="edm:storageAttrs">
+                    <title>Storage Attributes</title>
+                    <type>d:text</type>
+                    <multiple>true</multiple>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>true</tokenised>
+                    </index>
+                </property>
+                <property name="edm:elTypes">
+                    <title>Element Types</title>
+                    <type>d:text</type>
+                    <multiple>true</multiple>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>true</tokenised>
+                    </index>
+                </property>
+                <property name="edm:elDetails">
+                    <title>Element Details</title>
+                    <type>d:text</type>
+                    <multiple>true</multiple>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>true</tokenised>
+                    </index>
+                </property>
+                <property name="edm:elShortCode">
+                    <title>Element Short Code</title>
+                    <type>d:text</type>
+                    <multiple>true</multiple>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>true</tokenised>
+                    </index>
+                </property>
+            </properties>
+
+            <mandatory-aspects>
+                <aspect>edm:internalRef</aspect>
+            </mandatory-aspects>
+        </type>
+
+        <type name="edm:organization">
+            <title>Organization</title>
+            <parent>cm:authorityContainer</parent>
+            <archive>false</archive>
+            <properties>
+                <property name="edm:tradingName">
+                    <title>Trading Name</title>
+                    <type>d:text</type>
+                </property>
+                <property name="edm:orgAbbreviation">
+                    <title>Organization Abbreviation</title>
+                    <type>d:text</type>
+                </property>
+                <property name="edm:orgRegistrationNo">
+                    <title>Company Registration Number</title>
+                    <type>d:text</type>
+                </property>
+                <property name="edm:postalAddress">
+                    <title>Postal Address</title>
+                    <type>d:text</type>
+                </property>
+                <property name="edm:pCity">
+                    <title>City/Suburb</title>
+                    <type>d:text</type>
+                </property>
+                <property name="edm:pCounty">
+                    <title>County/State</title>
+                    <type>d:text</type>
+                </property>
+                <property name="edm:pCountry">
+                    <title>Country</title>
+                    <type>d:text</type>
+                </property>
+                <property name="edm:pPostcode">
+                    <title>Postcode</title>
+                    <type>d:text</type>
+                </property>
+                <property name="edm:deliveryAddress">
+                    <title>Delivery Address</title>
+                    <type>d:text</type>
+                </property>
+                <property name="edm:dCity">
+                    <title>City/Suburb</title>
+                    <type>d:text</type>
+                </property>
+                <property name="edm:dCountry">
+                    <title>Country</title>
+                    <type>d:text</type>
+                </property>
+                <property name="edm:dPostcode">
+                    <title>Postcode</title>
+                    <type>d:text</type>
+                </property>
+                <property name="edm:orgPhone">
+                    <title>Phone</title>
+                    <type>d:text</type>
+                </property>
+                <property name="edm:orgFax">
+                    <title>Fax</title>
+                    <type>d:text</type>
+                </property>
+                <property name="edm:orgWebsite">
+                    <title>Website</title>
+                    <type>d:text</type>
+                </property>
+                <property name="edm:orgEmail">
+                    <title>Email Address</title>
+                    <type>d:text</type>
+                </property>
+                <property name="edm:uTitle">
+                    <title>Title</title>
+                    <type>d:text</type>
+                </property>
+                <property name="edm:uFirstName">
+                    <title>Given Name</title>
+                    <type>d:text</type>
+                </property>
+                <property name="edm:uLastName">
+                    <title>Family Name</title>
+                    <type>d:text</type>
+                </property>
+                <property name="edm:uJobFunction">
+                    <title>Job Function</title>
+                    <type>d:text</type>
+                </property>
+                <property name="edm:uLoginName">
+                    <title>Login Name</title>
+                    <type>d:text</type>
+                </property>
+                <property name="edm:uAddress">
+                    <title>User Address</title>
+                    <type>d:text</type>
+                </property>
+                <property name="edm:uCity">
+                    <title>City/Suburb</title>
+                    <type>d:text</type>
+                </property>
+                <property name="edm:uCounty">
+                    <title>County/State</title>
+                    <type>d:text</type>
+                </property>
+                <property name="edm:uCountry">
+                    <title>Country</title>
+                    <type>d:text</type>
+                </property>
+                <property name="edm:uPostcode">
+                    <title>Postcode</title>
+                    <type>d:text</type>
+                </property>
+                <property name="edm:uPhone">
+                    <title>Phone</title>
+                    <type>d:text</type>
+                </property>
+                <property name="edm:uFax">
+                    <title>Fax</title>
+                    <type>d:text</type>
+                </property>
+                <property name="edm:uEmail">
+                    <title>Email Address</title>
+                    <type>d:text</type>
+                </property>
+                <property name="edm:uMobile">
+                    <title>Mobile</title>
+                    <type>d:text</type>
+                </property>
+                <property name="edm:inactiveDivisions">
+                    <title>Inactive Divisions</title>
+                    <type>d:text</type>
+                    <multiple>true</multiple>
+                </property>
+                <property name="edm:activeDivisions">
+                    <title>Active Divisions</title>
+                    <type>d:text</type>
+                    <multiple>true</multiple>
+                </property>
+            </properties>
+        </type>
+
+        <type name="emf:form">
+            <title>Form</title>
+            <parent>cm:content</parent>
+
+            <properties>
+                <property name="emf:isTemplate">
+                    <title>Is Template</title>
+                    <type>d:boolean</type>
+                    <default>false</default>
+                </property>
+            </properties>
+        </type>
+
+        <type name="rms:site">
+            <title>Site</title>
+            <parent>edm:folder</parent>
+
+            <mandatory-aspects>
+                <aspect>cm:titled</aspect>
+            </mandatory-aspects>
+        </type>
+
+        <type name="rms:managementContainer">
+            <title>Management Container</title>
+            <parent>edm:folder</parent>
+            <archive>false</archive>
+
+            <mandatory-aspects>
+                <aspect>rms:filePlanComponent</aspect>
+            </mandatory-aspects>
+        </type>
+
+        <type name="rms:recordLibrary">
+            <title>Record Library</title>
+            <parent>rms:managementContainer</parent>
+
+            <mandatory-aspects>
+                <aspect>rms:managementRoot</aspect>
+            </mandatory-aspects>
+        </type>
+
+        <type name="rms:unfiledRecordContainer">
+            <title>Unfiled Record Container</title>
+            <parent>rms:managementContainer</parent>
+        </type>
+
+        <type name="rms:recordCategory">
+            <title>Record Category</title>
+            <parent>rms:managementContainer</parent>
+        </type>
+
+        <type name="rms:recordFolder">
+            <title>Record Folder</title>
+            <parent>edm:folder</parent>
+            <archive>false</archive>
+
+            <mandatory-aspects>
+                <aspect>rms:filePlanComponent</aspect>
+            </mandatory-aspects>
+        </type>
+
+        <type name="rms:nonElectronicDocument">
+            <title>Non-Electronic Document</title>
+            <parent>cm:content</parent>
+            <archive>false</archive>
+            <properties>
+                <property name="rms:physicalSize">
+                    <title>Document Physical Size</title>
+                    <type>d:int</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>false</tokenised>
+                   </index>
+                </property>
+                <property name="rms:numberOfCopies">
+                    <title>Number Of Copies</title>
+                    <type>d:int</type>
+                    <mandatory>false</mandatory>
+                    <default>1</default>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>false</tokenised>
+                    </index>
+                </property>
+                <property name="rms:storageLocation">
+                    <title>Storage Location</title>
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>false</tokenised>
+                    </index>
+                </property>
+                <property name="rms:shelf">
+                    <title>Shelf</title>
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>false</tokenised>
+                    </index>
+                </property>
+                <property name="rms:box">
+                    <title>Box</title>
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>false</tokenised>
+                    </index>
+                </property>
+                <property name="rms:file">
+                    <title>File</title>
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>false</tokenised>
+                    </index>
+                </property>
+            </properties>
+            <mandatory-aspects>
+                <aspect>rms:filePlanComponent</aspect>
+            </mandatory-aspects>
+        </type>
+
+        <type name="rms:oaLibrary">
+            <title>OA Library</title>
+            <parent>rms:managementContainer</parent>
+
+            <mandatory-aspects>
+                <aspect>rms:managementRoot</aspect>
+            </mandatory-aspects>
+        </type>
+
+        <type name="rms:oaCategory">
+            <title>OA Category</title>
+            <parent>rms:managementContainer</parent>
+        </type>
+
+        <type name="rms:oaFolder">
+            <title>OA Folder</title>
+            <parent>edm:folder</parent>
+            <archive>false</archive>
+
+            <mandatory-aspects>
+                <aspect>rms:filePlanComponent</aspect>
+            </mandatory-aspects>
+        </type>
+
+        <type name="rms:regulationLibrary">
+            <title>Regulation Library</title>
+            <parent>rms:managementContainer</parent>
+
+            <mandatory-aspects>
+                <aspect>rms:managementRoot</aspect>
+            </mandatory-aspects>
+        </type>
+
+        <type name="rms:regulationCategory">
+            <title>Regulation Category</title>
+            <parent>rms:managementContainer</parent>
+        </type>
+
+        <type name="rms:regulationFolder">
+            <title>Regulation Folder</title>
+            <parent>edm:folder</parent>
+            <archive>false</archive>
+
+            <mandatory-aspects>
+                <aspect>rms:filePlanComponent</aspect>
+            </mandatory-aspects>
+        </type>
+    </types>
+
+    <aspects>
+        <aspect name="edm:internalRef">
+            <title>Internal Reference</title>
+            <archive>false</archive>
+            <properties>
+                <property name="edm:internalRef">
+                    <title>Internal Reference</title>
+                    <type>d:text</type>
+                    <protected>true</protected>
+                </property>
+                <property name="edm:internalChronRef">
+                    <title>Internal Chron Reference</title>
+                    <type>d:text</type>
+                    <protected>true</protected>
+                </property>
+                <property name="edm:type">
+                    <title>Type</title>
+                    <type>d:text</type>
+                    <protected>true</protected>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>true</tokenised>
+                    </index>
+                </property>
+                <property name="edm:typeName">
+                    <title>Type Name</title>
+                    <type>d:text</type>
+                    <protected>true</protected>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>true</tokenised>
+                    </index>
+                </property>
+            </properties>
+        </aspect>
+
+        <aspect name="edm:lifecycle">
+            <title>Lifecycle</title>
+            <properties>
+                <property name="edm:lifecycle">
+                    <title>Lifecycle</title>
+                    <type>d:text</type>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>true</tokenised>
+                    </index>
+                </property>
+                <property name="edm:state">
+                    <title>State</title>
+                    <type>d:text</type>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>true</tokenised>
+                    </index>
+                </property>
+                <property name="edm:previousState">
+                    <title>Previous State</title>
+                    <type>d:text</type>
+                    <protected>true</protected>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>true</tokenised>
+                    </index>
+                </property>
+            </properties>
+        </aspect>
+
+        <aspect name="edm:templated">
+            <title>Templated</title>
+            <properties>
+                <property name="edm:tplObjName">
+                    <title>Template Name</title>
+                    <type>d:text</type>
+                    <multiple>true</multiple>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>true</tokenised>
+                    </index>
+                </property>
+                <property name="edm:tplObjNameDflt">
+                    <title>Default Template</title>
+                    <type>d:text</type>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>true</tokenised>
+                    </index>
+                </property>
+                <property name="edm:tplObjType">
+                    <title>Template Type</title>
+                    <type>d:text</type>
+                    <multiple>true</multiple>
+                </property>
+                <property name="edm:tplRef">
+                    <title>Template Reference</title>
+                    <type>d:text</type>
+                    <multiple>true</multiple>
+                </property>
+            </properties>
+        </aspect>
+
+        <aspect name="edm:numberingContext">
+            <title>Numbering Context</title>
+            <archive>false</archive>
+            <properties>
+                <property name="edm:numberingConfRef">
+                    <title>Numbering Configuration Reference</title>
+                    <type>d:text</type>
+                </property>
+            </properties>
+        </aspect>
+
+        <aspect name="edm:attrPopContext">
+            <title>Attribute Population Context</title>
+            <properties>
+                <property name="edm:attrExpressions">
+                    <title>Attribute Expressions</title>
+                    <type>d:text</type>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>true</tokenised>
+                    </index>
+                </property>
+                <property name="edm:attrPopConfRef">
+                    <title>Attribute Population Configuration Reference</title>
+                    <type>d:text</type>
+                </property>
+            </properties>
+        </aspect>
+
+        <aspect name="edm:variableAttrs">
+            <title>Variable Attributes</title>
+            <properties>
+                <property name="edm:mandatoryAttrs">
+                    <title>Mandatory Attributes</title>
+                    <type>d:text</type>
+                    <multiple>true</multiple>
+                </property>
+                <property name="edm:readonlyAttrs">
+                    <title>Readonly Attributes</title>
+                    <type>d:text</type>
+                    <multiple>true</multiple>
+                </property>
+                <property name="edm:hiddenAttrs">
+                    <title>Hidden Attributes</title>
+                    <type>d:text</type>
+                    <multiple>true</multiple>
+                </property>
+
+                <property name="edm:attrListValues">
+                    <title>Attribute List Values</title>
+                    <type>d:text</type>
+                </property>
+                <property name="edm:attrOrder">
+                    <title>Attribute Order</title>
+                    <type>d:text</type>
+                    <multiple>true</multiple>
+                </property>
+                <property name="edm:useAttrs">
+                    <title>Used Attributes</title>
+                    <type>d:text</type>
+                    <multiple>true</multiple>
+                </property>
+            </properties>
+        </aspect>
+
+        <aspect name="edm:specTypes">
+            <title>Specify Types</title>
+            <properties>
+                <property name="edm:specConfigTypes">
+                    <title>Configuration Object Types</title>
+                    <type>d:text</type>
+                    <multiple>true</multiple>
+                </property>
+                <property name="edm:specDocTypes">
+                    <title>Specify Document Types</title>
+                    <type>d:text</type>
+                    <multiple>true</multiple>
+                </property>
+                <property name="edm:specSubFdrTypes">
+                    <title>Specify Subfolder Types</title>
+                    <type>d:text</type>
+                    <multiple>true</multiple>
+                </property>
+            </properties>
+        </aspect>
+
+        <aspect name="edm:projectContext">
+            <title>Project Context</title>
+            <archive>false</archive>
+            <properties>
+                <property name="edm:projectRef">
+                    <title>Project Reference</title>
+                    <type>d:text</type>
+                    <protected>true</protected>
+                </property>
+            </properties>
+        </aspect>
+
+        <aspect name="edm:defaultInstance">
+            <title>Default Instance</title>
+            <archive>false</archive>
+            <properties>
+                <property name="edm:dfltInstObjName">
+                    <title>Default Instance Object Name</title>
+                    <type>d:text</type>
+                </property>
+            </properties>
+        </aspect>
+
+        <aspect name="edm:governingControl">
+            <title>Governing Control</title>
+            <archive>false</archive>
+            <properties>
+                <property name="edm:isGoverningFdr">
+                    <title>Is Governing Folder</title>
+                    <type>d:boolean</type>
+                    <default>false</default>
+                </property>
+            </properties>
+        </aspect>
+
+        <aspect name="edm:frozen">
+            <title>Frozen</title>
+            <archive>false</archive>
+            <properties>
+                <property name="edm:frozenAt">
+                    <title>Frozen At Date</title>
+                    <type>d:date</type>
+                    <mandatory>true</mandatory>
+                </property>
+                <property name="edm:frozenBy">
+                    <title>Frozen By</title>
+                    <type>d:text</type>
+                    <mandatory>true</mandatory>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>false</tokenised>
+                    </index>
+                </property>
+            </properties>
+        </aspect>
+
+        <!--  Helper aspect that can be used to keep a count -->
+        <aspect name="edm:countable">
+            <title>Countable aspect</title>
+            <properties>
+                <property name="edm:count">
+                       <type>d:int</type>
+                      <protected>true</protected>
+                      <mandatory>true</mandatory>
+                      <default>0</default>
+                </property>
+            </properties>
+        </aspect>
+
+        <aspect name="edm:engineeringDocument">
+            <title>Engineering Document</title>
+            <archive>false</archive>
+            <properties>
+                <property name="edm:authors">
+                    <title>Authors</title>
+                    <type>d:text</type>
+                    <multiple>true</multiple>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>true</tokenised>
+                    </index>
+                </property>
+                <property name="edm:category">
+                    <title>Category</title>
+                    <type>d:text</type>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>true</tokenised>
+                    </index>
+                </property>
+                <property name="edm:classification">
+                    <title>Classification</title>
+                    <type>d:text</type>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>true</tokenised>
+                    </index>
+                </property>
+                <property name="edm:contract">
+                    <title>Contract</title>
+                    <type>d:text</type>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>true</tokenised>
+                    </index>
+                </property>
+                <property name="edm:discipline">
+                    <title>Discipline</title>
+                    <type>d:text</type>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>true</tokenised>
+                    </index>
+                </property>
+                <property name="edm:externalDocumentNumber">
+                    <title>External Document Number</title>
+                    <type>d:text</type>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>true</tokenised>
+                    </index>
+                </property>
+                <property name="edm:milestoneDate">
+                    <title>Milestone Date</title>
+                    <type>d:date</type>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>false</tokenised>
+                    </index>
+                </property>
+                <property name="edm:packageNumber">
+                    <title>Package Number</title>
+                    <type>d:text</type>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>true</tokenised>
+                    </index>
+                </property>
+                <property name="edm:paperOrientation">
+                    <title>Paper Orientation</title>
+                    <type>d:text</type>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>false</tokenised>
+                    </index>
+                </property>
+                <property name="edm:paperSize">
+                    <title>Paper Size</title>
+                    <type>d:text</type>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>false</tokenised>
+                    </index>
+                </property>
+                <property name="edm:percentCompleted">
+                    <title>Percent Completed</title>
+                    <type>d:double</type>
+                </property>
+                <property name="edm:physicalLocation">
+                    <title>Physical Location</title>
+                    <type>d:text</type>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>false</tokenised>
+                    </index>
+                </property>
+                <property name="edm:plannedSubmissionDate">
+                    <title>Planned Submission Date</title>
+                    <type>d:date</type>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>true</tokenised>
+                    </index>
+                </property>
+                <property name="edm:reviewStatus">
+                    <title>Review Status</title>
+                    <type>d:text</type>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>true</tokenised>
+                    </index>
+                </property>
+                <property name="edm:submissionStatus">
+                    <title>Submission Status</title>
+                    <type>d:text</type>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>true</tokenised>
+                    </index>
+                </property>
+                <property name="edm:validUntil">
+                    <title>Valid Until</title>
+                    <type>d:date</type>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>false</tokenised>
+                    </index>
+                </property>
+                <property name="edm:vendorDocNumber">
+                    <title>Vendor Document No.</title>
+                    <type>d:text</type>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>true</tokenised>
+                    </index>
+                </property>
+                <property name="edm:vendorDocVersion">
+                    <title>Vendor Document Version</title>
+                    <type>d:text</type>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>true</tokenised>
+                    </index>
+                </property>
+            </properties>
+
+            <mandatory-aspects>
+                <aspect>edm:projectContext</aspect>
+            </mandatory-aspects>
+        </aspect>
+
+        <!-- This aspect is applied to nodes which have been "paged" using the content page service. -->
+        <aspect name="edm:paged">
+            <title>Paged</title>
+            <associations>
+                <!-- This association links the source content node to the content page -->
+                <child-association name="edm:page">
+                    <source>
+                        <mandatory>false</mandatory>
+                        <many>true</many>
+                    </source>
+                    <target>
+                        <class>cm:content</class>
+                        <mandatory>false</mandatory>
+                        <many>true</many>
+                    </target>
+                </child-association>
+            </associations>
+        </aspect>
+
+        <aspect name="rms:componentIdentifier">
+            <title>Component Identifier</title>
+            <properties>
+                <property name="rms:identifier">
+                    <title>Identifier</title>
+                    <type>d:text</type>
+                    <protected>true</protected>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>false</tokenised>
+                    </index>
+                </property>
+            </properties>
+
+            <mandatory-aspects>
+                <aspect>rms:filePlanComponent</aspect>
+            </mandatory-aspects>
+        </aspect>
+
+        <!-- edm:filePlanComponent is a marker interface for all things -->
+        <aspect name="rms:filePlanComponent">
+            <title>Component Marker</title>
+            <properties>
+                <property name="rms:rootNodeRef">
+                    <title>Root node reference</title>
+                    <type>d:text</type>
+                    <protected>true</protected>
+                </property>
+            </properties>
+        </aspect>
+
+        <aspect name="rms:declaredRecord">
+            <title>Declared Record</title>
+            <properties>
+                <property name="rms:declaredAt">
+                    <title>Date Declared</title>
+                    <type>d:date</type>
+                </property>
+                <property name="rms:declaredBy">
+                    <title>Declared By</title>
+                    <type>d:text</type>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>false</tokenised>
+                    </index>
+                </property>
+            </properties>
+        </aspect>
+
+        <aspect name="rms:managementRoot">
+            <title>Management Root</title>
+        </aspect>
+
+        <aspect name="rms:record">
+            <title>Record</title>
+            <!-- Explicitly turn off archiving for all nodes with this aspect -->
+            <archive>false</archive>
+
+            <properties>
+                <property name="rms:dateFiled">
+                    <title>Date Filed</title>
+                    <type>d:date</type>
+                    <protected>true</protected>
+                </property>
+                <property name="rms:originalName">
+                    <title>Original Name</title>
+                    <type>d:text</type>
+                    <protected>true</protected>
+                </property>
+                <property name="rms:publicationDate">
+                    <title>Publication Date</title>
+                    <type>d:text</type>
+                    <mandatory>true</mandatory>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>true</tokenised>
+                    </index>
+                </property>
+                <property name="rms:originator">
+                    <title>Originator</title>
+                    <type>d:text</type>
+                    <mandatory>true</mandatory>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>false</tokenised>
+                    </index>
+                </property>
+                <property name="rms:originatingOrganization">
+                    <title>Originating Organization</title>
+                    <type>d:text</type>
+                    <mandatory>true</mandatory>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>false</tokenised>
+                    </index>
+                </property>
+                <property name="rms:mediaType">
+                    <title>Media Type</title>
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>false</tokenised>
+                    </index>
+                </property>
+                <property name="rms:format">
+                    <title>Format</title>
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>false</tokenised>
+                    </index>
+                </property>
+                <property name="rms:dateReceived">
+                    <title>Date Received</title>
+                    <type>d:date</type>
+                    <mandatory>false</mandatory>
+                </property>
+                <property name="rms:addressee">
+                    <title>Addressee</title>
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>false</tokenised>
+                    </index>
+                </property>
+                <property name="rms:pages">
+                    <title>Pages</title>
+                    <type>d:int</type>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>false</tokenised>
+                    </index>
+                </property>
+                <property name="rms:retentionPeriod">
+                    <title>Retention Period</title>
+                    <type>d:text</type>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>false</tokenised>
+                    </index>
+                </property>
+            </properties>
+
+            <mandatory-aspects>
+                <aspect>rms:filePlanComponent</aspect>
+            </mandatory-aspects>
+        </aspect>
+
+        <aspect name="rms:recordOriginatingDetails">
+            <title>The originating details of a record</title>
+            <properties>
+                <property name="rms:recordOriginatingUserId">
+                    <type>d:text</type>
+                    <protected>true</protected>
+                </property>
+                <property name="rms:recordOriginatingOrganization">
+                    <type>d:text</type>
+                    <protected>true</protected>
+                </property>
+                <property name="rms:recordOriginatingCreationDate">
+                    <type>d:date</type>
+                    <protected>true</protected>
+                </property>
+                <property name="rms:recordOriginatingLocation">
+                    <type>d:any</type>
+                    <protected>true</protected>
+                </property>
+            </properties>
+        </aspect>
+    </aspects>
+</model>

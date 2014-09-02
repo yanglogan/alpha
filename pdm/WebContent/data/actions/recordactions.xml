@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions comment='该行为定义文件在repository视图中被使用'>
+	<action id='downloadzip' icon='static/images/documentlibrary/actions/document-download-16.png' nlsid='MSG_DOWNLOAD_ZIP' multisupport='true'>
+		<preconditions>
+			<precondition ref='permit'>
+				<permit>Read</permit>
+			</precondition>
+		</preconditions>
+		<execution>
+			<type>function</type>
+			<specification>downloadZip</specification>
+		</execution>
+	</action>
+	<action id='download' icon='static/images/documentlibrary/actions/document-download-16.png' nlsid='MSG_DOWNLOAD'>
+		<preconditions>
+			<precondition ref='permit'>
+				<permit>Read</permit>
+			</precondition>
+		</preconditions>
+		<execution>
+			<type>function</type>
+			<specification>download</specification>
+		</execution>
+	</action>
+	<action id='documentdetails' icon='static/images/documentlibrary/actions/document-view-details-16.png' nlsid='MSG_VIEW_DETAIL'>
+		<params>
+			<param name='objectId' datafield='sys:node-uuid' />
+		</params>
+		<execution>
+			<type>view</type>
+			<specification>document.documentdetails</specification>
+		</execution>
+	</action>
+	<action id='viewdetail' icon='static/images/documentlibrary/actions/folder-view-details-16.png' nlsid='MSG_VIEW_DETAIL'>
+		<params>
+			<param name='objectId' datafield='sys:node-uuid' />
+			<param name='name' datafield='cm:name' />
+		</params>
+		<preconditions>
+			<precondition ref='permit'>
+				<permit>Read</permit>
+			</precondition>
+		</preconditions>
+		<execution>
+			<type>view</type>
+			<specification>document.viewdetail</specification>
+		</execution>
+	</action>
+	<action id='editproperties' icon='static/images/documentlibrary/actions/document-edit-metadata-16.png' nlsid='MSG_EDIT_PROPERTIES'>
+		<preconditions>
+			<precondition ref='permit'>
+				<permit>Write</permit>
+			</precondition>
+		</preconditions>
+		<execution>
+			<type>function</type>
+			<specification>editProperties</specification>
+		</execution>
+	</action>
+	<action id='deletefdr' icon='static/images/documentlibrary/actions/folder-delete-16.png' nlsid='MSG_DELETE_FDR' multisupport='true'>
+		<preconditions>
+			<precondition ref='permit'>
+				<permit>Delete</permit>
+			</precondition>
+		</preconditions>
+		<execution>
+			<type>function</type>
+			<specification>deleteFdrs</specification>
+		</execution>
+	</action>
+	<action id='deletedoc' icon='static/images/documentlibrary/actions/document-delete-16.png' nlsid='MSG_DELETE_DOC' multisupport='true'>
+		<params>
+			<param name='objectId' datafield='sys:node-uuid' />
+			<param name='name' datafield='cm:name' />
+		</params>
+		<preconditions>
+			<precondition ref='permit'>
+				<permit>Delete</permit>
+			</precondition>
+		</preconditions>
+		<execution>
+			<type>function</type>
+			<specification>deleteDocs</specification>
+		</execution>
+	</action>
+	<action id='fdrmoveto' icon='static/images/documentlibrary/actions/folder-move-to-16.png' nlsid='MSG_MOVE_TO' multisupport='true'>
+		<execution>
+			<type>function</type>
+			<specification>moveFdrs</specification>
+		</execution>
+	</action>
+	<action id='fdrcopyto' icon='static/images/documentlibrary/actions/folder-copy-to-16.png' nlsid='MSG_COPY_TO' multisupport='true'>
+		<execution>
+			<type>function</type>
+			<specification>copyFdrs</specification>
+		</execution>
+	</action>
+	<action id='docmoveto' icon='static/images/documentlibrary/actions/document-move-to-16.png' nlsid='MSG_MOVE_TO' multisupport='true'>
+		<execution>
+			<type>function</type>
+			<specification>moveDocs</specification>
+		</execution>
+	</action>
+	<action id='doccopyto' icon='static/images/documentlibrary/actions/document-copy-to-16.png' nlsid='MSG_COPY_TO' multisupport='true'>
+		<execution>
+			<type>function</type>
+			<specification>copyDocs</specification>
+		</execution>
+	</action>
+	<action id='viewinexplorer' icon='static/images/documentlibrary/actions/view-in-explorer-16.png' nlsid='MSG_VIEW_IN_EXPLORER'>
+		<preconditions>
+			<precondition ref='permit'>
+				<permit>Read</permit>
+			</precondition>
+		</preconditions>
+		<execution>
+			<type>function</type>
+			<specification>viewInExplorer</specification>
+		</execution>
+	</action>
+	<action id='uploadnewversion' icon='static/images/documentlibrary/actions/document-upload-new-version-16.png' nlsid='MSG_UPLOAD_NEW_VERSION'>
+		<params>
+			<param name='objectId' datafield='sys:node-uuid' />
+			<param name='name' datafield='cm:name' />
+		</params>
+		<preconditions>
+			<precondition ref='permit'>
+				<permit>Version</permit>
+			</precondition>
+		</preconditions>
+		<execution>
+			<type>view</type>
+			<specification>document.new_version</specification>
+		</execution>
+	</action>
+	<action id='editoffline' icon='static/images/documentlibrary/actions/document-edit-offline-16.png' nlsid='MSG_EDIT_OFFLINE'>
+		<preconditions>
+			<precondition ref='permit'>
+				<permit>Write</permit>
+			</precondition>
+		</preconditions>
+		<execution>
+			<type>function</type>
+			<specification>editOffline</specification>
+		</execution>
+	</action>
+	<action id='printcover' icon='static/ext/fileexplorer/images/printer-16.png' nlsid='MSG_PRINT_COVER'>
+		<preconditions>
+			<precondition ref='type'>
+				<type>edm:document</type>
+			</precondition>
+		</preconditions>
+		<execution>
+			<type>function</type>
+			<specification>printCover</specification>
+		</execution>
+	</action>
+	<action id='printcatalog' icon='static/ext/fileexplorer/images/printer-16.png' nlsid='MSG_PRINT_CATALOG'>
+		<preconditions>
+			<precondition ref='type'>
+				<type>rms:recordCategory</type>
+			</precondition>
+		</preconditions>
+		<execution>
+			<type>function</type>
+			<specification>printCatalog</specification>
+		</execution>
+	</action>
+	<action id='reopenrecord' icon='static/images/documentlibrary/actions/document-request-sync-16.png' nlsid='MSG_REOPEN_RECORD'>
+		<preconditions>
+			<precondition ref='aspectAnyMatch'>
+				<aspect>rms:declaredRecord</aspect>
+			</precondition>
+			<precondition ref='permit'>
+				<permit>Write</permit>
+			</precondition>
+		</preconditions>
+		<execution>
+			<type>function</type>
+			<specification>reopenRecord</specification>
+		</execution>
+	</action>
+	<action id='completerecord' icon='static/images/documentlibrary/actions/document-approve-16.png' nlsid='MSG_COMPLETE_RECORD'>
+		<preconditions>
+			<precondition ref='aspectNotContain'>
+				<aspect>rms:declaredRecord</aspect>
+			</precondition>
+			<precondition ref='permit'>
+				<permit>Write</permit>
+			</precondition>
+		</preconditions>
+		<execution>
+			<type>function</type>
+			<specification>completeRecord</specification>
+		</execution>
+	</action>
+	<action id='fileto' icon='static/images/documentlibrary/actions/document-checkout-to-googledocs-16.png' nlsid='MSG_FILE_TO'>
+		<preconditions>
+			<precondition ref='permit'>
+				<permit>Write</permit>
+			</precondition>
+		</preconditions>
+		<execution>
+			<type>function</type>
+			<specification>fileTo</specification>
+		</execution>
+	</action>
+</actions>

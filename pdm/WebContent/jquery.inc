@@ -1,0 +1,1 @@
+<script type="text/javascript" src="<%=request.getContextPath() %>/static/ext/jquery/jquery.js"></script>

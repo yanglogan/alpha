@@ -1,0 +1,23 @@
+[
+	{
+		"action": "updatePage",
+		"content": {
+			"page": {
+				"backgroundColor": "255,255,255",
+				"gridSize": 30,
+				"height": 1000,
+				"padding": 60,
+				"showGrid": true,
+				"width": 650
+			},
+			"update": {
+				"backgroundColor": "255,255,255",
+				"gridSize": 30,
+				"height": 2100,
+				"padding": 60,
+				"showGrid": true,
+				"width": 1500
+			}
+		}
+	}
+]

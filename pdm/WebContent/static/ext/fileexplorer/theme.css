@@ -1,0 +1,237 @@
+/* file explorer css */
+.fe-tree-cell {
+	height: 30px;
+	padding-top : 2px;
+}
+.fe-tree-cell-root {
+	background-color: #F3F3F3;
+	border-bottom: 1px #CCCCCC solid;
+}
+.fe-tree-row-selected {
+	background-color: white !important;
+}
+.fe-hide-show {
+	display: none;
+}
+.fe-version-block {
+	float: right;
+	margin-right: 20px;
+	margin-top: 3px;
+	font-size: 12px;
+	border-radius: 2px;
+	padding: 2px;
+	color: white;
+	background-color: #AAAAAA;
+}
+.fe-row-checker-indicator {
+	border-left : 2px transparent solid;
+}
+.fe-row-checker-indicator:hover {
+	border-left : 2px green solid;
+}
+.fe-display-row {
+	color: #333333;
+	margin-top: 5px;
+	overflow: hidden;
+	min-height : 20px;
+	text-overflow: ellipsis;
+}
+.fe-display-disabled-row {
+	color: #AAAAAA;
+}
+.fe-toolbar-tip-label {
+	padding-left: 4px;
+	padding-right : 4px;
+	background-color: #FFFFE0;
+	border: 1px #FFCA7A solid;
+	border-radius: 2px;
+}
+.fe-display-lock-row {
+	margin-top: -1px;
+	padding: 3px;
+	background-color: #FFFFE0;
+	border: 1px #FFCA7A solid;
+	border-radius: 2px;
+	background-image: url(images/warning-16.png);
+	background-repeat: no-repeat;
+	background-position: 2px;
+	padding-left: 20px;
+}
+.fe-grid-row,.fe-row-actions {
+	height : 29px;
+}
+.fe-display-title-row {
+	line-height : 16px;
+	font-size: 16px;
+}
+.fe-row-actions {
+	overflow: hidden;
+}
+.fe-row-icon-actions {
+	margin:-5px;padding-top:7px;
+}
+.fe-row-actions-multi {
+	height: 120px;
+	border-left: 1px #CCCCCC solid;
+	padding: 4px;
+	margin: -5px;
+}
+.fe-row-action-link,.fe-common-display-line {
+	white-space:nowrap;
+	padding: 3px;
+	padding-top : 4px;
+	padding-bottom : 4px;
+	cursor : default;
+	width: 100%;
+	border: 1px transparent solid;
+	text-overflow: ellipsis;
+	margin: 1px;
+	text-shadow : white 0px 1px 1px;
+}
+.fe-row-action-link:hover, .fe-row-action-link-over {
+	cursor: pointer;
+	border: 1px #CCCCCC solid;
+	background-color: white;
+}
+.fe-row-action-link:active {
+	background-color : #507CAD;
+	border:1px #507CAD solid;
+	color : white;
+	text-shadow : #707070 0px 1px 1px;
+}
+.fe-toolbar {
+	background-color: white;
+}
+.fe-toolbar-top {
+	border-bottom: 1px #D9D9D9 solid !important;
+}
+.fe-toolbar-bottom {
+	border-top: 1px #C0C0C0 solid !important;
+}
+.fe-bc-item {
+	margin-right: 2px;
+	margin-left: 0px;
+}
+/* icons */
+.fe-bc-splitter {
+	width: 8px;
+	height: 16px;
+	background-image: url(images/bc-splitter.png);
+	background-repeat: no-repeat;
+}
+.fe-icon {
+	width: 16px;
+	height: 16px;
+	background-repeat: no-repeat;
+}
+.fe-icon64 {
+	width: 64px;
+	height: 64px;
+	background-repeat: no-repeat;
+}
+.fe-icon-printer {
+	background-image: url(images/printer-16.png);
+}
+.fe-icon-foldernew {
+	background-image: url(images/folder-new-16.png);
+}
+.fe-icon-folderup {
+	background-image: url(images/folder-up-16.png);
+}
+.fe-icon-select-documents {
+	background-image: url(images/select-documents-16.png);
+}
+.fe-icon-select-folders {
+	background-image: url(images/select-folders-16.png);
+}
+.fe-icon-select-all {
+	background-image: url(images/select-all-16.png);
+}
+.fe-icon-select-invert {
+	background-image: url(images/select-invert-16.png);
+}
+.fe-icon-select-none {
+	background-image: url(images/select-none-16.png);
+}
+.fe-clickable:hover {
+	text-decoration: underline;
+	cursor: pointer;
+}
+.fe-icon-action-create {
+	background-image: url(images/create-content-16.png);
+}
+.fe-icon-action-folder {
+	background-image: url(images/filetypes/folder-file-16.png);
+}
+.fe-icon-action-html {
+	background-image: url(images/filetypes/html-file-16.png);
+}
+.fe-icon-action-txt {
+	background-image: url(images/filetypes/txt-file-16.png);
+}
+.fe-icon-action-xml {
+	background-image: url(images/filetypes/xml-file-16.png);
+}
+.fe-icon-action-upload {
+	background-image: url(images/upload-16.png);
+}
+.fe-icon-action-download {
+	background-image: url(images/actions/document-download-16.png);
+}
+.fe-icon-action-copyto {
+	background-image: url(images/actions/document-copy-to-16.png);
+}
+.fe-icon-action-moveto {
+	background-image: url(images/actions/document-move-to-16.png);
+}
+.fe-icon-action-delete {
+	background-image: url(images/actions/document-delete-16.png);
+}
+.fe-icon-action-sort-descending {
+	background-image: url(images/sort-descending-16.png);
+}
+.fe-icon-action-sort-ascending {
+	background-image: url(images/sort-ascending-16.png);
+}
+.fe-icon-view-simple {
+	background-image: url(images/simple-view-on-16.png);
+}
+.fe-icon-view-detailed {
+	background-image: url(images/detailed-view-on-16.png);
+}
+.fe-icon-view-gallery {
+	background-image: url(images/gallery-view-on-16.png);
+}
+.fe-icon-view-table {
+	background-image: url(images/table-view-on-16.png);
+}
+.fe-icon-view-filmstrip {
+	background-image: url(images/filmstrip-view-on-16.png);
+}
+.fe-icon-locked {
+	background-image: url(images/indicators/lock-owner-16.png);
+}
+.fe-icon-more {
+	background-image: url(images/plus-sign-16.png);
+}
+.fe-icon-reload {
+	background-image: url(images/reload.png);
+	border : 1px transparent solid;
+}
+.fe-icon-reload:hover {
+	background-color : white;
+	border : 1px #999999 solid;
+	border-radius : 1px;
+	cursor : pointer;
+}
+.fe-icon-reload:active {
+	background-color : #F9F9F9;
+}
+.fe-action-icon {
+	background-repeat: no-repeat;
+	padding-left: 22px;
+	background-position: 4px;
+}
+.fe-icon-editing {
+	background-image: url(images/indicators/editing-16.png);
+}

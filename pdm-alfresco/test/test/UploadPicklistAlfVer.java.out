@@ -1,0 +1,106 @@
+package test;
+
+import java.io.FileInputStream;
+import java.io.InputStream;
+
+import jxl.Sheet;
+import jxl.Workbook;
+import cn.incontent.component.configuration.afc.client.IAfSession;
+import cn.incontent.component.configuration.afc.entries.model.abs.IAfSysObject;
+import cn.incontent.component.configuration.afc.entries.model.exception.AfException;
+import cn.incontent.component.configuration.afc.entries.model.folder.IAfFolder;
+
+/**
+ * @author Val.(Valentine Vincent) E-mail:valer@126.com
+ * @version 1.0
+ * @date 2012-10-9 Instruction :
+ **/
+public class UploadPicklistAlfVer {
+	
+	public static final String ROOT_PATH = "/Rongfang/Base Configuration";
+
+	public static void createPicklist(IAfSession afSession, String parentPath, String name, String picklistType, String code, String desc, String parent) throws Exception {
+
+		if (afSession.getObjectByPath(parentPath + "/" + name) != null) {
+			return;
+		}
+		
+		IAfSysObject object = (IAfSysObject) afSession.newObject("edm:pickList");
+		
+		object.link(parentPath);
+
+		object.setObjectName(name);
+		object.setString("edm:code", code);
+		object.setString("edm:parent", parent);
+		object.setString("edm:pickListType", picklistType);
+		object.setString("cm:description", desc);
+		
+		object.save();
+		
+		System.out.println(object.getString("edm:pickListType"));
+
+	}
+
+	public static void extractExcelData(IAfSession afSession, String filePath) {
+		try {
+			InputStream is = new FileInputStream(filePath);
+			Workbook wb = Workbook.getWorkbook(is);
+			Sheet st = wb.getSheet(0);
+
+			String cursor = null;
+			String pickListType, name, code, description, parent;
+
+			for (int i = 1; i < st.getRows(); i++) {
+				pickListType = (String) (st.getCell(0, i).getContents().trim());
+
+				if (!pickListType.equals(cursor)) {
+					cursor = pickListType;
+					ensureFolderExistence(afSession, ROOT_PATH + "/Reference Data", pickListType);
+				}
+
+				// Parent Column's value is not ROOT
+				parent = (String) (st.getCell(4, i).getContents().trim());
+				if (parent != null && !parent.isEmpty()) {
+					name = (String) (st.getCell(1, i).getContents().trim());
+					code = (String) (st.getCell(2, i).getContents().trim());
+					description = (String) (st.getCell(3, i).getContents().trim());
+
+					//============================================================================
+					
+					createPicklist(afSession, ROOT_PATH + "/Reference Data/" + pickListType, name, pickListType, code, description, parent);
+					
+					System.out.println("Line:" + i + " Name: " + name);
+				}
+			}
+
+			wb.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {}
+	}
+	
+	public static void ensureFolderExistence(IAfSession afSession, String parentPath, String folderName) throws AfException {
+		
+		IAfFolder rd = (IAfFolder) afSession.getObjectByPath(parentPath + "/" + folderName);
+		if (rd == null) {
+			rd = (IAfFolder) afSession.newObject("cm:folder");
+			rd.setObjectName(folderName);
+			
+			rd.link(parentPath);
+			rd.save();
+		}
+		
+	}
+
+	public static void main(String[] args) throws Exception {
+		IAfSession afSession = AFCTestEx.getAfSession("admin");
+		
+		ensureFolderExistence(afSession, ROOT_PATH, "Reference Data");
+		
+		extractExcelData(afSession, "c:/users/val/desktop/ENN RD.xls");
+		System.out.println("Execute Successfully");
+		
+		System.exit(0);
+		
+	}
+}

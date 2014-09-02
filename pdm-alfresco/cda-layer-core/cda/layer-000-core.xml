@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:oxm="http://www.springframework.org/schema/oxm"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+						http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
+            			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd 
+           				http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
+                        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+                        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+                        http://www.springframework.org/schema/oxm http://www.springframework.org/schema/oxm/spring-oxm-3.0.xsd
+         					">
+
+    <context:component-scan base-package="cn.incontent.core.cdacomponents" />
+
+	<util:list id='CommonCustomGridFields' value-type="java.lang.String"
+		list-class="java.util.ArrayList">
+		<value>_CAN_READ_</value>
+		<value>HL</value>
+		<value>cm:type</value>
+		<value>cm:path</value>
+		<value>isFolder</value>
+		<value>isContent</value>
+		<value>extension</value>
+		<value>lifecycleState</value>
+		<value>isClaimable</value>
+		<value>state</value>
+		<value>properties</value>
+		<value>reference</value>
+		<value>outcome</value>
+		<value>url</value>
+		<value>id</value>
+		<value>size</value>
+		<value>type</value>
+		<value>title</value>
+		<value>description</value>
+		<value>value</value>
+		<value>owner</value>
+		<value>path</value>
+		<value>workflowInstance</value>
+		<value>isReleasable</value>
+		<value>isPooled</value>
+		<value>isReassignable</value>
+		<value>isEditable</value>
+
+		<value>contextmenu</value>
+		<value>menubarStatus</value>
+
+		<value>priority</value>
+		<value>workItem</value>
+		<value>stepId</value>
+		<value>stepName</value>
+		<value>startDate</value>
+		<value>dueDate</value>
+		<value>taskStatus</value>
+		<value>taskProject</value>
+		<value>completionDate</value>
+		<value>delegable</value>
+		<value>outComes</value>
+		<value>defaultOutCome</value>
+		<value>initiator</value>
+	</util:list>
+
+</beans>
