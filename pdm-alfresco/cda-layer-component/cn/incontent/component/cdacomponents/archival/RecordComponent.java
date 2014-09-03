@@ -372,6 +372,10 @@ public class RecordComponent extends CDAComponent{
 	public Object reopenRecord(ArgumentList args, CDAContext context) {
 		IAfSession afSession = getAfSession();
 		try {
+<<<<<<< HEAD
+=======
+			
+>>>>>>> eb8eb26c69bf32cc98d2a105e65ed5a581a02b5a
 			if (new AfID(args.get("objectId")) == null) {
 				return getMsg(false, "Object is not Valid!");
 			}

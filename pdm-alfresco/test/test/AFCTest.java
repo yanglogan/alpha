@@ -18,8 +18,11 @@ import cn.incontent.afc.entries.model.id.AfID;
 import cn.incontent.afc.entries.model.version.IAfVersion;
 import cn.incontent.afc.entries.model.version.IAfVersionTree;
 
+<<<<<<< HEAD
 import com.val.ITestService;
 
+=======
+>>>>>>> eb8eb26c69bf32cc98d2a105e65ed5a581a02b5a
 /**
  *@author Val.(Valentine Vincent) E-mail:valer@126.com
  *@version 1.0
