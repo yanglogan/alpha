@@ -1,6 +1,6 @@
 package cn.incontent.component.cdacomponents.test;
 
-<<<<<<< HEAD
+
 import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +19,7 @@ import cn.incontent.cda.server.core.ArgumentList;
 import cn.incontent.cda.server.core.CDAComponent;
 import cn.incontent.cda.server.core.CDAContext;
 import cn.incontent.cda.server.core.annotations.CDAInterface;
-=======
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -57,7 +57,7 @@ import cn.incontent.core.i18n.MSG;
 import cn.incontent.core.utils.ResrcUtils;
 
 import com.sun.star.lang.NullPointerException;
->>>>>>> eb8eb26c69bf32cc98d2a105e65ed5a581a02b5a
+
 
 /**
  *@author Val.(Valentine Vincent) E-mail:valer@126.com
@@ -67,22 +67,7 @@ import com.sun.star.lang.NullPointerException;
  **/
 @Repository("DmTest")
 public class DmTest extends CDAComponent {
-	
-	@CDAInterface
-<<<<<<< HEAD
-	public Object testDeleteExcel(ArgumentList args, CDAContext context) throws AfException {
-		IAfSession afSession = getAfSession();
-		for (IAfID id : afSession.getRootClassifications()) {
-			try {
-				IAfClassification classification = (IAfClassification) afSession.getObject(id);
-				if (classification != null) {
-					classification.destroy();
-				}
-			} catch (Exception e) {
-				return getMsg(false, e);
-			}
-		}
-=======
+
 	public Object testCopy(ArgumentList args, CDAContext context) throws AfException {
 		
 		IAfJCRQuery query = new AfJCRQuery();
@@ -148,12 +133,10 @@ public class DmTest extends CDAComponent {
 		
 		System.out.println(object.worldHasPermission(Permission.getPermission("Read")));
 		
->>>>>>> eb8eb26c69bf32cc98d2a105e65ed5a581a02b5a
 		return getMsg(true, null);
 	}
 	
 	@CDAInterface
-<<<<<<< HEAD
 	public Object testExcel(ArgumentList args, CDAContext context) throws AfException {
 		IAfSession afSession = getAfSession();
 		try {
@@ -181,7 +164,7 @@ public class DmTest extends CDAComponent {
 		}
 		return getMsg(true, null);
 	}
-=======
+	
 	public Object testDownload(ArgumentList args, CDAContext context) {
 		IAfSession afSession = getAfSession();
 		File file = new File("C:/Users/Val/FEEAC98F462320EDE985331E032BCECF_500_500.jpg");
@@ -288,5 +271,4 @@ public class DmTest extends CDAComponent {
 		
 	}
 	
->>>>>>> eb8eb26c69bf32cc98d2a105e65ed5a581a02b5a
 }
