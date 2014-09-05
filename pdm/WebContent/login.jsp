@@ -198,6 +198,7 @@ if (request.getSession().getAttribute("_USER") != null) {
 					callback : function() {
 		            	var anchor = window.location.href.split('#')[1];
 		                window.location.href = base + (anchor ? '#' + anchor : '');
+		            	//window.location.href = base + '#!document.documentlibrary';
 					}
 				});
             },

@@ -4,7 +4,8 @@ Ext.onReady(function() {
 
 	//IVS PRE SETTING.
 	IVS.BASEURL = base;
-	IVS.DEFAULT_VIEW = 'task.my_tasks';
+	//IVS.DEFAULT_VIEW = 'task.my_tasks';
+	IVS.DEFAULT_VIEW = 'yang.home'
 	IVS.beforeViewChange = function(viewName) {
 		$('.x-window').each(function() {
 			var win = Ext.getCmp($(this).attr('id'));
@@ -69,11 +70,30 @@ Ext.onReady(function() {
 		collapsible : true,
 		preventHeader : true,
 		animCollapse : true,
-		height : 78,
+		height : 140,
 		border : false,
 		bodyCls : 'titlebar-bg',
 		html : '<table cellspace=0 style="width:100%;padding:1px;" cellpadding=0>' +
-					'<tr><td style="width:200px;"><img style="margin:0 0 0 4px;" src="static/images/logoex.png" /></td><td><span search=1></span></td>' +
+					'<tr><td style="width:200px;"><img align=middle style="margin:0 0 0 20px;" src="static/images/zghlogo1.png" /></td>'+
+					'<td><form><div align=left style="margin:15px 0 0 48px;"> '+
+					'<style>a{margin:0 15px 0 0;text-decoration:none;font-weight:bold;font-size:14px;color:blue;} '+
+					'label{margin:0 10px 0 0;}</style>'+
+					'<a href=#>全部</a>'+
+					'<a  href=# >桥梁工程文件</a>'+
+					'<a  href=# >工程函件</a>'+
+					'<a  href=# >工程文件</a>'+
+					'<a  href=# >合同/凭证/确认函</a>'+
+					'<a href=# >某某文件</a>'+
+					'<a href=# style="margin:0  0 0 4px";>更多</a></div>'+ 
+					'<span search=1></span>'+
+					'<div align=left style="margin:0 0 0 44px;">'+ 
+					'<label for="t_pdf"><input type="radio" name="lm" value="1" id="t_pdf" />PDF</label>'+ 
+				    '<label for="t_doc"><input type="radio" name="lm" value="2" id="t_doc" />DOC</label>'+ 
+				    '<label for="t_xls"><input type="radio" name="lm" value="3" id="t_xls" />XLS</label>'+ 
+				    '<label for="t_ppt"><input type="radio" name="lm" value="4" id="t_ppt" />PPT</label>'+ 
+				    '<label for="t_txt"><input type="radio" name="lm" value="5" id="t_txt" />TXT</label>'+ 
+				    '<label for="t_all"><input type="radio" name="lm" value="0" id="t_all" checked="" />ALL</label>'+
+				    '<div style="clear:both"></div></div></form>' +
 					'<td align=right style="vertical-align:middle;"><div userbar=1></div></td></tr>'
 					 + '</table>',
 		listeners : {
@@ -81,41 +101,16 @@ Ext.onReady(function() {
 
 				Ext.create('Ext.toolbar.Toolbar', {
 					renderTo : this.el.query('span[search]')[0],
-					style : 'background-color:transparent;',
-					width : 600,
-					items : [{
-						btnType : 'common',
-						style : 'margin-right:-2px;border-right:0px;border-bottom-right-radius:0px;border-top-right-radius:0px;',
-						text : Utils.msg('MSG_BASE_ATTRS'),
-						id : 'SEARCH_SCOPE',
-						height : 30,
-						width : 130,
-						menu : Ext.create('Ext.menu.Menu', {
-							plain : true,
-							width : 129,
-							items : [{
-								text : Utils.msg('MSG_BASE_ATTRS'),
-								tipsy : Utils.msg('MSG_BASE_ATTRS_TIP'),
-								handler : function() {
-									Ext.getCmp('SEARCH_SCOPE').setText(this.text);
-								}
-							}, {
-								text : Utils.msg('MSG_FULL_TEXT'),
-								tipsy : Utils.msg('MSG_FULL_TEXT_TIP'),
-								handler : function() {
-									Ext.getCmp('SEARCH_SCOPE').setText(this.text);
-								}
-							}]
-						})
-					}, {
+					style : 'background-color:transparent;margin:0 0 0 40px;',
+					width : 700,
+					items : [ {
 						xtype : 'textfield',
-						w : 250,
-						width : 250,
+						width : 450,
 						height : 30,
 						id : '_SEARCH_',
 						fieldStyle : 'border-top-right-radius:3px;border-bottom-right-radius:3px;',
 						style : Ext.isIE7 || Ext.isIE8 ? 'margin-left:-10px;' : null,
-						emptyText : Utils.msg('MSG_SEARCH_TIP'),
+						//emptyText : Utils.msg('MSG_SEARCH_TIP'),
 						listeners : {
 							specialkey : function(field, e) {
 								if (e.getKey() == e.ENTER) {
@@ -140,16 +135,38 @@ Ext.onReady(function() {
 										}
 									}
 								});
-							},
+							},/*
 							focus : function() {
 								this.animate({
 									to : {
 										width : 455
 									}
 								});
-							}
+							}*/
 						}
-					}, Ext.create('core.dropdowns.MenuLabel', {
+					},{
+						btnType : 'info',
+						//xtype : 'button',
+						style : 'margin-right:4px;background-color:"blue";',
+						text : '搜索',
+						//id : 'SEARCH_SCOPE',
+						height : 30,
+						//width : 80,
+					},{
+						btnType : 'info',
+						style : 'margin-right:4px;',
+						text : '卡片式搜索',
+						//id : 'SEARCH_SCOPE',
+						height : 30,
+						//width : 80,
+					}, {
+						btnType : 'success',
+						style : 'margin-right:4px;',
+						text : '返回主页',
+						//id : 'SEARCH_SCOPE',
+						height : 30,
+						//width : 80,
+					},/*Ext.create('core.dropdowns.MenuLabel', {
 						html : '<span class="toolbar-label" >基本工程项目</span>',
 						id : 'roleBtn',
 						hidden : true,
@@ -170,13 +187,13 @@ Ext.onReady(function() {
 									currentProj = this.text;
 								}
 							}]}
-					})]
+					})*/]
 				});
 
 				Ext.create('Ext.toolbar.Toolbar', {
 					renderTo : this.el.query('div[userbar]')[0],
-					style : 'background-color:transparent;',
-					width : 400,
+					style : 'background-color:transparent;margin:30px 0 0 0;',
+					width : 200,
 					items : ['->', {
 						icon : 'static/images/hide-show-titlebar.png',
 						btnType : 'label',
